@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mrs. Alu — Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --brown: #7a5230;
+            --brown-dark: #5c3d1e;
+            --brown-light: #c9a561;
+            --text: #2d2d2d;
+            --text-light: #ffffff;
+            --bg: #fafaf8;
+            --border: #e5e0d8;
+            --hover-bg: #f8f5f0;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding-top: 90px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: #fff;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 90px;
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 14px;
+            text-decoration: none;
+            background: var(--brown-dark);
+            padding: 12px 20px;
+            margin-left: -40px;
+            height: 90px;
+            min-width: 220px;
+        }
+
+        .logo-cn {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px; font-weight: 700;
+            color: #fff; line-height: 1;
+        }
+
+        .logo-en {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px; font-weight: 400;
+            color: rgba(255,255,255,0.85); letter-spacing: 1px;
+        }
+
+        .logo-text { display: flex; flex-direction: column; gap: 2px; }
+
+        .nav-center {
+            display: flex; align-items: center; gap: 0;
+            list-style: none; flex: 1; justify-content: center;
+        }
+
+        .nav-item { display: flex; align-items: center; }
+
+        .nav-separator {
+            color: var(--border); font-size: 18px; padding: 0 4px;
+            user-select: none;
+        }
+
+        .nav-link {
+            display: flex; align-items: center;
+            padding: 10px 24px; text-decoration: none;
+            color: var(--text); font-size: 15px; font-weight: 400;
+            letter-spacing: 0.3px; transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-link:hover, .nav-link.active { color: var(--brown); }
+        .nav-link.active { font-weight: 500; }
+
+        .nav-right {
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .search-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--text); padding: 8px;
+            display: flex; align-items: center;
+            transition: var(--transition);
+        }
+        .search-btn:hover { color: var(--brown); }
+
+        .lang-btn {
+            font-size: 14px; font-weight: 500; color: var(--text);
+            background: none; border: none; cursor: pointer;
+            letter-spacing: 0.5px; transition: var(--transition);
+        }
+        .lang-btn:hover { color: var(--brown); }
+
+        .phone-btn {
+            background: var(--brown-dark);
+            color: #fff; padding: 12px 24px;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 16px; font-weight: 600;
+            letter-spacing: 0.5px; height: 90px;
+            margin-right: -40px;
+            text-decoration: none;
+        }
+
+        /* ===== HERO BANNER ===== */
+        .hero-banner {
+            position: relative;
+            height: 320px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse at 70% 50%, rgba(122,82,48,0.3) 0%, transparent 60%),
+                linear-gradient(135deg, rgba(92,61,30,0.8) 0%, rgba(26,26,26,0.9) 100%);
+        }
+
+        /* Decorative metal panels SVG background */
+        .banner-decor {
+            position: absolute; right: 8%; top: 50%;
+            transform: translateY(-50%);
+            width: 380px; height: 260px;
+            opacity: 0.9;
+        }
+
+        .hero-banner-content {
+            position: relative; z-index: 2;
+            text-align: center;
+        }
+
+        .hero-banner-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px; font-weight: 300;
+            color: #fff; letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1400px; margin: 0 auto;
+            padding: 16px 40px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px; color: #999;
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { color: var(--brown); }
+        .breadcrumb .current { color: var(--brown); }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-layout {
+            max-width: 1400px; margin: 0 auto;
+            padding: 48px 40px 80px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 48px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar { position: sticky; top: 110px; align-self: start; }
+
+        .sidebar-header {
+            background: var(--brown);
+            color: #fff;
+            padding: 20px 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px; font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-menu { list-style: none; }
+
+        .sidebar-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-link {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 24px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px; font-weight: 400;
+            transition: var(--transition);
+            background: #fff;
+        }
+
+        .sidebar-link:hover {
+            background: var(--hover-bg);
+            color: var(--brown);
+            padding-left: 32px;
+        }
+
+        .sidebar-link.active {
+            color: var(--brown);
+            font-weight: 500;
+            background: var(--hover-bg);
+            border-left: 3px solid var(--brown);
+        }
+
+        .sidebar-arrow {
+            font-size: 10px; color: var(--brown-light);
+            transition: var(--transition);
+        }
+
+        .sidebar-link:hover .sidebar-arrow { transform: translateX(4px); }
+
+        /* ===== PRODUCT GRID ===== */
+        .product-section { }
+
+        .product-filter-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .filter-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px; font-weight: 600;
+            color: var(--text); letter-spacing: 0.5px;
+        }
+
+        .filter-title span { color: var(--brown); }
+
+        .filter-tabs {
+            display: flex; gap: 8px;
+        }
+
+        .filter-tab {
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            background: #fff; color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px; font-weight: 400;
+            cursor: pointer; transition: var(--transition);
+            letter-spacing: 0.3px;
+        }
+
+        .filter-tab:hover, .filter-tab.active {
+            background: var(--brown);
+            border-color: var(--brown);
+            color: #fff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        /* ===== PRODUCT CARD ===== */
+        .product-card {
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            group: true;
+        }
+
+        .product-card:hover { z-index: 2; box-shadow: 0 12px 40px rgba(0,0,0,0.15); transform: translateY(-4px); }
+
+        .card-image {
+            aspect-ratio: 4/3;
+            background: #f5f3ee;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
+        }
+
+        .card-image img {
+            width: 70%; height: 70%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .card-image img { transform: scale(1.08); }
+
+        .card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(92,61,30,0.7) 0%, transparent 50%);
+            opacity: 0; transition: var(--transition);
+            display: flex; align-items: flex-end; justify-content: center;
+            padding-bottom: 24px;
+        }
+
+        .product-card:hover .card-overlay { opacity: 1; }
+
+        .card-view-btn {
+            background: #fff; color: var(--brown);
+            padding: 10px 28px; font-size: 13px;
+            font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase; border: none; cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .card-body {
+            padding: 20px 22px 24px;
+            border-top: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .card-body { border-top-color: var(--brown); }
+
+        .card-category {
+            font-size: 11px; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--brown-light);
+            margin-bottom: 6px;
+        }
+
+        .card-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; font-weight: 600;
+            color: var(--text); line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 13px; color: #888; line-height: 1.6;
+        }
+
+        .card-arrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: 14px;
+            font-size: 13px; font-weight: 500; color: var(--brown);
+            opacity: 0; transform: translateX(-8px);
+            transition: var(--transition);
+        }
+
+        .product-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 52px;
+        }
+
+        .page-btn {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 14px; font-weight: 500; color: var(--text);
+            cursor: pointer; transition: var(--transition);
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--brown); border-color: var(--brown); color: #fff;
+        }
+
+        .page-btn.arrow { font-size: 18px; }
+
+        /* ===== PLACEHOLDER IMAGES (SVG based) ===== */
+        .img-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card {
+            animation: fadeInUp 0.5s ease both;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.05s; }
+        .product-card:nth-child(2) { animation-delay: 0.1s; }
+        .product-card:nth-child(3) { animation-delay: 0.15s; }
+        .product-card:nth-child(4) { animation-delay: 0.2s; }
+        .product-card:nth-child(5) { animation-delay: 0.25s; }
+        .product-card:nth-child(6) { animation-delay: 0.3s; }
+
+        @media (max-width: 1100px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+            .phone-btn, .logo { height: 70px; }
+            .nav-container { height: 70px; }
+            body { padding-top: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <div class="logo-text">
+                <span class="logo-cn">铝夫人</span>
+                <span class="logo-en">Mrs.alu</span>
+            </div>
+        </a>
+
+        <ul class="nav-center">
+            <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link active">Product</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link">About us</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link">Case</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link">News</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link">Contact us</a></li>
+            <li class="nav-item"><span class="nav-separator">/</span></li>
+            <li class="nav-item"><a href="#" class="nav-link">CN</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <button class="search-btn">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </button>
+            <a href="tel:18927795653" class="phone-btn">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.01l-2.2 2.21z"/>
+                </svg>
+                18927795653
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO BANNER -->
+<section class="hero-banner">
+    <div class="banner-decor">
+        <svg viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fanned metal panels -->
+            <g transform="translate(190,130)">
+                <rect x="-60" y="-110" width="120" height="220" rx="6" fill="#b0b0b0" opacity="0.15" transform="rotate(-25)"/>
+                <rect x="-60" y="-110" width="120" height="220" rx="6" fill="#c8c0b0" opacity="0.2" transform="rotate(-12)"/>
+                <rect x="-60" y="-110" width="120" height="220" rx="6" fill="#d4c8a0" opacity="0.25" transform="rotate(0)"/>
+                <rect x="-60" y="-110" width="120" height="220" rx="6" fill="#8a7060" opacity="0.2" transform="rotate(12)"/>
+                <rect x="-60" y="-110" width="120" height="220" rx="6" fill="#505050" opacity="0.2" transform="rotate(25)"/>
+            </g>
+        </svg>
+    </div>
+    <div class="hero-banner-content">
+        <h1 class="hero-banner-title">Product</h1>
+    </div>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    <a href="#">Home</a>
+    <span>›</span>
+    <span class="current">Product</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">Product</div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link active">
+                    <span>Wainscoting</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>Stainless steel baseboard</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>Metal decorative lines</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>All-aluminum welded large plate</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>Metal skirting</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>SPC Honeycomb Panel</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>Grille Plate</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <span>Aluminum honeycomb panel</span>
+                    <span class="sidebar-arrow">›</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- PRODUCT SECTION -->
+    <section class="product-section">
+
+        <div class="product-filter-bar">
+            <h2 class="filter-title">All Products <span>(24)</span></h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">Panels</button>
+                <button class="filter-tab">Profiles</button>
+                <button class="filter-tab">Skirting</button>
+            </div>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+
+            <!-- Card 1 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- SPC Honeycomb Panel -->
+                        <rect x="30" y="20" width="140" height="120" rx="4" fill="#e8e4dc"/>
+                        <rect x="30" y="20" width="140" height="20" rx="2" fill="#f5f2ed"/>
+                        <rect x="30" y="48" width="140" height="20" rx="0" fill="#e0dbd2"/>
+                        <rect x="30" y="76" width="140" height="20" rx="0" fill="#c8c0b0"/>
+                        <rect x="30" y="104" width="140" height="20" rx="0" fill="#a89880"/>
+                        <!-- honeycomb cells -->
+                        <g fill="none" stroke="#b0a890" stroke-width="0.8" opacity="0.6">
+                            <polygon points="60,55 70,50 80,55 80,65 70,70 60,65"/>
+                            <polygon points="80,55 90,50 100,55 100,65 90,70 80,65"/>
+                            <polygon points="100,55 110,50 120,55 120,65 110,70 100,65"/>
+                            <polygon points="70,65 80,60 90,65 90,75 80,80 70,75"/>
+                            <polygon points="90,65 100,60 110,65 110,75 100,80 90,75"/>
+                        </g>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Panels</div>
+                    <div class="card-name">SPC Honeycomb Panel</div>
+                    <div class="card-desc">Lightweight composite panels with superior strength-to-weight ratio for modern interiors.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Grille Plate -->
+                        <g transform="translate(25,20)">
+                            <rect x="0" y="0" width="150" height="30" rx="3" fill="#6b5040"/>
+                            <rect x="0" y="10" width="150" height="8" rx="2" fill="#8a6a50"/>
+                            <rect x="0" y="38" width="150" height="30" rx="3" fill="#6b5040"/>
+                            <rect x="0" y="48" width="150" height="8" rx="2" fill="#8a6a50"/>
+                            <rect x="0" y="76" width="150" height="30" rx="3" fill="#6b5040"/>
+                            <rect x="0" y="86" width="150" height="8" rx="2" fill="#8a6a50"/>
+                            <!-- grille slots -->
+                            <g fill="#3a2a1a" opacity="0.5">
+                                <rect x="10" y="2" width="6" height="26" rx="1"/>
+                                <rect x="24" y="2" width="6" height="26" rx="1"/>
+                                <rect x="38" y="2" width="6" height="26" rx="1"/>
+                                <rect x="52" y="2" width="6" height="26" rx="1"/>
+                                <rect x="66" y="2" width="6" height="26" rx="1"/>
+                                <rect x="80" y="2" width="6" height="26" rx="1"/>
+                                <rect x="94" y="2" width="6" height="26" rx="1"/>
+                                <rect x="108" y="2" width="6" height="26" rx="1"/>
+                                <rect x="122" y="2" width="6" height="26" rx="1"/>
+                                <rect x="136" y="2" width="6" height="26" rx="1"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Profiles</div>
+                    <div class="card-name">Grille Plate</div>
+                    <div class="card-desc">Wood-grain finish aluminum grille profiles for elegant wall and ceiling applications.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Aluminum Honeycomb Panel -->
+                        <g transform="translate(20, 15)">
+                            <!-- Fan of panels -->
+                            <rect x="30" y="5" width="100" height="140" rx="4" fill="#c8a870" opacity="0.7" transform="rotate(-15, 80, 75)"/>
+                            <rect x="30" y="5" width="100" height="140" rx="4" fill="#d4b890" opacity="0.8" transform="rotate(-7, 80, 75)"/>
+                            <rect x="30" y="5" width="100" height="140" rx="4" fill="#e8e0d0" opacity="0.9" transform="rotate(0, 80, 75)"/>
+                            <rect x="30" y="5" width="100" height="140" rx="4" fill="#b0a898" opacity="0.7" transform="rotate(7, 80, 75)"/>
+                            <rect x="30" y="5" width="100" height="140" rx="4" fill="#808080" opacity="0.7" transform="rotate(15, 80, 75)"/>
+                        </g>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Panels</div>
+                    <div class="card-name">Aluminum Honeycomb Panel</div>
+                    <div class="card-desc">High-strength aluminum composite panels available in multiple premium finishes.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Wainscoting -->
+                        <rect x="20" y="20" width="160" height="120" rx="3" fill="#e8e0d4"/>
+                        <!-- panels -->
+                        <rect x="30" y="30" width="65" height="100" rx="2" fill="#f5f0e8" stroke="#d4ccc0" stroke-width="1.5"/>
+                        <rect x="105" y="30" width="65" height="100" rx="2" fill="#f5f0e8" stroke="#d4ccc0" stroke-width="1.5"/>
+                        <!-- inner frame -->
+                        <rect x="38" y="38" width="49" height="84" rx="1" fill="none" stroke="#c8c0b0" stroke-width="1"/>
+                        <rect x="113" y="38" width="49" height="84" rx="1" fill="none" stroke="#c8c0b0" stroke-width="1"/>
+                        <!-- accent line top -->
+                        <rect x="20" y="20" width="160" height="8" rx="2" fill="#a89070"/>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Wall Panels</div>
+                    <div class="card-name">Wainscoting</div>
+                    <div class="card-desc">Classic metal wainscoting panels combining timeless aesthetics with durable aluminum construction.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Stainless Steel Baseboard -->
+                        <g transform="translate(20, 55)">
+                            <rect x="0" y="0" width="160" height="55" rx="3" fill="#d0ccc8"/>
+                            <rect x="0" y="0" width="160" height="14" rx="3" fill="#e8e4e0"/>
+                            <rect x="0" y="14" width="160" height="3" rx="0" fill="#b8b4b0"/>
+                            <!-- brushed lines -->
+                            <line x1="0" y1="18" x2="160" y2="18" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="22" x2="160" y2="22" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="26" x2="160" y2="26" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="30" x2="160" y2="30" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="34" x2="160" y2="34" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="38" x2="160" y2="38" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="42" x2="160" y2="42" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <line x1="0" y1="46" x2="160" y2="46" stroke="#c0bcb8" stroke-width="0.5"/>
+                            <rect x="0" y="50" width="160" height="5" rx="2" fill="#a8a4a0"/>
+                        </g>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Skirting</div>
+                    <div class="card-name">Stainless Steel Baseboard</div>
+                    <div class="card-desc">Precision-engineered stainless baseboards with brushed or mirrored finish options.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="product-card">
+                <div class="card-image">
+                    <svg width="200" height="160" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Metal Decorative Lines -->
+                        <g transform="translate(20, 25)">
+                            <rect x="0" y="0" width="160" height="12" rx="6" fill="#b8a888"/>
+                            <rect x="0" y="20" width="160" height="8" rx="4" fill="#c8b898"/>
+                            <rect x="0" y="36" width="160" height="16" rx="3" fill="#a89878"/>
+                            <rect x="0" y="36" width="160" height="6" rx="3" fill="#c0b090"/>
+                            <rect x="0" y="60" width="160" height="5" rx="2" fill="#d4c8a0"/>
+                            <rect x="0" y="73" width="160" height="10" rx="5" fill="#b0a070"/>
+                            <rect x="0" y="73" width="160" height="4" rx="2" fill="#c8b888"/>
+                            <rect x="0" y="91" width="160" height="20" rx="3" fill="#907860"/>
+                            <rect x="0" y="91" width="160" height="8" rx="3" fill="#a89070"/>
+                        </g>
+                    </svg>
+                    <div class="card-overlay">
+                        <button class="card-view-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-category">Profiles</div>
+                    <div class="card-name">Metal Decorative Lines</div>
+                    <div class="card-desc">Versatile trim profiles for accent detailing on walls, ceilings, and furniture edges.</div>
+                    <span class="card-arrow">Learn more →</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+            <button class="page-btn arrow">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">4</button>
+            <button class="page-btn arrow">›</button>
+        </div>
+
+    </section>
+</div>
+
+<script>
+    // Filter tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Sidebar active
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Pagination
+    document.querySelectorAll('.page-btn:not(.arrow)').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.page-btn:not(.arrow)').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>
