@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Mrs. Alu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a1a1a;
+            --primary-accent: #c9a561;
+            --text-primary: #2d2d2d;
+            --text-light: #ffffff;
+            --hover-bg: #f8f5f0;
+            --border-color: #e5e0d8;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fafaf8;
+            min-height: 100vh;
+            padding-top: 90px;
+            color: var(--text-primary);
+        }
+
+        /* ===== NAVBAR (unchanged) ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--text-light);
+            box-shadow: var(--shadow-subtle);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 90px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .logo:hover { transform: translateY(-2px); }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-accent) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: -1px;
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-item { position: relative; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: var(--transition-smooth);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 60%;
+            height: 2px;
+            background: var(--primary-accent);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover { color: var(--primary-accent); background: var(--hover-bg); }
+        .nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
+
+        .nav-link.active { color: var(--primary-accent); }
+        .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 220px;
+            padding: 10px 40px 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: var(--text-primary);
+            background: var(--hover-bg);
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+
+        .search-input:focus {
+            width: 280px;
+            background: var(--text-light);
+            border-color: var(--primary-accent);
+            box-shadow: 0 4px 16px rgba(201, 165, 97, 0.15);
+        }
+
+        .search-input::placeholder { color: #999; }
+
+        .search-button {
+            position: absolute;
+            right: 4px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--primary-accent);
+            color: var(--text-light);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .search-button:hover { background: var(--primary-dark); transform: scale(1.05); }
+        .search-icon { width: 16px; height: 16px; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 968px) {
+            .nav-container { padding: 0 20px; height: 70px; }
+            body { padding-top: 70px; }
+            .logo-text { font-size: 22px; }
+            .logo-icon { width: 40px; height: 40px; font-size: 24px; }
+            .nav-menu { display: none; }
+            .search-input { width: 160px; }
+        }
+
+        /* ===== ABOUT US PAGE CONTENT ===== */
+
+        /* Hero Banner */
+        .about-hero {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #3a3020 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a561' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-overlay {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
+        }
+
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .hero-heading span {
+            color: var(--primary-accent);
+            font-style: italic;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .breadcrumb a { color: #888; text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--primary-accent); }
+        .breadcrumb .sep { color: #ccc; }
+        .breadcrumb .current { color: var(--primary-accent); font-weight: 500; }
+
+        /* Section wrapper */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 40px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .section-title span { color: var(--primary-accent); font-style: italic; }
+
+        /* ---- Company Introduction ---- */
+        .company-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .intro-left {}
+
+        .company-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 32px;
+        }
+
+        .company-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--primary-accent);
+        }
+
+        .company-card p {
+            font-size: 14px;
+            line-height: 1.85;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .company-card p:last-child { margin-bottom: 0; }
+
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            gap: 32px;
+            margin-top: 8px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-number sup {
+            font-size: 18px;
+            color: var(--primary-accent);
+            font-weight: 400;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Right image stack */
+        .intro-right {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 16px;
+        }
+
+        .factory-img-main {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+
+        .factory-img-secondary {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+
+        /* Placeholder images using CSS gradients */
+        .img-placeholder {
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .img-factory-1 {
+            height: 260px;
+            background: linear-gradient(135deg, #2a3a2a 0%, #3d5c3d 50%, #4a7040 100%);
+        }
+
+        .img-factory-2 {
+            height: 180px;
+            background: linear-gradient(135deg, #2a2a3a 0%, #3a3a5c 100%);
+        }
+
+        /* Divider */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border-color);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ---- Product Advantages ---- */
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .advantage-card {
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: flex-start;
+            padding: 28px 28px;
+            cursor: default;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+        }
+
+        .adv-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .adv-bg-1 { background: linear-gradient(135deg, #5c4a2a 0%, #8a7040 40%, #c9a561 100%); }
+        .adv-bg-2 { background: linear-gradient(135deg, #2a3a4a 0%, #3a5068 100%); }
+        .adv-bg-3 { background: linear-gradient(135deg, #1a2a1a 0%, #2d4a2d 100%); }
+        .adv-bg-4 { background: linear-gradient(135deg, #3a2a1a 0%, #6a4a2a 100%); }
+
+        .adv-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .adv-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1;
+            opacity: 0.25;
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            color: #fff;
+            z-index: 1;
+        }
+
+        .adv-tag {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 10px;
+        }
+
+        .adv-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .adv-desc {
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.6;
+            max-width: 260px;
+        }
+
+        /* ---- Honor / Certificates ---- */
+        .honor-section {
+            background: #fff;
+            padding: 70px 0;
+        }
+
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .cert-item {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fafafa;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .cert-item:hover {
+            border-color: var(--primary-accent);
+            box-shadow: 0 8px 24px rgba(201, 165, 97, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .cert-placeholder {
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .cert-placeholder svg {
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+        }
+
+        .cert-gold {
+            background: linear-gradient(135deg, #fff7e6 0%, #fdf0d0 100%);
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cert-gold-inner {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #c9a561, #e8c97a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .cert-white {
+            background: #fff;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .cert-inner-frame {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #e8c97a;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px;
+        }
+
+        .cert-inner-frame .cert-logo {
+            font-size: 20px;
+        }
+
+        .cert-inner-frame .cert-lines {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .cert-line {
+            height: 2px;
+            border-radius: 1px;
+            background: #ddd;
+        }
+
+        .cert-line.wide { width: 100%; }
+        .cert-line.med { width: 75%; }
+        .cert-line.short { width: 50%; }
+        .cert-line.accent { background: #c9a561; }
+
+        .cert-label {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* ---- Team Style ---- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .team-photo {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 200px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .team-photo:hover { transform: scale(1.03); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+
+        .team-photo-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+            position: relative;
+        }
+
+        .tp-1 { background: linear-gradient(160deg, #0a1628 0%, #1a3a6a 60%, #2a5aa0 100%); }
+        .tp-2 { background: linear-gradient(160deg, #0a2018 0%, #1a4a30 60%, #2a7a50 100%); }
+        .tp-3 { background: linear-gradient(160deg, #281a0a 0%, #5a3a1a 60%, #8a6030 100%); }
+        .tp-4 { background: linear-gradient(160deg, #1a1a28 0%, #2a2a5a 60%, #3a3a8a 100%); }
+
+        /* Building silhouette overlay */
+        .building-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            opacity: 0.3;
+        }
+
+        .photo-caption {
+            position: relative;
+            z-index: 2;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+        }
+
+        /* ---- Contact strip ---- */
+        .contact-strip {
+            background: var(--primary-dark);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .contact-strip h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .contact-strip h2 span { color: var(--primary-accent); font-style: italic; }
+
+        .contact-strip p {
+            color: rgba(255,255,255,0.5);
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 36px;
+            background: var(--primary-accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition-smooth);
+        }
+
+        .contact-btn:hover {
+            background: #fff;
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 165, 97, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-up {
+            opacity: 0;
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        @media (max-width: 968px) {
+            .company-intro { grid-template-columns: 1fr; }
+            .advantages-grid { grid-template-columns: 1fr; }
+            .certificates-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .section { padding: 48px 20px; }
+            .hero-heading { font-size: 36px; }
+            .section-title { font-size: 32px; }
+        }
+        /* ── FOOTER ── */
+        .footer {
+            background: rgba(20,12,4,0.92);
+            background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop');
+            background-size: cover; background-position: center;
+            background-blend-mode: multiply; color: #ccc; padding: 50px 0 0;
+        }
+        .footer-inner { max-width: 1260px; margin: 0 auto; padding: 0 40px; }
+        .footer-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; }
+        .footer-logo { display: flex; align-items: center; gap: 14px; }
+        .footer-logo-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, #4a2e18 0%, #c9a561 100%);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 30px; font-weight: 700; color: #fff;
+        }
+        .footer-logo-cn { font-size: 13px; color: #aaa; margin-bottom: 2px; }
+        .footer-logo-en { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #fff; }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-btn {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            color: #ccc; text-decoration: none; transition: var(--transition);
+        }
+        .social-btn:hover { background: #6b4226; color: #fff; border-color: #6b4226; }
+        .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .footer-cols {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;
+            gap: 28px; padding: 40px 0;
+        }
+        .footer-col-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 14px; }
+        .footer-link { display: block; text-decoration: none; color: #888; font-size: 13px; margin-bottom: 9px; transition: var(--transition); }
+        .footer-link:hover { color: #c9a561; }
+        .footer-contact-label { font-size: 13px; color: #888; margin-bottom: 6px; }
+        .footer-contact-phone { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: 1px; }
+        .footer-contact-addr { font-size: 13px; color: #888; line-height: 1.7; margin-top: 8px; }
+        .footer-bottom { text-align: center; padding: 16px 0; font-size: 12px; color: #444; border-top: 1px solid rgba(255,255,255,0.07); }
+        @media (max-width: 1024px) { .footer-cols { grid-template-columns: 1fr 1fr 1fr; } }
+        @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR (unchanged) ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../Homepage/index.html" class="logo">
+                <div class="logo-icon">M</div>
+                <span class="logo-text">Mrs. Alu</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../Homepage/index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="../products.html" class="nav-link">Products</a></li>
+                <li class="nav-item"><a href="./about.html" class="nav-link active">About Us</a></li>
+                <li class="nav-item"><a href="../case.html" class="nav-link">Case</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">News</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
+            </ul>
+
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" placeholder="Search...">
+                    <button class="search-button">
+                        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO BANNER ===== -->
+    <section class="about-hero">
+        <div class="hero-overlay animate-up">
+            <p class="hero-label">Who We Are</p>
+            <h1 class="hero-heading">Foshan Aluminum Lady <span>Building Materials Co., Ltd.</span></h1>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="../Homepage/index.html">Home</a>
+        <span class="sep">›</span>
+        <span class="current">About Us</span>
+    </div>
+
+    <!-- ===== COMPANY INTRODUCTION ===== -->
+    <div class="section">
+        <h2 class="section-title animate-up delay-1">Company <span>Introduction</span></h2>
+
+        <div class="company-intro">
+            <!-- Left: text card + stats -->
+            <div class="intro-left animate-up delay-2">
+                <div class="company-card">
+                    <h3>Foshan Aluminum Lady Building Materials Co., Ltd.</h3>
+                    <p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in 2004 in the famous "Foshan Aluminum Town" – Dali Town, Nanhai, Foshan. The company has extrusion production lines, spraying lines, and outstanding technical and service talents.</p>
+                    <p>Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing", focusing on ceiling and wall panel full-case solution service provider, wall panel, metal decorative lines, skirting board research and development, mold opening, production and sales; widely used in hotels, restaurants, KTV, schools, home decoration and other places.</p>
+                    <p>We follow the business tenet of "focusing on quality" and strictly require all departments of the company to concentrate on their work as the forefront of the industry. We sincerely provide customers with fast and high-quality services and offer extra value to every customer.</p>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span class="stat-number">2004<sup>+</sup></span>
+                        <div class="stat-label">Established</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3W<sup>m²</sup></span>
+                        <div class="stat-label">Floor area</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5000<sup>+</sup></span>
+                        <div class="stat-label">Partner</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100<sup>+</sup></span>
+                        <div class="stat-label">Service team</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: factory images -->
+            <div class="intro-right animate-up delay-3">
+                <div class="img-placeholder img-factory-1">
+                    <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" viewBox="0 0 24 24">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/>
+                        <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+                        <line x1="12" y1="12" x2="12" y2="16"/>
+                        <line x1="10" y1="14" x2="14" y2="14"/>
+                    </svg>
+                    Factory Aerial View
+                </div>
+                <div class="img-placeholder img-factory-2">
+                    <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    Factory Building
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ===== PRODUCT ADVANTAGES ===== -->
+    <div class="section">
+        <h2 class="section-title animate-up">Product <span>Advantages</span></h2>
+
+        <div class="advantages-grid">
+            <!-- One -->
+            <div class="advantage-card animate-up delay-1">
+                <div class="adv-bg adv-bg-1"></div>
+                <div class="adv-number">01</div>
+                <div class="adv-content">
+                    <div class="adv-tag">Advantage One</div>
+                    <div class="adv-title">The Full Line</div>
+                    <div class="adv-desc">Cast-effective solutions across our complete product range. One-stop service for all your aluminum building material needs.</div>
+                </div>
+            </div>
+
+            <!-- Two -->
+            <div class="advantage-card animate-up delay-2">
+                <div class="adv-bg adv-bg-2"></div>
+                <div class="adv-number">02</div>
+                <div class="adv-content">
+                    <div class="adv-tag">Advantage Two</div>
+                    <div class="adv-title">Improve the Service System</div>
+                    <div class="adv-desc">We continuously enhance our service system to deliver faster, more responsive support and seamless customer experience.</div>
+                </div>
+            </div>
+
+            <!-- Three -->
+            <div class="advantage-card animate-up delay-3">
+                <div class="adv-bg adv-bg-3"></div>
+                <div class="adv-number">03</div>
+                <div class="adv-content">
+                    <div class="adv-tag">Advantage Three</div>
+                    <div class="adv-title">State-of-the-Art Equipment</div>
+                    <div class="adv-desc">Advanced machinery and production lines ensure precision, consistency, and superior quality in every product we manufacture.</div>
+                </div>
+            </div>
+
+            <!-- Four -->
+            <div class="advantage-card animate-up delay-4">
+                <div class="adv-bg adv-bg-4"></div>
+                <div class="adv-number">04</div>
+                <div class="adv-content">
+                    <div class="adv-tag">Advantage Four</div>
+                    <div class="adv-title">Quality You Can Trust</div>
+                    <div class="adv-desc">Certified and award-winning quality standards that have earned the trust of over 5,000 partners worldwide.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ===== HONOR ===== -->
+    <div class="honor-section">
+        <div class="section" style="padding-top: 0; padding-bottom: 0;">
+            <h2 class="section-title animate-up">Honor</h2>
+
+            <div class="certificates-grid">
+                <!-- Gold award -->
+                <div class="cert-item animate-up delay-1">
+                    <div class="cert-gold">
+                        <div class="cert-gold-inner">🏆</div>
+                    </div>
+                    <div class="cert-label">Excellence Award</div>
+                </div>
+
+                <!-- Certificate 2 -->
+                <div class="cert-item animate-up delay-2">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">🎖️</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                                <div class="cert-line med"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Quality Certificate</div>
+                </div>
+
+                <!-- Certificate 3 -->
+                <div class="cert-item animate-up delay-3">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">📜</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                                <div class="cert-line med"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Industry Certificate</div>
+                </div>
+
+                <!-- Certificate 4 -->
+                <div class="cert-item animate-up delay-4">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">🏅</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                                <div class="cert-line med"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Honor Certificate</div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="cert-item animate-up delay-1">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">🎗️</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Service Award</div>
+                </div>
+
+                <div class="cert-item animate-up delay-2">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">📋</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Partner Certificate</div>
+                </div>
+
+                <div class="cert-item animate-up delay-3">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">⭐</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Star Enterprise</div>
+                </div>
+
+                <div class="cert-item animate-up delay-4">
+                    <div class="cert-white">
+                        <div class="cert-inner-frame">
+                            <div class="cert-logo">🔖</div>
+                            <div class="cert-lines">
+                                <div class="cert-line wide accent"></div>
+                                <div class="cert-line med"></div>
+                                <div class="cert-line wide"></div>
+                                <div class="cert-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-label">Brand Certificate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ===== TEAM STYLE ===== -->
+    <div class="section">
+        <h2 class="section-title animate-up">Team <span>Style</span></h2>
+
+        <div class="team-grid">
+            <div class="team-photo animate-up delay-1">
+                <div class="team-photo-inner tp-1">
+                    <!-- Building silhouette SVG -->
+                    <svg class="building-silhouette" viewBox="0 0 200 140" fill="rgba(255,255,255,0.15)" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <rect x="20" y="40" width="30" height="100"/>
+                        <rect x="55" y="20" width="20" height="120"/>
+                        <rect x="80" y="60" width="40" height="80"/>
+                        <rect x="125" y="30" width="25" height="110"/>
+                        <rect x="155" y="50" width="30" height="90"/>
+                        <rect x="0" y="80" width="15" height="60"/>
+                        <rect x="185" y="70" width="15" height="70"/>
+                    </svg>
+                    <span class="photo-caption">Our Office</span>
+                </div>
+            </div>
+
+            <div class="team-photo animate-up delay-2">
+                <div class="team-photo-inner tp-2">
+                    <svg class="building-silhouette" viewBox="0 0 200 140" fill="rgba(255,255,255,0.15)" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <rect x="10" y="50" width="45" height="90"/>
+                        <rect x="60" y="25" width="35" height="115"/>
+                        <rect x="100" y="45" width="20" height="95"/>
+                        <rect x="125" y="35" width="40" height="105"/>
+                        <rect x="170" y="60" width="25" height="80"/>
+                    </svg>
+                    <span class="photo-caption">Our Factory</span>
+                </div>
+            </div>
+
+            <div class="team-photo animate-up delay-3">
+                <div class="team-photo-inner tp-3">
+                    <svg class="building-silhouette" viewBox="0 0 200 140" fill="rgba(255,255,255,0.15)" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <rect x="5" y="30" width="50" height="110"/>
+                        <rect x="60" y="55" width="30" height="85"/>
+                        <rect x="95" y="20" width="25" height="120"/>
+                        <rect x="125" y="50" width="45" height="90"/>
+                        <rect x="175" y="65" width="20" height="75"/>
+                    </svg>
+                    <span class="photo-caption">Our Team</span>
+                </div>
+            </div>
+
+            <div class="team-photo animate-up delay-4">
+                <div class="team-photo-inner tp-4">
+                    <svg class="building-silhouette" viewBox="0 0 200 140" fill="rgba(255,255,255,0.15)" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <rect x="15" y="45" width="35" height="95"/>
+                        <rect x="55" y="15" width="28" height="125"/>
+                        <rect x="88" y="60" width="42" height="80"/>
+                        <rect x="135" y="30" width="30" height="110"/>
+                        <rect x="170" y="55" width="25" height="85"/>
+                    </svg>
+                    <span class="photo-caption">Our Culture</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">M</div>
+                    <div>
+                        <div class="footer-logo-cn">铝夫人</div>
+                        <div class="footer-logo-en">Mrs.alu</div>
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" title="Weibo">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" title="WeChat">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" title="Notifications">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <div class="footer-col-title">- Product</div>
+                    <a href="#" class="footer-link">Wainscoting</a>
+                    <a href="#" class="footer-link">Stainless steel baseboard</a>
+                    <a href="#" class="footer-link">Metal decorative lines</a>
+                    <a href="#" class="footer-link">All-aluminum welded large plate</a>
+                    <a href="#" class="footer-link">Baseboard</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- About us</div>
+                    <a href="#" class="footer-link">Company Profile</a>
+                    <a href="#" class="footer-link">Product advantages</a>
+                    <a href="#" class="footer-link">Honor</a>
+                    <a href="#" class="footer-link">Team style</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- Case</div>
+                    <a href="case.html" class="footer-link">Applications</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- News</div>
+                    <a href="#" class="footer-link">Company news</a>
+                    <a href="#" class="footer-link">Industry news</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- Contact us</div>
+                    <a href="#" class="footer-link">Online message</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-contact-label">Contact number:</div>
+                    <div class="footer-contact-phone">18927795653</div>
+                    <div class="footer-contact-label" style="margin-top:14px;">Company address:</div>
+                    <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District, Foshan City</div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">This site is built using T Cloud</div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar search
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-button');
+
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                alert('Searching for: ' + searchTerm);
+            }
+        });
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchButton.click();
+        });
+
+        // Intersection Observer for animations
+        const animEls = document.querySelectorAll('.animate-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        animEls.forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
