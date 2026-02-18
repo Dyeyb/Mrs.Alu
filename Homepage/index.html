@@ -1,402 +1,541 @@
+I'll help you transform this case page into a homepage while keeping the navbar and footer unchanged. Here's the updated code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Navigation Bar</title>
+    <title>Mrs.Alu - Premium Aluminum Building Materials</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary-dark: #1a1a1a;
+            --brown: #6b4226;
             --primary-accent: #c9a561;
-            --text-primary: #2d2d2d;
-            --text-light: #ffffff;
             --hover-bg: #f8f5f0;
             --border-color: #e5e0d8;
-            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
+        body { font-family: 'Outfit', sans-serif; background: #f0ece6; min-height: 100vh; padding-top: 90px; }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #fafaf8 0%, #f5f3ee 100%);
-            min-height: 100vh;
-            padding-top: 90px;
-        }
-
-        /* Navigation Container */
+        /* ── NAVBAR ── */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--text-light);
-            box-shadow: var(--shadow-subtle);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
+            position: fixed; top: 0; left: 0; right: 0;
+            background: #fff; box-shadow: var(--shadow-subtle);
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
         }
-
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 90px;
+            max-width: 1400px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between; height: 90px;
         }
-
-        /* Logo Section */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .logo:hover {
-            transform: translateY(-2px);
-        }
-
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); }
+        .logo:hover { transform: translateY(-2px); }
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-accent) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-light);
-            letter-spacing: -1px;
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #c9a561 100%);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: #fff;
         }
-
-        .logo-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            letter-spacing: 0.5px;
-        }
-
-        /* Navigation Menu */
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
+        .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; }
+        .nav-menu { display: flex; align-items: center; gap: 4px; list-style: none; }
         .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 12px 20px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            transition: var(--transition-smooth);
-            border-radius: 6px;
-            position: relative;
+            padding: 10px 18px; text-decoration: none; color: #2d2d2d;
+            font-size: 15px; font-weight: 500; transition: var(--transition);
+            border-radius: 6px; position: relative;
         }
-
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 60%;
-            height: 2px;
-            background: var(--primary-accent);
-            transition: var(--transition-smooth);
+            content: ''; position: absolute; bottom: 6px; left: 50%;
+            transform: translateX(-50%) scaleX(0); width: 60%; height: 2px;
+            background: var(--primary-accent); transition: var(--transition);
         }
-
-        .nav-link:hover {
-            color: var(--primary-accent);
-            background: var(--hover-bg);
-        }
-
-        .nav-link:hover::after {
-            transform: translateX(-50%) scaleX(1);
-        }
-
-
-
-        /* Search Bar */
-        .search-container {
-            display: flex;
-            align-items: center;
-            margin-left: 16px;
-        }
-
-        .search-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
+        .nav-link:hover, .nav-link.active { color: var(--primary-accent); background: var(--hover-bg); }
+        .nav-link:hover::after, .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+        .search-wrapper { position: relative; display: flex; align-items: center; }
         .search-input {
-            width: 220px;
-            padding: 10px 40px 10px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            color: var(--text-primary);
-            background: var(--hover-bg);
-            transition: var(--transition-smooth);
-            outline: none;
+            width: 200px; padding: 9px 38px 9px 14px;
+            border: 1px solid var(--border-color); border-radius: 50px;
+            font-size: 14px; background: var(--hover-bg); outline: none; transition: var(--transition);
+        }
+        .search-input:focus { width: 250px; border-color: var(--primary-accent); }
+        .search-input::placeholder { color: #aaa; }
+        .search-btn {
+            position: absolute; right: 4px; width: 32px; height: 32px; border: none;
+            background: var(--primary-accent); color: #fff; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .search-btn svg { width: 14px; height: 14px; }
+
+        /* ── HERO ── */
+        .hero {
+            width: 100%; height: 280px;
+            background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
+            position: relative; overflow: hidden; display: flex; align-items: center;
+        }
+        .hero-text { padding-left: 80px; z-index: 2; position: relative; flex-shrink: 0; }
+        .hero-label { font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px; }
+        .hero-line { width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0; }
+        .hex-area {
+            position: absolute; right: 0; top: 0; width: 68%; height: 100%;
+            display: flex; align-items: center; padding-left: 20px; overflow: hidden;
+        }
+        .hex-row { display: flex; gap: 8px; }
+        .hex-col { display: flex; flex-direction: column; gap: 8px; }
+        .hex-col.offset { margin-top: 72px; }
+        .hex {
+            width: 128px; height: 128px;
+            clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+            overflow: hidden; flex-shrink: 0;
+        }
+        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: var(--transition); }
+        .hex:hover img { filter: brightness(1); transform: scale(1.05); }
+        .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: var(--transition); }
+        .dot.active { background: #fff; }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            background: #fff; border-bottom: 1px solid #e8e0d6;
+            padding: 13px 80px; font-size: 13px; color: #888;
         }
 
-        .search-input:focus {
-            width: 280px;
-            background: var(--text-light);
-            border-color: var(--primary-accent);
-            box-shadow: 0 4px 16px rgba(201, 165, 97, 0.15);
+        /* ── HOMEPAGE LAYOUT ── */
+        .homepage-content {
+            max-width: 1260px; margin: 36px auto 60px; padding: 0 40px;
         }
 
-        .search-input::placeholder {
-            color: #999;
+        /* Welcome Section */
+        .welcome-section {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 8px;
+            padding: 40px; margin-bottom: 40px; text-align: center;
+        }
+        .welcome-title {
+            font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600;
+            color: var(--brown); margin-bottom: 16px;
+        }
+        .welcome-subtitle {
+            font-size: 18px; color: #666; margin-bottom: 24px; line-height: 1.6;
+        }
+        .welcome-desc {
+            font-size: 15px; color: #555; line-height: 1.8; max-width: 800px; margin: 0 auto;
         }
 
-        .search-button {
-            position: absolute;
-            right: 4px;
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: var(--primary-accent);
-            color: var(--text-light);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition-smooth);
+        /* Features Grid */
+        .features-section {
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600;
+            color: var(--brown); text-align: center; margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 8px;
+            padding: 30px; text-align: center; transition: var(--transition);
+        }
+        .feature-card:hover {
+            box-shadow: var(--shadow-subtle); transform: translateY(-4px);
+        }
+        .feature-icon {
+            width: 60px; height: 60px; background: var(--primary-accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 24px; color: #fff;
+        }
+        .feature-title {
+            font-size: 20px; font-weight: 600; color: var(--brown); margin-bottom: 12px;
+        }
+        .feature-desc {
+            font-size: 14px; color: #666; line-height: 1.6;
         }
 
-        .search-button:hover {
-            background: var(--primary-dark);
-            transform: scale(1.05);
+        /* Products Preview */
+        .products-preview {
+            margin-bottom: 50px;
+        }
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .product-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 8px;
+            overflow: hidden; transition: var(--transition); cursor: pointer;
+        }
+        .product-card:hover {
+            box-shadow: var(--shadow-subtle); transform: translateY(-4px);
+        }
+        .product-img {
+            width: 100%; height: 200px; object-fit: cover;
+        }
+        .product-body {
+            padding: 20px;
+        }
+        .product-name {
+            font-size: 18px; font-weight: 600; color: var(--brown); margin-bottom: 8px;
+        }
+        .product-desc {
+            font-size: 14px; color: #666; line-height: 1.6;
         }
 
-        .search-icon {
-            width: 16px;
-            height: 16px;
+        /* CTA Section */
+        .cta-section {
+            background: var(--brown); color: #fff; padding: 50px 40px;
+            border-radius: 8px; text-align: center; margin-bottom: 50px;
+        }
+        .cta-title {
+            font-family: 'Cormorant Garamond', serif; font-size: 32px;
+            font-weight: 600; margin-bottom: 16px;
+        }
+        .cta-desc {
+            font-size: 16px; margin-bottom: 30px; opacity: 0.9;
+        }
+        .cta-buttons {
+            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+        }
+        .cta-btn {
+            padding: 12px 30px; border: 2px solid #fff; border-radius: 6px;
+            background: transparent; color: #fff; font-size: 15px; font-weight: 500;
+            cursor: pointer; transition: var(--transition); text-decoration: none;
+            display: inline-block;
+        }
+        .cta-btn:hover {
+            background: #fff; color: var(--brown);
+        }
+        .cta-btn.primary {
+            background: var(--primary-accent); border-color: var(--primary-accent);
+        }
+        .cta-btn.primary:hover {
+            background: #fff; color: var(--brown); border-color: #fff;
         }
 
-        /* Demo Content */
-        .demo-content {
-            max-width: 1400px;
-            margin: 60px auto;
-            padding: 0 40px;
+        /* Contact Info */
+        .contact-info {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 8px;
+            padding: 30px; text-align: center;
+        }
+        .contact-title {
+            font-size: 24px; font-weight: 600; color: var(--brown); margin-bottom: 20px;
+        }
+        .contact-phone {
+            font-size: 28px; font-weight: 700; color: var(--primary-accent);
+            margin-bottom: 10px;
+        }
+        .contact-address {
+            font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px;
+        }
+        .contact-btn {
+            display: inline-block; background: var(--brown); color: #fff;
+            padding: 12px 30px; border-radius: 6px; text-decoration: none;
+            font-weight: 500; transition: var(--transition);
+        }
+        .contact-btn:hover {
+            background: #8b5a38; transform: translateY(-2px);
         }
 
-        .hero-section {
-            text-align: center;
-            padding: 80px 0;
+        /* ── FOOTER ── */
+        .footer {
+            background: rgba(20,12,4,0.92);
+            background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop');
+            background-size: cover; background-position: center;
+            background-blend-mode: multiply; color: #ccc; padding: 50px 0 0;
         }
-
-        .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 72px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 24px;
-            letter-spacing: -1px;
-            line-height: 1.1;
+        .footer-inner { max-width: 1260px; margin: 0 auto; padding: 0 40px; }
+        .footer-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; }
+        .footer-logo { display: flex; align-items: center; gap: 14px; }
+        .footer-logo-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, #4a2e18 0%, #c9a561 100%);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: #fff;
         }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+        .footer-logo-cn { font-size: 13px; color: #aaa; margin-bottom: 2px; }
+        .footer-logo-en { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #fff; }
+        .footer-socials { display: flex; gap: 10px; }
+        .social-btn {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            color: #ccc; text-decoration: none; transition: var(--transition);
         }
+        .social-btn:hover { background: var(--brown); color: #fff; border-color: var(--brown); }
+        .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .footer-cols { display: grid; grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr; gap: 28px; padding: 40px 0; }
+        .footer-col-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 14px; }
+        .footer-link { display: block; text-decoration: none; color: #888; font-size: 13px; margin-bottom: 9px; transition: var(--transition); }
+        .footer-link:hover { color: #c9a561; }
+        .footer-contact-label { font-size: 13px; color: #888; margin-bottom: 6px; }
+        .footer-contact-phone { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: 1px; }
+        .footer-contact-addr { font-size: 13px; color: #888; line-height: 1.7; margin-top: 8px; }
+        .footer-bottom { text-align: center; padding: 16px 0; font-size: 12px; color: #444; border-top: 1px solid rgba(255,255,255,0.07); }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .nav-menu {
-                gap: 4px;
-            }
-
-            .nav-link {
-                padding: 10px 14px;
-                font-size: 14px;
-            }
-
-            .search-input {
-                width: 180px;
-            }
-
-            .search-input:focus {
-                width: 220px;
-            }
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-cols { grid-template-columns: 1fr 1fr 1fr; }
         }
-
-        @media (max-width: 968px) {
-            .nav-container {
-                padding: 0 20px;
-                height: 70px;
-            }
-
-            body {
-                padding-top: 70px;
-            }
-
-            .logo-text {
-                font-size: 22px;
-            }
-
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 24px;
-            }
-
-            .nav-menu {
-                display: none;
-            }
-
-            .search-input {
-                width: 160px;
-            }
-
-            .hero-title {
-                font-size: 48px;
-            }
+        @media (max-width: 768px) {
+            body { padding-top: 70px; }
+            .nav-container { padding: 0 16px; height: 70px; }
+            .nav-menu { display: none; }
+            .homepage-content { padding: 0 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+            .hex-area { display: none; }
+            .hero-text { padding-left: 30px; }
+            .breadcrumb { padding: 12px 20px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
         }
-
-        /* Animation */
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .navbar {
-            animation: slideDown 0.6s ease-out;
+        @media (max-width: 600px) { 
+            .footer-cols { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Logo -->
-            <a href="#" class="logo">
-                <div class="logo-icon">M</div>
-                <span class="logo-text">Mrs. Alu</span>
-            </a>
 
-            <!-- Navigation Menu -->
-            <ul class="nav-menu">
-                <!-- Home -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Home</a>
-                </li>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">M</div>
+            <span class="logo-text">Mrs.Alu</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link active">Home</a></li>
+            <li><a href="#" class="nav-link">Products</a></li>
+            <li><a href="#" class="nav-link">About Us</a></li>
+            <li><a href="case.html" class="nav-link">Case</a></li>
+            <li><a href="#" class="nav-link">News</a></li>
+            <li><a href="#" class="nav-link">Contact Us</a></li>
+        </ul>
+        <div class="search-wrapper">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="search-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</nav>
 
-                <!-- Products -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Products</a>
-                </li>
-
-                <!-- About Us -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">About Us</a>
-                </li>
-
-                <!-- Case -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Case</a>
-                </li>
-
-                <!-- News -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">News</a>
-                </li>
-
-                <!-- Contact Us -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
-                </li>
-            </ul>
-
-            <!-- Search Bar -->
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <input type="text" class="search-input" placeholder="Search...">
-                    <button class="search-button">
-                        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                </div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+        <div class="hero-line"></div>
+        <div class="hero-label">Mrs.Alu</div>
+        <div class="hero-line"></div>
+    </div>
+    <div class="hex-area">
+        <div class="hex-row">
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+            <div class="hex-col offset">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+            <div class="hex-col offset">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=300&h=300&fit=crop" alt=""></div>
             </div>
         </div>
-    </nav>
+    </div>
+    <div class="hero-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</section>
 
-    <!-- Demo Content -->
-    <div class="demo-content">
-        <div class="hero-section">
-            <h1 class="hero-title">FOCUS ON METAL DECORATION SOLUTIONS</h1>
-            <p class="hero-subtitle">Crafting excellence in architectural metalwork with innovative designs and superior quality materials for modern spaces.</p>
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    Current position: &nbsp;<strong>Home</strong>
+</div>
+
+<!-- HOMEPAGE CONTENT -->
+<div class="homepage-content">
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1 class="welcome-title">Welcome to Mrs.Alu</h1>
+        <p class="welcome-subtitle">Premium Aluminum Building Materials & Interior Solutions</p>
+        <p class="welcome-desc">
+            Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. We specialize in aluminum wainscoting, wall panels, metal decorative lines, and skirting boards. With advanced extrusion production lines, spraying facilities, and a dedicated team of technical professionals, we are committed to providing innovative, high-quality interior solutions that transform spaces with elegance and durability.
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <h2 class="section-title">Why Choose Mrs.Alu</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3 class="feature-title">Premium Quality</h3>
+                <p class="feature-desc">Over 20 years of expertise in aluminum building materials with strict quality control and premium materials sourcing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3 class="feature-title">Advanced Technology</h3>
+                <p class="feature-desc">State-of-the-art extrusion production lines and precision spraying facilities for superior product finishes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3 class="feature-title">Innovative Design</h3>
+                <p class="feature-desc">Cutting-edge designs that combine functionality with aesthetic appeal for modern interior spaces.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛠️</div>
+                <h3 class="feature-title">Complete Solutions</h3>
+                <p class="feature-desc">Full-case solution provider from design consultation to installation and after-sales service.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <h3 class="feature-title">Eco-Friendly</h3>
+                <p class="feature-desc">Sustainable aluminum materials that are 100% recyclable and environmentally responsible.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Fast Delivery</h3>
+                <p class="feature-desc">Efficient production and logistics ensuring timely delivery for all project requirements.</p>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Optional: Add search functionality
-        const searchInput = document.querySelector('.search-input');
-        const searchButton = document.querySelector('.search-button');
+    <!-- Products Preview -->
+    <div class="products-preview">
+        <h2 class="section-title">Our Featured Products</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <img class="product-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&h=200&fit=crop" alt="Wainscoting">
+                <div class="product-body">
+                    <h3 class="product-name">Aluminum Wainscoting</h3>
+                    <p class="product-desc">Premium aluminum wainscoting panels perfect for residential and commercial interior applications with various finish options.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img class="product-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=200&fit=crop" alt="Wall Panels">
+                <div class="product-body">
+                    <h3 class="product-name">Wall Panels</h3>
+                    <p class="product-desc">Elegant wall panel systems available in multiple textures and colors to create stunning interior feature walls.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img class="product-img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=400&h=200&fit=crop" alt="Metal Decorative Lines">
+                <div class="product-body">
+                    <h3 class="product-name">Metal Decorative Lines</h3>
+                    <p class="product-desc">Precision-crafted metal decorative trim and molding solutions for sophisticated interior finishing details.</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img class="product-img" src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&h=200&fit=crop" alt="Skirting Boards">
+                <div class="product-body">
+                    <h3 class="product-name">Aluminum Skirting Boards</h3>
+                    <p class="product-desc">Durable and stylish aluminum skirting board profiles that provide clean, modern finishing touches.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        searchButton.addEventListener('click', function() {
-            const searchTerm = searchInput.value.trim();
-            if (searchTerm) {
-                console.log('Searching for:', searchTerm);
-                // Add your search logic here
-                alert('Searching for: ' + searchTerm);
-            }
-        });
+    <!-- Call to Action -->
+    <div class="cta-section">
+        <h2 class="cta-title">Ready to Transform Your Space?</h2>
+        <p class="cta-desc">Contact us today to discuss your project requirements and discover how Mrs.Alu can bring your interior vision to life.</p>
+        <div class="cta-buttons">
+            <a href="#" class="cta-btn primary">View Our Products</a>
+            <a href="#" class="cta-btn">Request Quote</a>
+            <a href="case.html" class="cta-btn">View Case Studies</a>
+        </div>
+    </div>
 
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchButton.click();
-            }
-        });
+    <!-- Contact Information -->
+    <div class="contact-info">
+        <h2 class="contact-title">Get In Touch</h2>
+        <div class="contact-phone">18927795653</div>
+        <p class="contact-address">
+            No. 5-3, Nanshezheng 2nd Road, Desheng Village,<br>
+            Lishui Town, Nanhai District, Foshan City
+        </p>
+        <a href="#" class="contact-btn">Contact Us Now</a>
+    </div>
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.nav-item')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    menu.style.opacity = '0';
-                    menu.style.visibility = 'hidden';
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+</div>
+
+<!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">M</div>
+                    <div>
+                        <div class="footer-logo-cn">铝夫人</div>
+                        <div class="footer-logo-en">Mrs.alu</div>
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" title="Weibo">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" title="WeChat">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" title="Notifications">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <div class="footer-col-title">- Product</div>
+                    <a href="#" class="footer-link">Wainscoting</a>
+                    <a href="#" class="footer-link">Stainless steel baseboard</a>
+                    <a href="#" class="footer-link">Metal decorative lines</a>
+                    <a href="#" class="footer-link">All-aluminum welded large plate</a>
+                    <a href="#" class="footer-link">Baseboard</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- About us</div>
+                    <a href="#" class="footer-link">Company Profile</a>
+                    <a href="#" class="footer-link">Product advantages</a>
+                    <a href="#" class="footer-link">Honor</a>
+                    <a href="#" class="footer-link">Team style</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- Case</div>
+                    <a href="case.html" class="footer-link">Applications</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- News</div>
+                    <a href="#" class="footer-link">Company news</a>
+                    <a href="#" class="footer-link">Industry news</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-col-title">- Contact us</div>
+                    <a href="#" class="footer-link">Online message</a>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-contact-label">Contact number:</div>
+                    <div class="footer-contact-phone">18927795653</div>
+                    <div class="footer-contact-label" style="margin-top:14px;">Company address:</div>
+                    <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District, Foshan City</div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">This site is built using T Cloud</div>
+        </div>
+    </footer>
