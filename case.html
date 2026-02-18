@@ -9,114 +9,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
             --brown: #6b4226;
-            --primary-dark: #1a1a1a;
             --primary-accent: #c9a561;
-            --text-primary: #2d2d2d;
-            --text-light: #ffffff;
             --hover-bg: #f8f5f0;
             --border-color: #e5e0d8;
             --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
             --transition: all 0.3s ease;
         }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f0ece6;
-            min-height: 100vh;
-            padding-top: 90px;
-        }
+        body { font-family: 'Outfit', sans-serif; background: #f0ece6; min-height: 100vh; padding-top: 90px; }
 
         /* ── NAVBAR ── */
         .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: #fff;
-            box-shadow: var(--shadow-subtle);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
+            position: fixed; top: 0; left: 0; right: 0;
+            background: #fff; box-shadow: var(--shadow-subtle);
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
         }
         .nav-container {
-            max-width: 1400px; margin: 0 auto;
-            padding: 0 40px;
-            display: flex; align-items: center; justify-content: space-between;
-            height: 90px;
+            max-width: 1400px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between; height: 90px;
         }
-        .logo {
-            display: flex; align-items: center; gap: 12px;
-            text-decoration: none; transition: var(--transition);
-        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); }
         .logo:hover { transform: translateY(-2px); }
         .logo-icon {
             width: 48px; height: 48px;
             background: linear-gradient(135deg, #1a1a1a 0%, #c9a561 100%);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px; font-weight: 700; color: #fff;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: #fff;
         }
-        .logo-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px; font-weight: 600; color: #1a1a1a;
-        }
+        .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; }
         .nav-menu { display: flex; align-items: center; gap: 4px; list-style: none; }
         .nav-link {
-            padding: 10px 18px;
-            text-decoration: none; color: #2d2d2d;
-            font-size: 15px; font-weight: 500;
-            transition: var(--transition);
+            padding: 10px 18px; text-decoration: none; color: #2d2d2d;
+            font-size: 15px; font-weight: 500; transition: var(--transition);
             border-radius: 6px; position: relative;
         }
         .nav-link::after {
-            content: '';
-            position: absolute; bottom: 6px; left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 60%; height: 2px;
-            background: var(--primary-accent);
-            transition: var(--transition);
+            content: ''; position: absolute; bottom: 6px; left: 50%;
+            transform: translateX(-50%) scaleX(0); width: 60%; height: 2px;
+            background: var(--primary-accent); transition: var(--transition);
         }
         .nav-link:hover, .nav-link.active { color: var(--primary-accent); background: var(--hover-bg); }
         .nav-link:hover::after, .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
-
         .search-wrapper { position: relative; display: flex; align-items: center; }
         .search-input {
             width: 200px; padding: 9px 38px 9px 14px;
             border: 1px solid var(--border-color); border-radius: 50px;
-            font-size: 14px; background: var(--hover-bg); outline: none;
-            transition: var(--transition);
+            font-size: 14px; background: var(--hover-bg); outline: none; transition: var(--transition);
         }
         .search-input:focus { width: 250px; border-color: var(--primary-accent); }
         .search-input::placeholder { color: #aaa; }
         .search-btn {
-            position: absolute; right: 4px;
-            width: 32px; height: 32px; border: none;
-            background: var(--primary-accent); color: #fff;
-            border-radius: 50%; cursor: pointer;
+            position: absolute; right: 4px; width: 32px; height: 32px; border: none;
+            background: var(--primary-accent); color: #fff; border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
         }
         .search-btn svg { width: 14px; height: 14px; }
 
-        /* ── HERO BANNER ── */
+        /* ── HERO ── */
         .hero {
             width: 100%; height: 280px;
             background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
-            position: relative; overflow: hidden;
-            display: flex; align-items: center;
+            position: relative; overflow: hidden; display: flex; align-items: center;
         }
-        .hero-text {
-            padding-left: 80px;
-            z-index: 2; position: relative; flex-shrink: 0;
-        }
+        .hero-text { padding-left: 80px; z-index: 2; position: relative; flex-shrink: 0; }
         .hero-label { font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px; }
         .hero-line { width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0; }
-
         .hex-area {
-            position: absolute; right: 0; top: 0;
-            width: 68%; height: 100%;
-            display: flex; align-items: center;
-            padding-left: 20px; overflow: hidden;
+            position: absolute; right: 0; top: 0; width: 68%; height: 100%;
+            display: flex; align-items: center; padding-left: 20px; overflow: hidden;
         }
         .hex-row { display: flex; gap: 8px; }
         .hex-col { display: flex; flex-direction: column; gap: 8px; }
@@ -126,20 +87,10 @@
             clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
             overflow: hidden; flex-shrink: 0;
         }
-        .hex img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: brightness(0.8) saturate(0.9); transition: var(--transition);
-        }
-        .hex:hover img { filter: brightness(1) saturate(1.1); transform: scale(1.05); }
-
-        .hero-dots {
-            position: absolute; bottom: 12px; left: 50%;
-            transform: translateX(-50%); display: flex; gap: 6px;
-        }
-        .dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: rgba(255,255,255,0.35); cursor: pointer; transition: var(--transition);
-        }
+        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: var(--transition); }
+        .hex:hover img { filter: brightness(1); transform: scale(1.05); }
+        .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: var(--transition); }
         .dot.active { background: #fff; }
 
         /* ── BREADCRUMB ── */
@@ -147,16 +98,14 @@
             background: #fff; border-bottom: 1px solid #e8e0d6;
             padding: 13px 80px; font-size: 13px; color: #888;
         }
-        .breadcrumb a { color: #888; text-decoration: none; }
+        .breadcrumb a { color: #888; text-decoration: none; cursor: pointer; }
         .breadcrumb a:hover { color: var(--brown); }
         .breadcrumb strong { color: var(--brown); }
 
-        /* ── CONTENT ── */
+        /* ── LAYOUT ── */
         .content {
-            max-width: 1260px; margin: 36px auto 60px;
-            padding: 0 40px;
-            display: grid; grid-template-columns: 220px 1fr;
-            gap: 28px; align-items: start;
+            max-width: 1260px; margin: 36px auto 60px; padding: 0 40px;
+            display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start;
         }
 
         /* ── SIDEBAR ── */
@@ -164,99 +113,56 @@
         .sidebar-title { padding: 16px 22px; font-size: 19px; font-weight: 600; color: #fff; }
         .sidebar-menu { background: #fff; border: 1px solid #ddd; border-top: none; }
         .sidebar-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 13px 20px; text-decoration: none; color: #555;
-            font-size: 14px; border-bottom: 1px solid #f0ebe5; transition: var(--transition);
+            display: flex; align-items: center; gap: 8px; padding: 13px 20px;
+            text-decoration: none; color: #555; font-size: 14px;
+            border-bottom: 1px solid #f0ebe5; transition: var(--transition); cursor: pointer;
         }
-        .sidebar-item:last-child { border-bottom: none; }
         .sidebar-item::before { content: '›'; color: var(--brown); font-size: 18px; font-weight: bold; }
         .sidebar-item:hover, .sidebar-item.active { color: var(--brown); background: #fdf8f4; }
-
         .sidebar-contact {
-            margin-top: 20px; background: #fff;
-            border: 1px solid #ddd; padding: 24px 20px; text-align: center;
+            margin-top: 20px; background: #fff; border: 1px solid #ddd; padding: 24px 20px; text-align: center;
         }
         .contact-label { font-size: 14px; color: #555; margin-bottom: 8px; font-weight: 500; }
         .contact-phone { font-size: 22px; font-weight: 700; color: var(--brown); margin-bottom: 4px; }
         .contact-sub { font-size: 12px; color: #aaa; margin-bottom: 16px; }
         .contact-icon { font-size: 32px; margin-bottom: 14px; display: block; }
         .contact-btn {
-            display: block; width: 100%;
-            background: var(--brown); color: #fff;
-            border: none; padding: 12px 0;
-            font-size: 14px; font-weight: 500; cursor: pointer;
-            border-radius: 2px; text-decoration: none;
-            transition: var(--transition);
+            display: block; width: 100%; background: var(--brown); color: #fff;
+            border: none; padding: 12px 0; font-size: 14px; font-weight: 500;
+            cursor: pointer; border-radius: 2px; text-decoration: none; transition: var(--transition);
         }
         .contact-btn:hover { background: #8b5a38; }
 
-        /* ── PAGE SECTIONS ── */
+        /* ══════════════════════════════════════
+           LIST VIEW
+        ══════════════════════════════════════ */
+        #list-view { display: block; }
+
         .page-section { display: none; }
         .page-section.active {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
         }
 
-        /* ── CARD — matches real site ── */
         .card {
-            background: #fff;
-            border: 1px solid #e8e0d6;
-            border-radius: 2px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
+            display: block; text-decoration: none; color: inherit;
+            background: #fff; border: 1px solid #e8e0d6; border-radius: 2px;
+            overflow: hidden; cursor: pointer; transition: var(--transition);
         }
-        .card:hover {
-            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-            transform: translateY(-4px);
-        }
-
-        /* Full natural image — no fixed crop height */
-        .card-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
+        .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.12); transform: translateY(-4px); }
+        .card-img { width: 100%; height: auto; display: block; object-fit: cover; }
         .card-body { padding: 18px 20px 16px; }
         .card-title { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 5px; }
         .card-date { font-size: 12px; color: #bbb; margin-bottom: 10px; }
         .card-desc { font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 14px; }
-
-        /* Applications tag + arrow */
         .card-footer {
             display: flex; align-items: center; justify-content: space-between;
             padding-top: 12px; border-top: 1px solid #f0ebe5;
         }
-        .card-tag {
-            font-size: 12px; color: #888;
-            border: 1px solid #ddd; padding: 4px 10px; border-radius: 2px;
-        }
-        .card-arrow {
-            color: #bbb; font-size: 18px; line-height: 1;
-            transition: var(--transition);
-        }
+        .card-tag { font-size: 12px; color: #888; border: 1px solid #ddd; padding: 4px 10px; border-radius: 2px; }
+        .card-arrow { color: #bbb; font-size: 18px; transition: var(--transition); }
         .card:hover .card-arrow { color: var(--brown); transform: translateX(4px); }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-            .page-section.active { grid-template-columns: repeat(2, 1fr); }
-            .hex { width: 100px; height: 100px; }
-        }
-        @media (max-width: 768px) {
-            body { padding-top: 70px; }
-            .nav-container { padding: 0 16px; height: 70px; }
-            .nav-menu { display: none; }
-            .content { grid-template-columns: 1fr; padding: 0 16px; }
-            .page-section.active { grid-template-columns: 1fr; }
-            .hex-area { display: none; }
-            .hero-text { padding-left: 30px; }
-            .breadcrumb { padding: 12px 20px; }
-        }
-
-        /* ── PAGINATION ── */
+        /* Pagination */
         .pagination-wrap {
             background: #fff; padding: 24px 0;
             display: flex; justify-content: center; border-top: 1px solid #eee;
@@ -264,12 +170,95 @@
         .pagination { display: flex; align-items: center; gap: 8px; }
         .page-btn {
             padding: 7px 16px; border: 1px solid #ddd; border-radius: 3px;
-            color: #555; font-size: 14px; cursor: pointer;
-            background: #fff; transition: var(--transition);
+            color: #555; font-size: 14px; cursor: pointer; background: #fff; transition: var(--transition);
         }
-        .page-btn:hover, .page-btn.active {
-            background: #6b4226; border-color: #6b4226; color: #fff;
+        .page-btn:hover, .page-btn.active { background: var(--brown); border-color: var(--brown); color: #fff; }
+
+        /* ══════════════════════════════════════
+           DETAIL VIEW
+        ══════════════════════════════════════ */
+        #detail-view { display: none; }
+
+        /* ── BACK BUTTON ── */
+        .back-to-case-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 10px 22px;
+            background: var(--brown);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.3px;
         }
+        .back-to-case-btn:hover {
+            background: #8b5a38;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(107,66,38,0.3);
+        }
+        .back-to-case-btn svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .detail-panel { background: #fff; border: 1px solid #e8e0d6; border-radius: 2px; padding: 28px; }
+        .detail-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 24px; }
+
+        /* Gallery side */
+        .gallery-side {}
+        .detail-main-img { width: 100%; border-radius: 2px; display: block; object-fit: cover; height: 300px; }
+        .thumbs-wrap { margin-top: 10px; display: flex; align-items: center; gap: 6px; }
+        .thumbs { display: flex; gap: 6px; flex: 1; overflow: hidden; }
+        .thumb {
+            width: 74px; height: 54px; flex-shrink: 0;
+            border: 2px solid transparent; border-radius: 2px;
+            overflow: hidden; cursor: pointer; transition: var(--transition);
+        }
+        .thumb.active { border-color: var(--brown); }
+        .thumb img { width: 74px; height: 54px; object-fit: cover; display: block; }
+        .thumb-nav-btn {
+            width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%;
+            background: #ddd; color: #444; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; line-height: 1; transition: var(--transition);
+        }
+        .thumb-nav-btn:hover { background: var(--brown); color: #fff; }
+        .next-case {
+            margin-top: 14px; display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: #888; padding-top: 14px; border-top: 1px solid #f0ebe5;
+        }
+        .next-case-link {
+            color: var(--brown); font-weight: 500; cursor: pointer; text-decoration: none;
+        }
+        .next-case-link:hover { text-decoration: underline; }
+
+        /* Info side */
+        .info-side { display: flex; flex-direction: column; }
+        .detail-title-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee;
+        }
+        .detail-title-text { font-size: 22px; font-weight: 600; color: #222; }
+        .share-btn {
+            font-size: 12px; color: #aaa; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            background: none; border: none; padding: 0;
+        }
+        .share-btn svg { width: 16px; height: 16px; }
+        .detail-desc { font-size: 13px; color: #666; line-height: 1.85; margin-bottom: 20px; flex: 1; }
+        .detail-meta { display: flex; flex-direction: column; gap: 7px; font-size: 13px; color: #888; }
+        .detail-meta span strong { color: #555; margin-right: 4px; }
+
+        /* Article */
+        .detail-article { margin-top: 28px; padding-top: 24px; border-top: 2px solid #f0ebe5; }
+        .detail-article p { font-size: 14px; color: #555; line-height: 1.9; margin-bottom: 16px; }
 
         /* ── FOOTER ── */
         .footer {
@@ -284,10 +273,8 @@
         .footer-logo-icon {
             width: 56px; height: 56px;
             background: linear-gradient(135deg, #4a2e18 0%, #c9a561 100%);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 30px; font-weight: 700; color: #fff;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: #fff;
         }
         .footer-logo-cn { font-size: 13px; color: #aaa; margin-bottom: 2px; }
         .footer-logo-en { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #fff; }
@@ -298,13 +285,9 @@
             display: flex; align-items: center; justify-content: center;
             color: #ccc; text-decoration: none; transition: var(--transition);
         }
-        .social-btn:hover { background: #6b4226; color: #fff; border-color: #6b4226; }
+        .social-btn:hover { background: var(--brown); color: #fff; border-color: var(--brown); }
         .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0; }
-        .footer-cols {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;
-            gap: 28px; padding: 40px 0;
-        }
+        .footer-cols { display: grid; grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr; gap: 28px; padding: 40px 0; }
         .footer-col-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 14px; }
         .footer-link { display: block; text-decoration: none; color: #888; font-size: 13px; margin-bottom: 9px; transition: var(--transition); }
         .footer-link:hover { color: #c9a561; }
@@ -312,350 +295,655 @@
         .footer-contact-phone { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: 1px; }
         .footer-contact-addr { font-size: 13px; color: #888; line-height: 1.7; margin-top: 8px; }
         .footer-bottom { text-align: center; padding: 16px 0; font-size: 12px; color: #444; border-top: 1px solid rgba(255,255,255,0.07); }
-        @media (max-width: 1024px) { .footer-cols { grid-template-columns: 1fr 1fr 1fr; } }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .page-section.active { grid-template-columns: repeat(2, 1fr); }
+            .detail-top { grid-template-columns: 1fr; }
+            .hex { width: 100px; height: 100px; }
+            .footer-cols { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            body { padding-top: 70px; }
+            .nav-container { padding: 0 16px; height: 70px; }
+            .nav-menu { display: none; }
+            .content { grid-template-columns: 1fr; padding: 0 16px; }
+            .page-section.active { grid-template-columns: 1fr; }
+            .hex-area { display: none; }
+            .hero-text { padding-left: 30px; }
+            .breadcrumb { padding: 12px 20px; }
+        }
         @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">M</div>
-                <span class="logo-text">Mrs.Alu</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="#" class="nav-link">Products</a></li>
-                <li><a href="#" class="nav-link">About Us</a></li>
-                <li><a href="case.html" class="nav-link active">Case</a></li>
-                <li><a href="#" class="nav-link">News</a></li>
-                <li><a href="#" class="nav-link">Contact Us</a></li>
-            </ul>
-            <div class="search-wrapper">
-                <input type="text" class="search-input" placeholder="Search...">
-                <button class="search-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
-            </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo" onclick="showList()">
+            <div class="logo-icon">M</div>
+            <span class="logo-text">Mrs.Alu</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Products</a></li>
+            <li><a href="#" class="nav-link">About Us</a></li>
+            <li><a href="#" class="nav-link active" onclick="showList(); return false;">Case</a></li>
+            <li><a href="#" class="nav-link">News</a></li>
+            <li><a href="#" class="nav-link">Contact Us</a></li>
+        </ul>
+        <div class="search-wrapper">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="search-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </button>
         </div>
-    </nav>
-
-    <!-- HERO BANNER -->
-    <section class="hero">
-        <div class="hero-text">
-            <div class="hero-line"></div>
-            <div class="hero-label">Case Show</div>
-            <div class="hero-line"></div>
-        </div>
-        <div class="hex-area">
-            <div class="hex-row">
-                <div class="hex-col">
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=300&fit=crop" alt=""></div>
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=300&fit=crop" alt=""></div>
-                </div>
-                <div class="hex-col offset">
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop" alt=""></div>
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=300&h=300&fit=crop" alt=""></div>
-                </div>
-                <div class="hex-col">
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=300&h=300&fit=crop" alt=""></div>
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=300&h=300&fit=crop" alt=""></div>
-                </div>
-                <div class="hex-col offset">
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=300&fit=crop" alt=""></div>
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=300&h=300&fit=crop" alt=""></div>
-                </div>
-                <div class="hex-col">
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=300&h=300&fit=crop" alt=""></div>
-                    <div class="hex"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=300&h=300&fit=crop" alt=""></div>
-                </div>
-            </div>
-        </div>
-        <div class="hero-dots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </section>
-
-    <!-- BREADCRUMB -->
-    <div class="breadcrumb">
-        Current position: &nbsp;<a href="index.html">Home</a>&gt; <strong>Case</strong>
     </div>
+</nav>
 
-    <!-- CONTENT -->
-    <div class="content">
-
-        <!-- Sidebar -->
-        <aside>
-            <div class="sidebar-box">
-                <div class="sidebar-title">Case</div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+        <div class="hero-line"></div>
+        <div class="hero-label" id="hero-label">Case Show</div>
+        <div class="hero-line"></div>
+    </div>
+    <div class="hex-area">
+        <div class="hex-row">
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=300&fit=crop" alt=""></div>
             </div>
-            <div class="sidebar-menu">
-                <a href="case.html" class="sidebar-item active">Applications</a>
+            <div class="hex-col offset">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=300&h=300&fit=crop" alt=""></div>
             </div>
-            <div class="sidebar-contact">
-                <div class="contact-label">Focus on quality</div>
-                <div class="contact-phone">18927795653</div>
-                <div class="contact-sub">Welcome your call</div>
-                <span class="contact-icon">📞</span>
-                <a href="#" class="contact-btn">Contact now</a>
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=300&h=300&fit=crop" alt=""></div>
             </div>
-        </aside>
+            <div class="hex-col offset">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+            <div class="hex-col">
+                <div class="hex"><img src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=300&h=300&fit=crop" alt=""></div>
+                <div class="hex"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=300&h=300&fit=crop" alt=""></div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</section>
 
-        <!-- Cards Wrapper -->
-        <div id="cards-wrapper">
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+    <span id="breadcrumb-html">
+        Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <strong>Case</strong>
+    </span>
+</div>
 
-            <!-- PAGE 1 -->
+<!-- CONTENT -->
+<div class="content">
+
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="sidebar-box"><div class="sidebar-title">Case</div></div>
+        <div class="sidebar-menu">
+            <a class="sidebar-item active" onclick="showList()">Applications</a>
+        </div>
+        <div class="sidebar-contact">
+            <div class="contact-label">Focus on quality</div>
+            <div class="contact-phone">18927795653</div>
+            <div class="contact-sub">Welcome your call</div>
+            <span class="contact-icon">📞</span>
+            <a href="#" class="contact-btn">Contact now</a>
+        </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <div>
+
+        <!-- ══ LIST VIEW ══ -->
+        <div id="list-view">
+
+            <!-- Page 1 -->
             <div id="page1" class="page-section active">
-
-                <div class="card">
+                <div class="card" onclick="showDetail('hospital')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=400&fit=crop" alt="Hospital">
                     <div class="card-body">
                         <div class="card-title">Hospital</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('school')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop" alt="School classroom">
                     <div class="card-body">
                         <div class="card-title">School classroom</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('stairs')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&h=400&fit=crop" alt="Stairs">
                     <div class="card-body">
                         <div class="card-title">Stairs</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('livingroom')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop" alt="Living room">
                     <div class="card-body">
                         <div class="card-title">Living room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('hotel')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Hotel">
                     <div class="card-body">
                         <div class="card-title">Hotel</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('meeting')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&h=400&fit=crop" alt="Meeting room">
                     <div class="card-body">
                         <div class="card-title">Meeting room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- PAGE 2 -->
+            <!-- Page 2 -->
             <div id="page2" class="page-section">
-
-                <div class="card">
+                <div class="card" onclick="showDetail('grille')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Grille plate scene map">
                     <div class="card-body">
                         <div class="card-title">Grille plate scene map</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('room')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Room">
                     <div class="card-body">
                         <div class="card-title">Room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
+                <div class="card" onclick="showDetail('tvbackdrop')">
                     <img class="card-img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600&h=400&fit=crop" alt="TV backdrop">
                     <div class="card-body">
                         <div class="card-title">TV backdrop</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
-                        </div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=600&h=400&fit=crop" alt="Office">
+                <div class="card" onclick="showDetail('livingpanel')">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Living Room Panel">
                     <div class="card-body">
-                        <div class="card-title">Office</div>
-                        <div class="card-date">2025-06-24</div>
+                        <div class="card-title">Living Room Panel</div>
+                        <div class="card-date">2025-06-22</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Applications</span>
-                            <span class="card-arrow">→</span>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
+                    </div>
+                </div>
+                <div class="card" onclick="showDetail('bedroom')">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Bedroom Interior">
+                    <div class="card-body">
+                        <div class="card-title">Bedroom Interior</div>
+                        <div class="card-date">2025-06-20</div>
+                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
+                    </div>
+                </div>
+                <div class="card" onclick="showDetail('corridor')">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=600&h=400&fit=crop" alt="Corridor Design">
+                    <div class="card-body">
+                        <div class="card-title">Corridor Design</div>
+                        <div class="card-date">2025-06-18</div>
+                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-wrap" style="margin-top:8px;">
+                <div class="pagination">
+                    <button class="page-btn" onclick="changePage(-1)">prev</button>
+                    <button class="page-btn active" id="btn-p1" onclick="goToPage(1)">1</button>
+                    <button class="page-btn" id="btn-p2" onclick="goToPage(2)">2</button>
+                    <button class="page-btn" onclick="changePage(1)">next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ DETAIL VIEW ══ -->
+        <div id="detail-view">
+
+            <!-- ✅ BACK TO CASE BUTTON -->
+            <button class="back-to-case-btn" onclick="showList()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to Case
+            </button>
+
+            <div class="detail-panel">
+                <div class="detail-top">
+                    <!-- Gallery -->
+                    <div class="gallery-side">
+                        <img class="detail-main-img" id="d-main-img" src="" alt="">
+                        <div class="thumbs-wrap">
+                            <button class="thumb-nav-btn" id="thumb-prev" onclick="scrollThumbs(-1)">‹</button>
+                            <div class="thumbs" id="d-thumbs"></div>
+                            <button class="thumb-nav-btn" id="thumb-next" onclick="scrollThumbs(1)">›</button>
                         </div>
+                        <div class="next-case" id="d-next-case"></div>
+                    </div>
+                    <!-- Info -->
+                    <div class="info-side">
+                        <div class="detail-title-row">
+                            <span class="detail-title-text" id="d-title"></span>
+                            <button class="share-btn" onclick="doShare()">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                                share
+                            </button>
+                        </div>
+                        <div class="detail-desc" id="d-desc"></div>
+                        <div class="detail-meta" id="d-meta"></div>
                     </div>
                 </div>
-
+                <div class="detail-article" id="d-article"></div>
             </div>
-
-        </div><!-- end cards-wrapper -->
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="pagination-wrap">
-        <div class="pagination">
-            <button class="page-btn" id="btn-prev" onclick="changePage(-1)">prev</button>
-            <button class="page-btn active" id="btn-p1" onclick="goToPage(1)">1</button>
-            <button class="page-btn" id="btn-p2" onclick="goToPage(2)">2</button>
-            <button class="page-btn" id="btn-next" onclick="changePage(1)">next</button>
         </div>
-    </div>
 
-    <script>
-        let currentPage = 1;
-        const totalPages = 2;
+    </div><!-- end main area -->
+</div>
 
-        function goToPage(page) {
-            if (page < 1 || page > totalPages) return;
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('page' + page).classList.add('active');
-            document.getElementById('btn-p1').classList.toggle('active', page === 1);
-            document.getElementById('btn-p2').classList.toggle('active', page === 2);
-            currentPage = page;
-            document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function changePage(delta) { goToPage(currentPage + delta); }
-
-        document.querySelectorAll('.dot').forEach((dot, i, dots) => {
-            dot.addEventListener('click', () => {
-                dots.forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            });
-        });
-
-        const si = document.querySelector('.search-input');
-        const sb = document.querySelector('.search-btn');
-        sb.addEventListener('click', () => { if (si.value.trim()) alert('Searching: ' + si.value.trim()); });
-        si.addEventListener('keypress', e => { if (e.key === 'Enter') sb.click(); });
-    </script>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-logo">
-                    <div class="footer-logo-icon">M</div>
-                    <div>
-                        <div class="footer-logo-cn">铝夫人</div>
-                        <div class="footer-logo-en">Mrs.alu</div>
-                    </div>
-                </div>
-                <div class="footer-socials">
-                    <a href="#" class="social-btn" title="Weibo">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg>
-                    </a>
-                    <a href="#" class="social-btn" title="WeChat">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
-                    </a>
-                    <a href="#" class="social-btn" title="Notifications">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                    </a>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">M</div>
+                <div>
+                    <div class="footer-logo-cn">铝夫人</div>
+                    <div class="footer-logo-en">Mrs.alu</div>
                 </div>
             </div>
-            <div class="footer-divider"></div>
-            <div class="footer-cols">
-                <div class="footer-col">
-                    <div class="footer-col-title">- Product</div>
-                    <a href="#" class="footer-link">Wainscoting</a>
-                    <a href="#" class="footer-link">Stainless steel baseboard</a>
-                    <a href="#" class="footer-link">Metal decorative lines</a>
-                    <a href="#" class="footer-link">All-aluminum welded large plate</a>
-                    <a href="#" class="footer-link">Baseboard</a>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">- About us</div>
-                    <a href="#" class="footer-link">Company Profile</a>
-                    <a href="#" class="footer-link">Product advantages</a>
-                    <a href="#" class="footer-link">Honor</a>
-                    <a href="#" class="footer-link">Team style</a>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">- Case</div>
-                    <a href="case.html" class="footer-link">Applications</a>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">- News</div>
-                    <a href="#" class="footer-link">Company news</a>
-                    <a href="#" class="footer-link">Industry news</a>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">- Contact us</div>
-                    <a href="#" class="footer-link">Online message</a>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-contact-label">Contact number:</div>
-                    <div class="footer-contact-phone">18927795653</div>
-                    <div class="footer-contact-label" style="margin-top:14px;">Company address:</div>
-                    <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District, Foshan City</div>
-                </div>
+            <div class="footer-socials">
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg>
+                </a>
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
+                </a>
+                <a href="#" class="social-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                </a>
             </div>
-            <div class="footer-divider"></div>
-            <div class="footer-bottom">This site is built using T Cloud</div>
         </div>
-    </footer>
+        <div class="footer-divider"></div>
+        <div class="footer-cols">
+            <div>
+                <div class="footer-col-title">- Product</div>
+                <a href="#" class="footer-link">Wainscoting</a>
+                <a href="#" class="footer-link">Stainless steel baseboard</a>
+                <a href="#" class="footer-link">Metal decorative lines</a>
+                <a href="#" class="footer-link">All-aluminum welded large plate</a>
+                <a href="#" class="footer-link">Baseboard</a>
+            </div>
+            <div>
+                <div class="footer-col-title">- About us</div>
+                <a href="#" class="footer-link">Company Profile</a>
+                <a href="#" class="footer-link">Product advantages</a>
+                <a href="#" class="footer-link">Honor</a>
+                <a href="#" class="footer-link">Team style</a>
+            </div>
+            <div>
+                <div class="footer-col-title">- Case</div>
+                <a href="#" class="footer-link" onclick="showList(); return false;">Applications</a>
+            </div>
+            <div>
+                <div class="footer-col-title">- News</div>
+                <a href="#" class="footer-link">Company news</a>
+                <a href="#" class="footer-link">Industry news</a>
+            </div>
+            <div>
+                <div class="footer-col-title">- Contact us</div>
+                <a href="#" class="footer-link">Online message</a>
+            </div>
+            <div>
+                <div class="footer-contact-label">Contact number:</div>
+                <div class="footer-contact-phone">18927795653</div>
+                <div class="footer-contact-label" style="margin-top:14px;">Company address:</div>
+                <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District, Foshan City</div>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">This site is built using T Cloud</div>
+    </div>
+</footer>
 
+<script>
+// ══════════════════════════════════════════
+//  CASE DATA
+// ══════════════════════════════════════════
+const CASES = {
+    hospital: {
+        title: 'Hospital', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 4,
+        imgs: [
+            'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents.',
+        next: { id: 'school', title: 'School classroom' },
+        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents. Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing", focusing on ceiling and wall panel full-case solution service providers, wall panel, metal decorative line, skirting board research and development, mold production and sales.</p><p>We follow the principle of "Focus Focusing on quality is our business tenet. With the leading position in the industry, we strictly require all departments of the company to concentrate on providing customers with fast and thoughtful services and dedicating extra value to every customer. For a long time, Mrs.Aluminum has always adhered to the tenet of excellent quality, thoughtful service and the spirit of excellence, and will work with you to create brilliance together!</p>'
+    },
+    school: {
+        title: 'School classroom', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 6,
+        imgs: [
+            'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1564429238817-393bd4286b2d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Our aluminum building materials are widely used in educational environments, providing durable, safe, and aesthetically pleasing wall panels and skirting boards for school classrooms across the country.',
+        next: { id: 'stairs', title: 'Stairs' },
+        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents. Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing".</p><p>School environments demand materials that are safe, hygienic, and durable. Our aluminum wall panels and skirting boards meet all educational facility standards while offering a clean, modern aesthetic that creates an optimal learning environment for students and teachers alike.</p>'
+    },
+    stairs: {
+        title: 'Stairs', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 3,
+        imgs: [
+            'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Aluminum staircase decorative solutions providing elegant finishes with exceptional durability, perfect for residential and commercial applications where both style and safety matter.',
+        next: { id: 'livingroom', title: 'Living room' },
+        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents.</p><p>Our aluminum staircase decorative profiles combine beauty with function. The precision-extruded aluminum profiles provide a safe, non-slip surface while the wide range of finishes and colors allows for complete customization to match any interior design scheme.</p>'
+    },
+    livingroom: {
+        title: 'Living room', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 9,
+        imgs: [
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Transform your living room with our premium aluminum wainscoting and decorative wall panels. Create sophisticated interiors that combine timeless elegance with modern material innovation.',
+        next: { id: 'hotel', title: 'Hotel' },
+        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. provides premium aluminum decorative solutions for residential living spaces. Our wall panels and metal decorative lines are used extensively in villa and high-end residential projects across China.</p><p>The living room is the heart of the home. Our all-aluminum welded large plates and wainscoting panels create stunning feature walls and accent pieces that elevate the overall aesthetic, providing a luxurious finish that stands the test of time.</p>'
+    },
+    hotel: {
+        title: 'Hotel', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 12,
+        imgs: [
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Luxury hotel interior solutions featuring our premium aluminum wall panels, decorative lines, and skirting boards — trusted by leading hotel chains for elegant, durable finishes.',
+        next: { id: 'meeting', title: 'Meeting room' },
+        article: '<p>The hospitality industry demands the very best in interior finishing. Foshan Aluminum Lady Building Materials Co., Ltd. supplies premium aluminum decorative materials to hotels, resorts, and serviced apartments nationwide.</p><p>Our materials are specifically engineered for high-traffic commercial environments. The robust aluminum construction resists wear, moisture, and impact while maintaining its aesthetic appeal for years. From lobby feature walls to corridor skirting boards, we provide complete solutions for hotel interior fit-outs.</p>'
+    },
+    meeting: {
+        title: 'Meeting room', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 5,
+        imgs: [
+            'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1564429238817-393bd4286b2d?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Professional meeting room and boardroom finishing solutions. Our clean-lined aluminum panels create authoritative, impressive spaces that reflect corporate excellence.',
+        next: { id: 'grille', title: 'Grille plate scene map' },
+        article: '<p>Corporate environments require interior materials that project professionalism, durability, and sophistication. Foshan Aluminum Lady Building Materials Co., Ltd. provides tailored solutions for office meeting rooms, boardrooms, and conference facilities.</p><p>Our aluminum wall panels and acoustic solutions are designed to enhance the functionality of corporate spaces, providing both visual elegance and practical performance. Each installation is carried out to the highest standards by our experienced technical team.</p>'
+    },
+    grille: {
+        title: 'Grille plate scene map', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 7,
+        imgs: [
+            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Decorative aluminum grille panels create stunning architectural feature walls, partition screens, and ceiling elements that add texture and depth to any interior space.',
+        next: { id: 'room', title: 'Room' },
+        article: '<p>Aluminum grille panels represent one of the most versatile product lines from Foshan Aluminum Lady Building Materials Co., Ltd. These precision-engineered panels can be configured in countless patterns and finishes to create unique decorative effects.</p><p>From restaurant partitions to hotel lobby features, our grille plate systems provide architects and designers with the creative freedom to realize their boldest visions while benefiting from the durability and ease of maintenance that aluminum offers.</p>'
+    },
+    room: {
+        title: 'Room', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 8,
+        imgs: [
+            'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Complete room interior solutions using our premium aluminum wainscoting, wall panels, and decorative lines for a refined, cohesive aesthetic throughout the living space.',
+        next: { id: 'tvbackdrop', title: 'TV backdrop' },
+        article: '<p>Full room fit-outs using Foshan Aluminum Lady Building Materials products represent the pinnacle of our residential offering. By combining our wainscoting panels, metal decorative lines, and skirting boards, we create unified interior spaces of exceptional quality.</p><p>Each room project is approached holistically, with our design team working closely with clients to select the perfect combination of materials, finishes, and profiles to achieve the desired aesthetic.</p>'
+    },
+    tvbackdrop: {
+        title: 'TV backdrop', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 11,
+        imgs: [
+            'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Create a dramatic focal point in your living space with our aluminum TV backdrop panels — available in a wide range of textures, colors, and patterns to complement any interior style.',
+        next: { id: 'office', title: 'Office' },
+        article: '<p>The TV backdrop wall is one of the most visually prominent features in a modern living room or bedroom. Foshan Aluminum Lady Building Materials Co., Ltd. offers a specialized range of aluminum panel systems designed specifically for creating stunning backdrop installations.</p><p>Our TV backdrop solutions include grooved panels, textured finishes, and integrated LED channel profiles that allow for creative lighting effects. The lightweight aluminum construction makes installation straightforward while providing a durable, easy-to-clean surface.</p>'
+    },
+    office: {
+        title: 'Office', date: '2025-06-24 11:27:41',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 6,
+        imgs: [
+            'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Modern office interiors using our aluminum wall panel systems create professional, inspiring workplaces. From reception areas to open-plan offices, we have solutions for every corporate space.',
+        next: { id: 'livingpanel', title: 'Living Room Panel' },
+        article: '<p>The modern office is a complex environment that demands interior materials capable of performing across multiple zones. Foshan Aluminum Lady Building Materials Co., Ltd. provides comprehensive aluminum interior solutions for the complete office environment.</p><p>Our office range includes full-height wall panel systems, partitioning solutions, skirting board profiles, and decorative ceiling systems. All products are designed to create a cohesive, professional aesthetic while meeting the practical demands of a busy commercial environment.</p>'
+    },
+    livingpanel: {
+        title: 'Living Room Panel', date: '2025-06-22 10:15:00',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 14,
+        imgs: [
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Premium aluminum wall panel systems for living rooms, featuring a wide selection of textures, colors, and patterns to create dramatic feature walls and accent designs.',
+        next: { id: 'bedroom', title: 'Bedroom Interior' },
+        article: '<p>The living room feature wall is the centrepiece of any modern home interior. Foshan Aluminum Lady Building Materials Co., Ltd. specializes in bespoke aluminum panel systems that transform ordinary walls into stunning focal points.</p><p>Our living room panel range includes ribbed, fluted, and embossed aluminum profiles available in over 50 finish options. Each panel is engineered for easy installation and long-term durability, retaining its appearance without the need for painting or refinishing.</p>'
+    },
+    bedroom: {
+        title: 'Bedroom Interior', date: '2025-06-20 09:30:00',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 9,
+        imgs: [
+            'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Elegant bedroom interior solutions using aluminum wainscoting and wall panels to create a serene, sophisticated sleeping environment with timeless appeal.',
+        next: { id: 'corridor', title: 'Corridor Design' },
+        article: '<p>The bedroom is a personal sanctuary, and every element of its design should contribute to a sense of calm and comfort. Foshan Aluminum Lady Building Materials Co., Ltd. provides a refined selection of aluminum wall panel solutions specifically suited to bedroom environments.</p><p>Our bedroom range features subtly textured panels in warm, neutral tones that complement any design style — from contemporary minimalist to classic luxury. The non-porous aluminum surface is hygienic and easy to clean, making it an ideal choice for bedroom walls.</p>'
+    },
+    corridor: {
+        title: 'Corridor Design', date: '2025-06-18 14:00:00',
+        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
+        category: 'Applications', views: 5,
+        imgs: [
+            'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
+            'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=800&h=560&fit=crop',
+        ],
+        shortDesc: 'Stylish corridor and hallway design solutions using our slim-profile aluminum skirting boards and wall panels to create elegant transitional spaces throughout residential and commercial buildings.',
+        next: { id: 'hospital', title: 'Hospital' },
+        article: '<p>Corridors and hallways are high-traffic areas that need durable, attractive finishing materials that can withstand daily wear and tear. Foshan Aluminum Lady Building Materials Co., Ltd. supplies purpose-designed aluminum solutions for corridor environments in both residential and commercial settings.</p><p>Our corridor range includes impact-resistant wall panels, precision-profile skirting boards, and decorative dado rails. All products are available in a range of finishes including brushed aluminum, matte white, and warm woodgrain effects to complement any interior scheme.</p>'
+    }
+};
+
+// ══════════════════════════════════════════
+//  PAGINATION
+// ══════════════════════════════════════════
+let currentPage = 1;
+
+function goToPage(page) {
+    if (page < 1 || page > 2) return;
+    document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+    document.getElementById('page' + page).classList.add('active');
+    document.getElementById('btn-p1').classList.toggle('active', page === 1);
+    document.getElementById('btn-p2').classList.toggle('active', page === 2);
+    currentPage = page;
+}
+function changePage(d) { goToPage(currentPage + d); }
+
+// ══════════════════════════════════════════
+//  SHOW LIST
+// ══════════════════════════════════════════
+function showList() {
+    document.getElementById('list-view').style.display = 'block';
+    document.getElementById('detail-view').style.display = 'none';
+    document.getElementById('hero-label').textContent = 'Case Show';
+    document.getElementById('breadcrumb-html').innerHTML =
+        'Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <strong>Case</strong>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════
+//  SHOW DETAIL
+// ══════════════════════════════════════════
+function showDetail(id) {
+    const d = CASES[id];
+    if (!d) return;
+
+    document.getElementById('list-view').style.display = 'none';
+    document.getElementById('detail-view').style.display = 'block';
+
+    document.getElementById('hero-label').textContent = 'Case';
+    document.getElementById('breadcrumb-html').innerHTML =
+        `Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <a onclick="showList()">Case</a> &gt; <a onclick="showList()">Applications</a> &gt; <strong>${d.title}</strong>`;
+
+    const mainImg = document.getElementById('d-main-img');
+    mainImg.src = d.imgs[0];
+    mainImg.alt = d.title;
+
+    currentImgs = d.imgs;
+    currentImgIndex = 0;
+    const thumbsEl = document.getElementById('d-thumbs');
+    thumbsEl.innerHTML = '';
+    d.imgs.forEach((src, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb' + (i === 0 ? ' active' : '');
+        t.innerHTML = `<img src="${src}" alt="">`;
+        t.onclick = () => setActiveThumb(i);
+        thumbsEl.appendChild(t);
+    });
+
+    const nc = document.getElementById('d-next-case');
+    if (d.next) {
+        nc.innerHTML = `Next &nbsp;<span class="next-case-link" onclick="showDetail('${d.next.id}')">${d.next.title}</span>`;
+    } else { nc.innerHTML = ''; }
+
+    document.getElementById('d-title').textContent = d.title;
+    document.getElementById('d-desc').textContent = d.shortDesc;
+    document.getElementById('d-meta').innerHTML = `
+        <span><strong>date：</strong>${d.date}</span>
+        <span><strong>author：</strong>${d.author}</span>
+        <span><strong>category：</strong>${d.category}</span>
+        <span><strong>page view：</strong>${d.views}</span>
+    `;
+    document.getElementById('d-article').innerHTML = d.article;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════
+//  THUMBNAIL NAV
+// ══════════════════════════════════════════
+let currentImgIndex = 0;
+let currentImgs = [];
+
+function scrollThumbs(dir) {
+    const total = currentImgs.length;
+    if (total === 0) return;
+    currentImgIndex = (currentImgIndex + dir + total) % total;
+    setActiveThumb(currentImgIndex);
+}
+
+function setActiveThumb(idx) {
+    currentImgIndex = idx;
+    document.getElementById('d-main-img').src = currentImgs[idx];
+    document.querySelectorAll('#d-thumbs .thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === idx);
+    });
+}
+
+// ══════════════════════════════════════════
+//  SHARE
+// ══════════════════════════════════════════
+function doShare() {
+    if (navigator.share) {
+        navigator.share({ title: document.title, url: window.location.href });
+    } else {
+        navigator.clipboard.writeText(window.location.href)
+            .then(() => alert('Link copied to clipboard!'))
+            .catch(() => alert('Copy this link: ' + window.location.href));
+    }
+}
+
+document.querySelectorAll('.dot').forEach((dot, i, dots) => {
+    dot.addEventListener('click', () => {
+        dots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+    });
+});
+</script>
 </body>
 </html>
