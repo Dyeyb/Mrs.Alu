@@ -857,6 +857,7 @@ function changePage(d) { goToPage(currentPage + d); }
 function showList() {
     document.getElementById('list-view').style.display = 'block';
     document.getElementById('detail-view').style.display = 'none';
+    document.querySelector('.hero').style.display = 'flex';
     document.getElementById('hero-label').textContent = 'Case Show';
     document.getElementById('breadcrumb-html').innerHTML =
         'Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <strong>Case</strong>';
@@ -872,6 +873,7 @@ function showDetail(id, scrollToTop = true) {
 
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
+    document.querySelector('.hero').style.display = 'none';
 
     document.getElementById('hero-label').textContent = 'Case';
     document.getElementById('breadcrumb-html').innerHTML =
