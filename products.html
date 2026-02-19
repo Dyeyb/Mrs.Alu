@@ -225,9 +225,23 @@ body {
     font-style: italic;
 }
 
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-up {
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out forwards;
+    animation-play-state: paused;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+
 /* ── BREADCRUMB ── */
 .breadcrumb {
-    max-width: 1260px;
+    max-width: 1200px;
     margin: 32px auto 0;
     padding: 0 40px;
     display: flex;
@@ -402,6 +416,41 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    animation: sectionFadeIn 0.35s ease forwards;
+}
+
+@keyframes sectionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered card animation */
+.page-section.active .card-link {
+    animation: cardSlideUp 0.4s ease both;
+}
+
+.page-section.active .card-link:nth-child(1) { animation-delay: 0.02s; }
+.page-section.active .card-link:nth-child(2) { animation-delay: 0.07s; }
+.page-section.active .card-link:nth-child(3) { animation-delay: 0.12s; }
+.page-section.active .card-link:nth-child(4) { animation-delay: 0.17s; }
+.page-section.active .card-link:nth-child(5) { animation-delay: 0.22s; }
+.page-section.active .card-link:nth-child(6) { animation-delay: 0.27s; }
+
+@keyframes cardSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* ── CARD STYLES ── */
@@ -808,8 +857,8 @@ body {
     <!-- HERO BANNER -->
     <section class="hero">
         <div class="hero-overlay">
-            <p class="hero-label">Our Products</p>
-            <h1 class="hero-heading">Product <span>Collection</span></h1>
+            <p class="hero-label animate-up">Our Products</p>
+            <h1 class="hero-heading animate-up delay-1">Product <span>Collection</span></h1>
         </div>
     </section>
 
@@ -1189,10 +1238,17 @@ body {
         let currentPage = 1;
         const totalPages = 2;
 
+        function animateSection(el) {
+            el.classList.remove('active');
+            // Force reflow so animation restarts
+            void el.offsetWidth;
+            el.classList.add('active');
+        }
+
         function goToPage(page) {
             if (page < 1 || page > totalPages) return;
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('page' + page).classList.add('active');
+            animateSection(document.getElementById('page' + page));
             document.getElementById('btn-p1').classList.toggle('active', page === 1);
             document.getElementById('btn-p2').classList.toggle('active', page === 2);
             currentPage = page;
@@ -1249,7 +1305,7 @@ body {
             document.getElementById('count').textContent = '(' + visible + ')';
 
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            page1.classList.add('active');
+            animateSection(page1);
             currentPage = 1;
             document.getElementById('btn-p1').classList.add('active');
             document.getElementById('btn-p2').classList.remove('active');
@@ -1259,6 +1315,19 @@ body {
         const sb = document.querySelector('.search-btn');
         sb.addEventListener('click', () => { if (si.value.trim()) alert('Searching: ' + si.value.trim()); });
         si.addEventListener('keypress', e => { if (e.key === 'Enter') sb.click(); });
+
+        // Hero text animation — Intersection Observer (same as about.html)
+        const animEls = document.querySelectorAll('.animate-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        animEls.forEach(el => observer.observe(el));
     </script>
 
     <!-- FOOTER -->
