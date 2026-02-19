@@ -74,50 +74,53 @@
         .search-btn:hover { background: var(--brown); transform: scale(1.1); }
         .search-btn svg { width: 14px; height: 14px; }
 
-        /* ── HERO ── */
+        /* ── HERO (now matching about.html style) ── */
         .hero {
-            width: 100%; height: 280px;
-            background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
-            position: relative; overflow: hidden; display: flex; align-items: center;
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #3a3020 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
-        .hero-text { padding-left: 80px; z-index: 2; position: relative; flex-shrink: 0; }
 
-        /* ── Hero text animations only ── */
-        @keyframes heroTextFadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a561' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-        @keyframes heroLineExpand {
-            from { width: 0; opacity: 0; }
-            to   { width: 50px; opacity: 1; }
+
+        .hero-overlay {
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
+
         .hero-label {
-            font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px;
-            animation: heroTextFadeIn 0.8s ease-out 0.3s both;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
         }
-        .hero-line {
-            width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0;
-            animation: heroLineExpand 0.6s ease-out both;
+
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
         }
-        .hero-text .hero-line:first-child { animation-delay: 0.1s; }
-        .hero-text .hero-line:last-child  { animation-delay: 0.9s; }
-        .hex-area {
-            position: absolute; right: 0; top: 0; width: 68%; height: 100%;
-            display: flex; align-items: center; padding-left: 20px; overflow: hidden;
+
+        .hero-heading span {
+            color: var(--primary-accent);
+            font-style: italic;
         }
-        .hex-row { display: flex; gap: 8px; }
-        .hex-col { display: flex; flex-direction: column; gap: 8px; }
-        .hex-col.offset { margin-top: 72px; }
-        .hex {
-            width: 128px; height: 128px;
-            clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-            overflow: hidden; flex-shrink: 0;
-        }
-        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: var(--transition); }
-        .hex:hover img { filter: brightness(1); transform: scale(1.05); }
-        .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: var(--transition); }
-        .dot.active { background: #fff; }
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
@@ -323,7 +326,7 @@
         .footer-contact-addr { font-size: 13px; color: #888; line-height: 1.7; margin-top: 8px; }
         .footer-bottom { text-align: center; padding: 16px 0; font-size: 12px; color: #444; border-top: 1px solid rgba(255,255,255,0.07); }
 
-        /* ── Scroll-triggered fade-up animations (from about.html) ── */
+        /* ── Scroll-triggered fade-up animations ── */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(30px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -352,10 +355,9 @@
             .homepage-content { padding: 0 16px; }
             .features-grid { grid-template-columns: 1fr; }
             .products-grid { grid-template-columns: 1fr; }
-            .hex-area { display: none; }
-            .hero-text { padding-left: 30px; }
             .breadcrumb { padding: 12px 20px; }
             .cta-buttons { flex-direction: column; align-items: center; }
+            .hero-heading { font-size: 36px; }
         }
         @media (max-width: 600px) { 
             .footer-cols { grid-template-columns: 1fr 1fr; }
@@ -379,7 +381,6 @@
             <li><a href="../news-detail.html" class="nav-link">News</a></li>
             <li><a href="../contactus.html" class="nav-link">Contact Us</a></li>
         </ul>
-
         <div class="search-wrapper">
             <input type="text" class="search-input" placeholder="Search...">
             <button class="search-btn">
@@ -391,53 +392,19 @@
     </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (matching about.html style) -->
 <section class="hero">
-    <div class="hero-text">
-        <div class="hero-line"></div>
-        <div class="hero-label">Mrs.Alu</div>
-        <div class="hero-line"></div>
-    </div>
-    <div class="hex-area">
-        <div class="hex-row">
-            <div class="hex-col">
-                <div class="hex"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=300&fit=crop" alt=""></div>
-                <div class="hex"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=300&fit=crop" alt=""></div>
-            </div>
-            <div class="hex-col offset">
-                <div class="hex"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop" alt=""></div>
-                <div class="hex"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=300&h=300&fit=crop" alt=""></div>
-            </div>
-            <div class="hex-col">
-                <div class="hex"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=300&h=300&fit=crop" alt=""></div>
-                <div class="hex"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=300&h=300&fit=crop" alt=""></div>
-            </div>
-            <div class="hex-col offset">
-                <div class="hex"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=300&fit=crop" alt=""></div>
-                <div class="hex"><img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=300&h=300&fit=crop" alt=""></div>
-            </div>
-            <div class="hex-col">
-                <div class="hex"><img src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=300&h=300&fit=crop" alt=""></div>
-                <div class="hex"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=300&h=300&fit=crop" alt=""></div>
-                
-            </div>
-        </div>
-    </div>
-    <div class="hero-dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+    <div class="hero-overlay animate-up">
+        <p class="hero-label">Premium Aluminum Building Materials</p>
+        <h1 class="hero-heading">Welcome to <span>Mrs.Alu</span></h1>
     </div>
 </section>
-
-
 
 <!-- HOMEPAGE CONTENT -->
 <div class="homepage-content">
 
     <!-- Welcome Section -->
     <div class="welcome-section animate-up delay-1">
-        <h1 class="welcome-title">Welcome to Mrs.Alu</h1>
         <p class="welcome-subtitle">Premium Aluminum Building Materials & Interior Solutions</p>
         <p class="welcome-desc">
             Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. We specialize in aluminum wainscoting, wall panels, metal decorative lines, and skirting boards. With advanced extrusion production lines, spraying facilities, and a dedicated team of technical professionals, we are committed to providing innovative, high-quality interior solutions that transform spaces with elegance and durability.
@@ -606,7 +573,7 @@
     </footer>
 
     <script>
-        // Intersection Observer — scroll-triggered fadeUp (from about.html)
+        // Intersection Observer — scroll-triggered fadeUp
         const animEls = document.querySelectorAll('.animate-up');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
