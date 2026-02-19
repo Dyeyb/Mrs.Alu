@@ -6,18 +6,28 @@
     <title>Mrs.Alu - Case Show</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --brown: #6b4226;
+            --primary-dark: #1a1a1a;
             --primary-accent: #c9a561;
+            --brown: #6b4226;
+            --text-primary: #2d2d2d;
             --hover-bg: #f8f5f0;
             --border-color: #e5e0d8;
             --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body { font-family: 'Outfit', sans-serif; background: #f0ece6; min-height: 100vh; padding-top: 90px; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fafaf8;
+            min-height: 100vh;
+            padding-top: 90px;
+            color: var(--text-primary);
+        }
 
         /* ── NAVBAR ── */
         .navbar {
@@ -29,7 +39,7 @@
             max-width: 1400px; margin: 0 auto; padding: 0 40px;
             display: flex; align-items: center; justify-content: space-between; height: 90px;
         }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); color: inherit; }
         .logo:hover { transform: translateY(-2px); }
         .logo-icon {
             width: 48px; height: 48px;
@@ -68,70 +78,117 @@
 
         /* ── HERO ── */
         .hero {
-            width: 100%; height: 280px;
-            background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
-            position: relative; overflow: hidden; display: flex; align-items: center;
+            width: 100%; height: 320px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #3a3020 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
-        .hero-text { padding-left: 80px; z-index: 2; position: relative; flex-shrink: 0; }
-        .hero-label { font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px; }
-        .hero-line { width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0; }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a561' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
         .hex-area {
-            position: absolute; right: 0; top: 0; width: 68%; height: 100%;
-            display: flex; align-items: center; padding-left: 20px; overflow: hidden;
+            position: absolute; right: 0; top: 0; width: 50%; height: 100%;
+            display: flex; align-items: center; padding-left: 20px; overflow: hidden; opacity: 0.4;
         }
         .hex-row { display: flex; gap: 8px; }
         .hex-col { display: flex; flex-direction: column; gap: 8px; }
         .hex-col.offset { margin-top: 72px; }
         .hex {
-            width: 128px; height: 128px;
+            width: 110px; height: 110px;
             clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
             overflow: hidden; flex-shrink: 0;
         }
-        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: var(--transition); }
+        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75) saturate(0.85); transition: var(--transition); }
         .hex:hover img { filter: brightness(1); transform: scale(1.05); }
-        .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: var(--transition); }
-        .dot.active { background: #fff; }
+
+        .hero-overlay { text-align: center; position: relative; z-index: 2; }
+        .hero-label {
+            font-size: 13px; font-weight: 500; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--primary-accent); margin-bottom: 16px;
+        }
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px; font-weight: 600; color: #fff;
+            letter-spacing: -0.5px; line-height: 1.1;
+        }
+        .hero-heading span { color: var(--primary-accent); font-style: italic; }
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
-            background: #fff; border-bottom: 1px solid #e8e0d6;
-            padding: 13px 80px; font-size: 13px; color: #888;
+            max-width: 1200px; margin: 28px auto 0; padding: 0 40px;
+            display: flex; align-items: center; gap: 8px; font-size: 14px; color: #888;
         }
-        .breadcrumb a { color: #888; text-decoration: none; cursor: pointer; }
-        .breadcrumb a:hover { color: var(--brown); }
-        .breadcrumb strong { color: var(--brown); }
+        .breadcrumb a { color: #888; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--primary-accent); }
+        .breadcrumb .sep { color: #ccc; }
+        .breadcrumb strong { color: var(--primary-accent); font-weight: 500; }
 
         /* ── LAYOUT ── */
         .content {
-            max-width: 1260px; margin: 36px auto 60px; padding: 0 40px;
-            display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start;
+            max-width: 1200px; margin: 40px auto 80px; padding: 0 40px;
+            display: grid; grid-template-columns: 240px 1fr; gap: 32px; align-items: start;
         }
 
         /* ── SIDEBAR ── */
-        .sidebar-box { background: var(--brown); }
-        .sidebar-title { padding: 16px 22px; font-size: 19px; font-weight: 600; color: #fff; }
-        .sidebar-menu { background: #fff; border: 1px solid #ddd; border-top: none; }
+        .sidebar-card {
+            background: #fff; border: 1px solid var(--border-color);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: var(--shadow-subtle); margin-bottom: 20px;
+        }
+        .sidebar-header {
+            background: linear-gradient(135deg, var(--brown) 0%, #8b5a38 100%);
+            padding: 18px 22px;
+        }
+        .sidebar-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; font-weight: 600; color: #fff; letter-spacing: 0.5px;
+        }
+        .sidebar-nav { padding: 8px 0; }
         .sidebar-item {
-            display: flex; align-items: center; gap: 8px; padding: 13px 20px;
-            text-decoration: none; color: #555; font-size: 14px;
-            border-bottom: 1px solid #f0ebe5; transition: var(--transition); cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
+            padding: 13px 22px; text-decoration: none;
+            color: #666; font-size: 14px; font-weight: 500;
+            border-bottom: 1px solid #f5f0ea;
+            transition: var(--transition); cursor: pointer; position: relative;
         }
-        .sidebar-item::before { content: '›'; color: var(--brown); font-size: 18px; font-weight: bold; }
-        .sidebar-item:hover, .sidebar-item.active { color: var(--brown); background: #fdf8f4; }
-        .sidebar-contact {
-            margin-top: 20px; background: #fff; border: 1px solid #ddd; padding: 24px 20px; text-align: center;
+        .sidebar-item:last-child { border-bottom: none; }
+        .sidebar-item::before {
+            content: ''; width: 4px; height: 4px; border-radius: 50%;
+            background: var(--primary-accent); flex-shrink: 0; opacity: 0; transition: var(--transition);
         }
-        .contact-label { font-size: 14px; color: #555; margin-bottom: 8px; font-weight: 500; }
-        .contact-phone { font-size: 22px; font-weight: 700; color: var(--brown); margin-bottom: 4px; }
+        .sidebar-item:hover, .sidebar-item.active { color: var(--brown); background: var(--hover-bg); padding-left: 26px; }
+        .sidebar-item:hover::before, .sidebar-item.active::before { opacity: 1; }
+
+        .contact-card {
+            background: #fff; border: 1px solid var(--border-color);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: var(--shadow-subtle); text-align: center;
+        }
+        .contact-card-top {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 28px 20px 20px;
+        }
+        .contact-icon-wrap {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(201,165,97,0.2); border: 2px solid var(--primary-accent);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 14px; font-size: 22px;
+        }
+        .contact-card-label { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .contact-phone { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .contact-card-bottom { padding: 20px; }
         .contact-sub { font-size: 12px; color: #aaa; margin-bottom: 16px; }
-        .contact-icon { font-size: 32px; margin-bottom: 14px; display: block; }
         .contact-btn {
-            display: block; width: 100%; background: var(--brown); color: #fff;
-            border: none; padding: 12px 0; font-size: 14px; font-weight: 500;
-            cursor: pointer; border-radius: 2px; text-decoration: none; transition: var(--transition);
+            display: block; width: 100%;
+            background: linear-gradient(135deg, var(--brown) 0%, #8b5a38 100%);
+            color: #fff; border: none; padding: 13px 0;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            border-radius: 8px; text-decoration: none;
+            transition: var(--transition); text-align: center; letter-spacing: 0.5px;
         }
-        .contact-btn:hover { background: #8b5a38; }
+        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,66,38,0.4); }
 
         /* ══════════════════════════════════════
            LIST VIEW
@@ -143,129 +200,192 @@
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
         }
 
+        /* Cards */
         .card {
             display: block; text-decoration: none; color: inherit;
-            background: #fff; border: 1px solid #e8e0d6; border-radius: 2px;
-            overflow: hidden; cursor: pointer; transition: var(--transition);
+            background: #fff; border: 1px solid var(--border-color);
+            border-radius: 12px; overflow: hidden; cursor: pointer;
+            transition: var(--transition); box-shadow: var(--shadow-subtle);
         }
-        .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.12); transform: translateY(-4px); }
-        .card-img { width: 100%; height: auto; display: block; object-fit: cover; }
-        .card-body { padding: 18px 20px 16px; }
-        .card-title { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 5px; }
+        .card:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.13); transform: translateY(-5px); border-color: var(--primary-accent); }
+        .card-img-wrap { position: relative; overflow: hidden; }
+        .card-img { width: 100%; height: 210px; display: block; object-fit: cover; transition: transform 0.5s ease; }
+        .card:hover .card-img { transform: scale(1.06); }
+        .card-img-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 60%);
+            opacity: 0; transition: var(--transition);
+        }
+        .card:hover .card-img-overlay { opacity: 1; }
+        .card-body { padding: 20px 22px 18px; }
+        .card-category {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--brown);
+            margin-bottom: 10px;
+        }
+        .card-category::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--primary-accent); }
+        .card-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; line-height: 1.3; }
         .card-date { font-size: 12px; color: #bbb; margin-bottom: 10px; }
-        .card-desc { font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 14px; }
+        .card-desc { font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 16px; }
         .card-footer {
             display: flex; align-items: center; justify-content: space-between;
-            padding-top: 12px; border-top: 1px solid #f0ebe5;
+            padding-top: 14px; border-top: 1px solid var(--border-color);
         }
-        .card-tag { font-size: 12px; color: #888; border: 1px solid #ddd; padding: 4px 10px; border-radius: 2px; }
-        .card-arrow { color: #bbb; font-size: 18px; transition: var(--transition); }
-        .card:hover .card-arrow { color: var(--brown); transform: translateX(4px); }
+        .card-tag {
+            font-size: 11px; color: #aaa;
+            border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 50px;
+        }
+        .card-arrow {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--hover-bg); border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            color: #bbb; font-size: 16px; transition: var(--transition);
+        }
+        .card:hover .card-arrow { background: var(--primary-accent); color: #fff; border-color: var(--primary-accent); transform: translateX(3px); }
 
         /* Pagination */
         .pagination-wrap {
-            background: #fff; padding: 24px 0;
-            display: flex; justify-content: center; border-top: 1px solid #eee;
+            background: #fff; padding: 24px 0; margin-top: 12px;
+            display: flex; justify-content: center;
+            border: 1px solid var(--border-color); border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
         }
         .pagination { display: flex; align-items: center; gap: 8px; }
         .page-btn {
-            padding: 7px 16px; border: 1px solid #ddd; border-radius: 3px;
-            color: #555; font-size: 14px; cursor: pointer; background: #fff; transition: var(--transition);
+            padding: 8px 18px; border: 1px solid var(--border-color); border-radius: 8px;
+            color: #666; font-size: 14px; font-weight: 500; cursor: pointer;
+            background: #fff; transition: var(--transition); font-family: 'Outfit', sans-serif;
         }
-        .page-btn:hover, .page-btn.active { background: var(--brown); border-color: var(--brown); color: #fff; }
+        .page-btn:hover { border-color: var(--primary-accent); color: var(--primary-accent); }
+        .page-btn.active { background: var(--brown); border-color: var(--brown); color: #fff; }
 
         /* ══════════════════════════════════════
            DETAIL VIEW
         ══════════════════════════════════════ */
         #detail-view { display: none; }
 
-        /* ── BACK BUTTON ── */
         .back-to-case-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-            padding: 10px 22px;
-            background: var(--brown);
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Outfit', sans-serif;
-            letter-spacing: 0.3px;
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px;
+            padding: 11px 22px;
+            background: linear-gradient(135deg, var(--brown) 0%, #8b5a38 100%);
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition);
+            font-family: 'Outfit', sans-serif; letter-spacing: 0.3px;
+            box-shadow: 0 4px 14px rgba(107,66,38,0.25);
         }
-        .back-to-case-btn:hover {
-            background: #8b5a38;
-            transform: translateX(-3px);
-            box-shadow: 0 4px 12px rgba(107,66,38,0.3);
-        }
-        .back-to-case-btn svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-        }
+        .back-to-case-btn:hover { transform: translateX(-4px); box-shadow: 0 6px 20px rgba(107,66,38,0.4); }
+        .back-to-case-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-        .detail-panel { background: #fff; border: 1px solid #e8e0d6; border-radius: 2px; padding: 28px; }
-        .detail-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 24px; }
+        .detail-panel {
+            background: #fff; border: 1px solid var(--border-color);
+            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-subtle);
+        }
+        .detail-accent-bar {
+            height: 4px;
+            background: linear-gradient(90deg, var(--brown) 0%, var(--primary-accent) 50%, var(--brown) 100%);
+        }
+        .detail-inner { padding: 32px 36px 40px; }
+        .detail-top { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; }
 
-        /* Gallery side */
+        /* Gallery */
         .gallery-side {}
-        .detail-main-img { 
-            width: 100%; border-radius: 2px; display: block; object-fit: cover; height: 300px;
+        .detail-main-img-wrap {
+            border-radius: 10px; overflow: hidden;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+        }
+        .detail-main-img {
+            width: 100%; height: 300px; display: block; object-fit: cover;
             transition: opacity 0.3s ease;
         }
         .detail-main-img.fading { opacity: 0; }
-        .thumbs-wrap { margin-top: 10px; display: flex; align-items: center; gap: 6px; }
-        .thumbs { display: flex; gap: 6px; flex: 1; overflow: hidden; }
+        .thumbs-wrap { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+        .thumbs { display: flex; gap: 8px; flex: 1; overflow: hidden; }
         .thumb {
             width: 74px; height: 54px; flex-shrink: 0;
-            border: 2px solid transparent; border-radius: 2px;
+            border: 2px solid transparent; border-radius: 8px;
             overflow: hidden; cursor: pointer; transition: var(--transition);
         }
-        .thumb.active { border-color: var(--brown); }
+        .thumb.active { border-color: var(--primary-accent); box-shadow: 0 3px 10px rgba(201,165,97,0.4); }
         .thumb img { width: 74px; height: 54px; object-fit: cover; display: block; }
         .thumb-nav-btn {
-            width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%;
-            background: #ddd; color: #444; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 15px; line-height: 1; transition: var(--transition);
+            width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%;
+            background: var(--hover-bg); color: #666; border: 1px solid var(--border-color);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 16px; line-height: 1; transition: var(--transition);
         }
-        .thumb-nav-btn:hover { background: var(--brown); color: #fff; }
+        .thumb-nav-btn:hover { background: var(--primary-accent); color: #fff; border-color: var(--primary-accent); }
         .next-case {
-            margin-top: 14px; display: flex; align-items: center; gap: 8px;
-            font-size: 13px; color: #888; padding-top: 14px; border-top: 1px solid #f0ebe5;
+            margin-top: 16px; display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: #aaa; padding-top: 16px; border-top: 1px solid var(--border-color);
         }
         .next-case-link {
-            color: var(--brown); font-weight: 500; cursor: pointer; text-decoration: none;
+            color: var(--brown); font-weight: 600; cursor: pointer; text-decoration: none; transition: color 0.2s;
         }
-        .next-case-link:hover { text-decoration: underline; }
+        .next-case-link:hover { color: var(--primary-accent); text-decoration: underline; }
 
         /* Info side */
         .info-side { display: flex; flex-direction: column; }
+        .detail-category {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--hover-bg); border: 1px solid var(--border-color);
+            padding: 6px 14px; border-radius: 50px;
+            font-size: 11px; font-weight: 600; color: var(--brown);
+            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; width: fit-content;
+        }
+        .detail-category::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--primary-accent); }
         .detail-title-row {
             display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid #eee;
+            margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border-color);
         }
-        .detail-title-text { font-size: 22px; font-weight: 600; color: #222; }
+        .detail-title-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px; font-weight: 700; color: #1a1a1a;
+            line-height: 1.25; word-wrap: break-word; overflow-wrap: break-word;
+            max-width: calc(100% - 52px);
+        }
         .share-btn {
-            font-size: 12px; color: #aaa; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 2px;
-            background: none; border: none; padding: 0;
+            font-size: 11px; color: #aaa; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            background: var(--hover-bg); border: 1px solid var(--border-color);
+            padding: 8px 10px; border-radius: 8px; transition: var(--transition); flex-shrink: 0;
         }
+        .share-btn:hover { background: var(--primary-accent); color: #fff; border-color: var(--primary-accent); }
         .share-btn svg { width: 16px; height: 16px; }
-        .detail-desc { font-size: 13px; color: #666; line-height: 1.85; margin-bottom: 20px; flex: 1; }
-        .detail-meta { display: flex; flex-direction: column; gap: 7px; font-size: 13px; color: #888; }
-        .detail-meta span strong { color: #555; margin-right: 4px; }
+        .detail-desc {
+            font-size: 14px; color: #666; line-height: 1.85; margin-bottom: 24px; flex: 1;
+            word-wrap: break-word; overflow-wrap: break-word;
+        }
+        .detail-meta { display: flex; flex-direction: column; gap: 10px; }
+        .meta-row {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; color: #888;
+        }
+        .meta-row svg { width: 14px; height: 14px; color: var(--primary-accent); flex-shrink: 0; }
+        .meta-row strong { color: #555; font-weight: 600; margin-right: 2px; }
 
         /* Article */
-        .detail-article { margin-top: 28px; padding-top: 24px; border-top: 2px solid #f0ebe5; }
-        .detail-article p { font-size: 14px; color: #555; line-height: 1.9; margin-bottom: 16px; word-wrap: break-word; overflow-wrap: break-word; }
-        .detail-panel { overflow: hidden; }
-        .detail-desc { word-wrap: break-word; overflow-wrap: break-word; }
-        .detail-title-text { word-wrap: break-word; overflow-wrap: break-word; max-width: calc(100% - 60px); }
+        .detail-article {
+            padding-top: 28px; border-top: 2px solid var(--border-color);
+        }
+        .article-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; font-weight: 600; color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+        .detail-article p {
+            font-size: 14px; color: #555; line-height: 1.9; margin-bottom: 16px;
+            word-wrap: break-word; overflow-wrap: break-word;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-up { opacity: 0; animation: fadeUp 0.6s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
 
         /* ── FOOTER ── */
         .footer {
@@ -307,18 +427,20 @@
         @media (max-width: 1024px) {
             .page-section.active { grid-template-columns: repeat(2, 1fr); }
             .detail-top { grid-template-columns: 1fr; }
-            .hex { width: 100px; height: 100px; }
             .footer-cols { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        @media (max-width: 900px) {
+            .content { grid-template-columns: 1fr; padding: 0 20px; }
+            .hex-area { display: none; }
+            .hero-heading { font-size: 38px; }
         }
         @media (max-width: 768px) {
             body { padding-top: 70px; }
             .nav-container { padding: 0 16px; height: 70px; }
             .nav-menu { display: none; }
-            .content { grid-template-columns: 1fr; padding: 0 16px; }
             .page-section.active { grid-template-columns: 1fr; }
-            .hex-area { display: none; }
-            .hero-text { padding-left: 30px; }
-            .breadcrumb { padding: 12px 20px; }
+            .breadcrumb { padding: 0 16px; margin-top: 20px; }
+            .detail-inner { padding: 20px; }
         }
         @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
     </style>
@@ -336,9 +458,9 @@
             <li><a href="./Homepage/index.html" class="nav-link">Home</a></li>
             <li><a href="./products.html" class="nav-link">Products</a></li>
             <li><a href="./About us/about.html" class="nav-link">About Us</a></li>
-            <li><a href="#" class="nav-link active" onclick="showList(); return false;">Case</a></li>
-            <li><a href="#" class="nav-link">News</a></li>
-            <li><a href="#" class="nav-link">Contact Us</a></li>
+            <li><a href="./case.html" class="nav-link active" onclick="showList(); return false;">Case</a></li>
+            <li><a href="./news-detail.html" class="nav-link">News</a></li>
+            <li><a href="./contactus.html" class="nav-link">Contact Us</a></li>
         </ul>
         <div class="search-wrapper">
             <input type="text" class="search-input" placeholder="Search...">
@@ -352,12 +474,7 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-    <div class="hero-text">
-        <div class="hero-line"></div>
-        <div class="hero-label" id="hero-label">Case Show</div>
-        <div class="hero-line"></div>
-    </div>
+<section class="hero" id="main-hero">
     <div class="hex-area">
         <div class="hex-row">
             <div class="hex-col">
@@ -382,17 +499,18 @@
             </div>
         </div>
     </div>
-    <div class="hero-dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+    <div class="hero-overlay animate-up">
+        <p class="hero-label">Our Work</p>
+        <h1 class="hero-heading">Case <span>Show</span></h1>
     </div>
 </section>
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
     <span id="breadcrumb-html">
-        Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <strong>Case</strong>
+        <a onclick="showList()">Home</a>
+        <span class="sep">›</span>
+        <strong>Case</strong>
     </span>
 </div>
 
@@ -400,22 +518,30 @@
 <div class="content">
 
     <!-- SIDEBAR -->
-    <aside>
-        <div class="sidebar-box"><div class="sidebar-title">Case</div></div>
-        <div class="sidebar-menu">
-            <a class="sidebar-item active" onclick="showList()">Applications</a>
+    <aside class="animate-up delay-1">
+        <div class="sidebar-card">
+            <div class="sidebar-header">
+                <h3>Case</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="sidebar-item active" onclick="showList()">Applications</a>
+            </nav>
         </div>
-        <div class="sidebar-contact">
-            <div class="contact-label">Focus on quality</div>
-            <div class="contact-phone">18927795653</div>
-            <div class="contact-sub">Welcome your call</div>
-            <span class="contact-icon">📞</span>
-            <a href="#" class="contact-btn">Contact now</a>
+        <div class="contact-card">
+            <div class="contact-card-top">
+                <div class="contact-icon-wrap">📞</div>
+                <div class="contact-card-label">Focus on Quality</div>
+                <div class="contact-phone">18927795653</div>
+            </div>
+            <div class="contact-card-bottom">
+                <div class="contact-sub">Welcome your call anytime</div>
+                <a href="#" class="contact-btn">Contact Us Now</a>
+            </div>
         </div>
     </aside>
 
     <!-- MAIN AREA -->
-    <div>
+    <div class="animate-up delay-2">
 
         <!-- ══ LIST VIEW ══ -->
         <div id="list-view">
@@ -423,8 +549,12 @@
             <!-- Page 1 -->
             <div id="page1" class="page-section active">
                 <div class="card" onclick="showDetail('hospital')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=400&fit=crop" alt="Hospital">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=400&fit=crop" alt="Hospital">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Hospital</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -432,8 +562,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('school')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop" alt="School classroom">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop" alt="School classroom">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">School classroom</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -441,8 +575,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('stairs')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&h=400&fit=crop" alt="Stairs">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=600&h=400&fit=crop" alt="Stairs">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Stairs</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -450,8 +588,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('livingroom')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop" alt="Living room">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop" alt="Living room">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Living room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -459,8 +601,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('hotel')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Hotel">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Hotel">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Hotel</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -468,8 +614,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('meeting')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&h=400&fit=crop" alt="Meeting room">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&h=400&fit=crop" alt="Meeting room">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Meeting room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -481,8 +631,12 @@
             <!-- Page 2 -->
             <div id="page2" class="page-section">
                 <div class="card" onclick="showDetail('grille')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Grille plate scene map">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Grille plate scene map">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Grille plate scene map</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -490,8 +644,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('room')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Room">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Room">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Room</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -499,8 +657,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('tvbackdrop')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600&h=400&fit=crop" alt="TV backdrop">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600&h=400&fit=crop" alt="TV backdrop">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">TV backdrop</div>
                         <div class="card-date">2025-06-24</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -508,8 +670,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('livingpanel')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Living Room Panel">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Living Room Panel">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Living Room Panel</div>
                         <div class="card-date">2025-06-22</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -517,8 +683,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('bedroom')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Bedroom Interior">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&h=400&fit=crop" alt="Bedroom Interior">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Bedroom Interior</div>
                         <div class="card-date">2025-06-20</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -526,8 +696,12 @@
                     </div>
                 </div>
                 <div class="card" onclick="showDetail('corridor')">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=600&h=400&fit=crop" alt="Corridor Design">
+                    <div class="card-img-wrap">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=600&h=400&fit=crop" alt="Corridor Design">
+                        <div class="card-img-overlay"></div>
+                    </div>
                     <div class="card-body">
+                        <div class="card-category">Applications</div>
                         <div class="card-title">Corridor Design</div>
                         <div class="card-date">2025-06-18</div>
                         <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
@@ -537,12 +711,12 @@
             </div>
 
             <!-- Pagination -->
-            <div class="pagination-wrap" style="margin-top:8px;">
+            <div class="pagination-wrap" style="margin-top:16px;">
                 <div class="pagination">
-                    <button class="page-btn" onclick="changePage(-1)">prev</button>
+                    <button class="page-btn" onclick="changePage(-1)">← Prev</button>
                     <button class="page-btn active" id="btn-p1" onclick="goToPage(1)">1</button>
                     <button class="page-btn" id="btn-p2" onclick="goToPage(2)">2</button>
-                    <button class="page-btn" onclick="changePage(1)">next</button>
+                    <button class="page-btn" onclick="changePage(1)">Next →</button>
                 </div>
             </div>
         </div>
@@ -550,7 +724,6 @@
         <!-- ══ DETAIL VIEW ══ -->
         <div id="detail-view">
 
-            <!-- ✅ BACK TO CASE BUTTON -->
             <button class="back-to-case-btn" onclick="showList()">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -559,31 +732,37 @@
             </button>
 
             <div class="detail-panel">
-                <div class="detail-top">
-                    <!-- Gallery -->
-                    <div class="gallery-side">
-                        <img class="detail-main-img" id="d-main-img" src="" alt="">
-                        <div class="thumbs-wrap">
-                            <button class="thumb-nav-btn" id="thumb-prev" onclick="scrollThumbs(-1)">‹</button>
-                            <div class="thumbs" id="d-thumbs"></div>
-                            <button class="thumb-nav-btn" id="thumb-next" onclick="scrollThumbs(1)">›</button>
+                <div class="detail-accent-bar"></div>
+                <div class="detail-inner">
+                    <div class="detail-top">
+                        <!-- Gallery -->
+                        <div class="gallery-side">
+                            <div class="detail-main-img-wrap">
+                                <img class="detail-main-img" id="d-main-img" src="" alt="">
+                            </div>
+                            <div class="thumbs-wrap">
+                                <button class="thumb-nav-btn" id="thumb-prev" onclick="scrollThumbs(-1)">‹</button>
+                                <div class="thumbs" id="d-thumbs"></div>
+                                <button class="thumb-nav-btn" id="thumb-next" onclick="scrollThumbs(1)">›</button>
+                            </div>
+                            <div class="next-case" id="d-next-case"></div>
                         </div>
-                        <div class="next-case" id="d-next-case"></div>
-                    </div>
-                    <!-- Info -->
-                    <div class="info-side">
-                        <div class="detail-title-row">
-                            <span class="detail-title-text" id="d-title"></span>
-                            <button class="share-btn" onclick="doShare()">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                                share
-                            </button>
+                        <!-- Info -->
+                        <div class="info-side">
+                            <div class="detail-category">Applications</div>
+                            <div class="detail-title-row">
+                                <span class="detail-title-text" id="d-title"></span>
+                                <button class="share-btn" onclick="doShare()">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                                    share
+                                </button>
+                            </div>
+                            <div class="detail-desc" id="d-desc"></div>
+                            <div class="detail-meta" id="d-meta"></div>
                         </div>
-                        <div class="detail-desc" id="d-desc"></div>
-                        <div class="detail-meta" id="d-meta"></div>
                     </div>
+                    <div class="detail-article" id="d-article"></div>
                 </div>
-                <div class="detail-article" id="d-article"></div>
             </div>
         </div>
 
@@ -857,10 +1036,10 @@ function changePage(d) { goToPage(currentPage + d); }
 function showList() {
     document.getElementById('list-view').style.display = 'block';
     document.getElementById('detail-view').style.display = 'none';
-    document.querySelector('.hero').style.display = 'flex';
-    document.getElementById('hero-label').textContent = 'Case Show';
+    document.getElementById('main-hero').style.display = 'flex';
+    document.getElementById('hero-label').textContent = 'Our Work';
     document.getElementById('breadcrumb-html').innerHTML =
-        'Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <strong>Case</strong>';
+        '<a onclick="showList()">Home</a><span class="sep">›</span><strong>Case</strong>';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -873,11 +1052,10 @@ function showDetail(id, scrollToTop = true) {
 
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
-    document.querySelector('.hero').style.display = 'none';
+    document.getElementById('main-hero').style.display = 'none';
 
-    document.getElementById('hero-label').textContent = 'Case';
     document.getElementById('breadcrumb-html').innerHTML =
-        `Current position: &nbsp;<a onclick="showList()">Home</a> &gt; <a onclick="showList()">Case</a> &gt; <a onclick="showList()">Applications</a> &gt; <strong>${d.title}</strong>`;
+        `<a onclick="showList()">Home</a><span class="sep">›</span><a onclick="showList()">Case</a><span class="sep">›</span><a onclick="showList()">Applications</a><span class="sep">›</span><strong>${d.title}</strong>`;
 
     const mainImg = document.getElementById('d-main-img');
     mainImg.classList.add('fading');
@@ -907,10 +1085,22 @@ function showDetail(id, scrollToTop = true) {
     document.getElementById('d-title').textContent = d.title;
     document.getElementById('d-desc').textContent = d.shortDesc;
     document.getElementById('d-meta').innerHTML = `
-        <span><strong>date：</strong>${d.date}</span>
-        <span><strong>author：</strong>${d.author}</span>
-        <span><strong>category：</strong>${d.category}</span>
-        <span><strong>page view：</strong>${d.views}</span>
+        <div class="meta-row">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <strong>Date:</strong>${d.date}
+        </div>
+        <div class="meta-row">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <strong>Author:</strong>${d.author}
+        </div>
+        <div class="meta-row">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            <strong>Category:</strong>${d.category}
+        </div>
+        <div class="meta-row">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            <strong>Views:</strong>${d.views}
+        </div>
     `;
     document.getElementById('d-article').innerHTML = d.article;
 
@@ -956,11 +1146,19 @@ function doShare() {
     }
 }
 
-document.querySelectorAll('.dot').forEach((dot, i, dots) => {
-    dot.addEventListener('click', () => {
-        dots.forEach(d => d.classList.remove('active'));
-        dot.classList.add('active');
+// Animate on scroll
+const animEls = document.querySelectorAll('.animate-up');
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+        }
     });
+}, { threshold: 0.1 });
+animEls.forEach(function(el) {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
 });
 </script>
 </body>
