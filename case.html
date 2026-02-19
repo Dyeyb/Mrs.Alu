@@ -39,7 +39,7 @@
             max-width: 1400px; margin: 0 auto; padding: 0 40px;
             display: flex; align-items: center; justify-content: space-between; height: 90px;
         }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); color: inherit; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; transition: var(--transition); color: inherit; cursor: pointer; }
         .logo:hover { transform: translateY(-2px); }
         .logo-icon {
             width: 48px; height: 48px;
@@ -78,42 +78,32 @@
 
         /* ── HERO ── */
         .hero {
-            width: 100%; height: 320px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #3a3020 100%);
-            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 280px;
+            background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
+            display: flex; align-items: center;
             position: relative; overflow: hidden;
         }
-        .hero::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a561' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        .hero-text { padding-left: 80px; z-index: 2; position: relative; flex-shrink: 0; }
+        .hero-line {
+            width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0;
+        }
+        .hero-label {
+            font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px;
         }
         .hex-area {
-            position: absolute; right: 0; top: 0; width: 50%; height: 100%;
-            display: flex; align-items: center; padding-left: 20px; overflow: hidden; opacity: 0.4;
+            position: absolute; right: 0; top: 0; width: 68%; height: 100%;
+            display: flex; align-items: center; padding-left: 20px; overflow: hidden;
         }
         .hex-row { display: flex; gap: 8px; }
         .hex-col { display: flex; flex-direction: column; gap: 8px; }
         .hex-col.offset { margin-top: 72px; }
         .hex {
-            width: 110px; height: 110px;
+            width: 128px; height: 128px;
             clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
             overflow: hidden; flex-shrink: 0;
         }
-        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75) saturate(0.85); transition: var(--transition); }
+        .hex img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); transition: var(--transition); }
         .hex:hover img { filter: brightness(1); transform: scale(1.05); }
-
-        .hero-overlay { text-align: center; position: relative; z-index: 2; }
-        .hero-label {
-            font-size: 13px; font-weight: 500; letter-spacing: 4px;
-            text-transform: uppercase; color: var(--primary-accent); margin-bottom: 16px;
-        }
-        .hero-heading {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 56px; font-weight: 600; color: #fff;
-            letter-spacing: -0.5px; line-height: 1.1;
-        }
-        .hero-heading span { color: var(--primary-accent); font-style: italic; }
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
@@ -190,15 +180,10 @@
         }
         .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,66,38,0.4); }
 
-        /* ══════════════════════════════════════
-           LIST VIEW
-        ══════════════════════════════════════ */
+        /* ── LIST VIEW ── */
         #list-view { display: block; }
-
         .page-section { display: none; }
-        .page-section.active {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-        }
+        .page-section.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         /* Cards */
         .card {
@@ -221,8 +206,7 @@
         .card-category {
             display: inline-flex; align-items: center; gap: 5px;
             font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: var(--brown);
-            margin-bottom: 10px;
+            text-transform: uppercase; color: var(--brown); margin-bottom: 10px;
         }
         .card-category::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--primary-accent); }
         .card-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; line-height: 1.3; }
@@ -232,10 +216,7 @@
             display: flex; align-items: center; justify-content: space-between;
             padding-top: 14px; border-top: 1px solid var(--border-color);
         }
-        .card-tag {
-            font-size: 11px; color: #aaa;
-            border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 50px;
-        }
+        .card-tag { font-size: 11px; color: #aaa; border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 50px; }
         .card-arrow {
             width: 32px; height: 32px; border-radius: 50%;
             background: var(--hover-bg); border: 1px solid var(--border-color);
@@ -260,11 +241,8 @@
         .page-btn:hover { border-color: var(--primary-accent); color: var(--primary-accent); }
         .page-btn.active { background: var(--brown); border-color: var(--brown); color: #fff; }
 
-        /* ══════════════════════════════════════
-           DETAIL VIEW
-        ══════════════════════════════════════ */
+        /* ── DETAIL VIEW ── */
         #detail-view { display: none; }
-
         .back-to-case-btn {
             display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px;
             padding: 11px 22px;
@@ -276,7 +254,6 @@
         }
         .back-to-case-btn:hover { transform: translateX(-4px); box-shadow: 0 6px 20px rgba(107,66,38,0.4); }
         .back-to-case-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-
         .detail-panel {
             background: #fff; border: 1px solid var(--border-color);
             border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-subtle);
@@ -287,17 +264,8 @@
         }
         .detail-inner { padding: 32px 36px 40px; }
         .detail-top { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px; }
-
-        /* Gallery */
-        .gallery-side {}
-        .detail-main-img-wrap {
-            border-radius: 10px; overflow: hidden;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-        }
-        .detail-main-img {
-            width: 100%; height: 300px; display: block; object-fit: cover;
-            transition: opacity 0.3s ease;
-        }
+        .detail-main-img-wrap { border-radius: 10px; overflow: hidden; box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
+        .detail-main-img { width: 100%; height: 300px; display: block; object-fit: cover; transition: opacity 0.3s ease; }
         .detail-main-img.fading { opacity: 0; }
         .thumbs-wrap { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
         .thumbs { display: flex; gap: 8px; flex: 1; overflow: hidden; }
@@ -319,12 +287,8 @@
             margin-top: 16px; display: flex; align-items: center; gap: 8px;
             font-size: 13px; color: #aaa; padding-top: 16px; border-top: 1px solid var(--border-color);
         }
-        .next-case-link {
-            color: var(--brown); font-weight: 600; cursor: pointer; text-decoration: none; transition: color 0.2s;
-        }
+        .next-case-link { color: var(--brown); font-weight: 600; cursor: pointer; text-decoration: none; transition: color 0.2s; }
         .next-case-link:hover { color: var(--primary-accent); text-decoration: underline; }
-
-        /* Info side */
         .info-side { display: flex; flex-direction: column; }
         .detail-category {
             display: inline-flex; align-items: center; gap: 6px;
@@ -341,8 +305,7 @@
         .detail-title-text {
             font-family: 'Cormorant Garamond', serif;
             font-size: 26px; font-weight: 700; color: #1a1a1a;
-            line-height: 1.25; word-wrap: break-word; overflow-wrap: break-word;
-            max-width: calc(100% - 52px);
+            line-height: 1.25; max-width: calc(100% - 52px);
         }
         .share-btn {
             font-size: 11px; color: #aaa; cursor: pointer;
@@ -352,37 +315,16 @@
         }
         .share-btn:hover { background: var(--primary-accent); color: #fff; border-color: var(--primary-accent); }
         .share-btn svg { width: 16px; height: 16px; }
-        .detail-desc {
-            font-size: 14px; color: #666; line-height: 1.85; margin-bottom: 24px; flex: 1;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
+        .detail-desc { font-size: 14px; color: #666; line-height: 1.85; margin-bottom: 24px; flex: 1; }
         .detail-meta { display: flex; flex-direction: column; gap: 10px; }
-        .meta-row {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 13px; color: #888;
-        }
+        .meta-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #888; }
         .meta-row svg { width: 14px; height: 14px; color: var(--primary-accent); flex-shrink: 0; }
         .meta-row strong { color: #555; font-weight: 600; margin-right: 2px; }
-
-        /* Article */
-        .detail-article {
-            padding-top: 28px; border-top: 2px solid var(--border-color);
-        }
-        .article-heading {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px; font-weight: 600; color: var(--primary-dark);
-            margin-bottom: 16px;
-        }
-        .detail-article p {
-            font-size: 14px; color: #555; line-height: 1.9; margin-bottom: 16px;
-            word-wrap: break-word; overflow-wrap: break-word;
-        }
+        .detail-article { padding-top: 28px; border-top: 2px solid var(--border-color); }
+        .detail-article p { font-size: 14px; color: #555; line-height: 1.9; margin-bottom: 16px; }
 
         /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-up { opacity: 0; animation: fadeUp 0.6s ease-out forwards; }
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
@@ -432,7 +374,7 @@
         @media (max-width: 900px) {
             .content { grid-template-columns: 1fr; padding: 0 20px; }
             .hex-area { display: none; }
-            .hero-heading { font-size: 38px; }
+            .hero-label { font-size: 32px; }
         }
         @media (max-width: 768px) {
             body { padding-top: 70px; }
@@ -441,41 +383,17 @@
             .page-section.active { grid-template-columns: 1fr; }
             .breadcrumb { padding: 0 16px; margin-top: 20px; }
             .detail-inner { padding: 20px; }
+            .hero-text { padding-left: 30px; }
         }
         @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
 
-    
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">M</div>
-                <span class="logo-text">Mrs.Alu</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="#" class="nav-link">Products</a></li>
-                <li><a href="#" class="nav-link">About Us</a></li>
-                <li><a href="case.html" class="nav-link active">Case</a></li>
-                <li><a href="news.html" class="nav-link">News</a></li>
-                <li><a href="contact.html" class="nav-link">Contact Us</a></li>
-            </ul>
-            <div class="search-wrapper">
-                <input type="text" class="search-input" placeholder="Search...">
-                <button class="search-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
-            </div>
-=======
 <!-- NAVBAR -->
 <nav class="navbar">
     <div class="nav-container">
-        <a href="#" class="logo" onclick="showList()">
+        <a class="logo" onclick="showList()">
             <div class="logo-icon">M</div>
             <span class="logo-text">Mrs.Alu</span>
         </a>
@@ -493,13 +411,18 @@
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-            </button
+            </button>
         </div>
     </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="main-hero">
+    <div class="hero-text">
+        <div class="hero-line"></div>
+        <div class="hero-label">Case Show</div>
+        <div class="hero-line"></div>
+    </div>
     <div class="hex-area">
         <div class="hex-row">
             <div class="hex-col">
@@ -510,15 +433,9 @@
                 <div class="hex"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=300&fit=crop" alt=""></div>
                 <div class="hex"><img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=300&h=300&fit=crop" alt=""></div>
             </div>
-
-            <div class="sidebar-contact">
-                <div class="contact-label">Focus on quality</div>
-                <div class="contact-phone">18927795653</div>
-
             <div class="hex-col">
                 <div class="hex"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=300&h=300&fit=crop" alt=""></div>
                 <div class="hex"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=300&h=300&fit=crop" alt=""></div>
-
             </div>
             <div class="hex-col offset">
                 <div class="hex"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=300&fit=crop" alt=""></div>
@@ -529,10 +446,6 @@
                 <div class="hex"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=300&h=300&fit=crop" alt=""></div>
             </div>
         </div>
-    </div>
-    <div class="hero-overlay animate-up">
-        <p class="hero-label">Our Work</p>
-        <h1 class="hero-heading">Case <span>Show</span></h1>
     </div>
 </section>
 
@@ -574,7 +487,7 @@
     <!-- MAIN AREA -->
     <div class="animate-up delay-2">
 
-        <!-- ══ LIST VIEW ══ -->
+        <!-- LIST VIEW -->
         <div id="list-view">
 
             <!-- Page 1 -->
@@ -588,7 +501,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Hospital</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Aluminum wall panels and skirting solutions designed for hygienic, durable hospital environments.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -599,9 +512,9 @@
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">School classroom</div>
+                        <div class="card-title">School Classroom</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Safe, durable aluminum panels and skirting boards for modern educational environments.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -614,7 +527,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Stairs</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Elegant aluminum staircase decorative profiles combining style, safety, and durability.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -625,9 +538,9 @@
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">Living room</div>
+                        <div class="card-title">Living Room</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Premium aluminum wainscoting and decorative wall panels for sophisticated living spaces.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -640,7 +553,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Hotel</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Luxury aluminum interior solutions trusted by leading hotel chains for elegant, lasting finishes.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -651,9 +564,9 @@
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">Meeting room</div>
+                        <div class="card-title">Meeting Room</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Professional boardroom and meeting room aluminum panel solutions that project corporate excellence.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -663,14 +576,14 @@
             <div id="page2" class="page-section">
                 <div class="card" onclick="showDetail('grille')">
                     <div class="card-img-wrap">
-                        <img class="card-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Grille plate scene map">
+                        <img class="card-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Grille plate">
                         <div class="card-img-overlay"></div>
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">Grille plate scene map</div>
+                        <div class="card-title">Grille Plate</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Decorative aluminum grille panels for stunning architectural walls, partitions, and ceiling elements.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -681,9 +594,9 @@
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">Room</div>
+                        <div class="card-title">Room Interior</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Complete room fit-out solutions using premium aluminum wainscoting, wall panels, and decorative lines.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -694,9 +607,9 @@
                     </div>
                     <div class="card-body">
                         <div class="card-category">Applications</div>
-                        <div class="card-title">TV backdrop</div>
+                        <div class="card-title">TV Backdrop</div>
                         <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Dramatic aluminum TV backdrop panels in a wide range of textures, colors, and patterns.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -709,7 +622,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Living Room Panel</div>
                         <div class="card-date">2025-06-22</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Premium aluminum wall panel systems for living rooms featuring diverse textures and finish options.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -722,7 +635,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Bedroom Interior</div>
                         <div class="card-date">2025-06-20</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Elegant aluminum wainscoting and wall panels for serene, sophisticated sleeping environments.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -735,7 +648,7 @@
                         <div class="card-category">Applications</div>
                         <div class="card-title">Corridor Design</div>
                         <div class="card-date">2025-06-18</div>
-                        <div class="card-desc">Foshan Aluminum Lady Building Materials Co., Ltd. was fou...</div>
+                        <div class="card-desc">Stylish corridor solutions using slim-profile aluminum skirting boards and wall panels.</div>
                         <div class="card-footer"><span class="card-tag">Applications</span><span class="card-arrow">→</span></div>
                     </div>
                 </div>
@@ -752,33 +665,29 @@
             </div>
         </div>
 
-        <!-- ══ DETAIL VIEW ══ -->
+        <!-- DETAIL VIEW -->
         <div id="detail-view">
-
             <button class="back-to-case-btn" onclick="showList()">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
                 Back to Case
             </button>
-
             <div class="detail-panel">
                 <div class="detail-accent-bar"></div>
                 <div class="detail-inner">
                     <div class="detail-top">
-                        <!-- Gallery -->
                         <div class="gallery-side">
                             <div class="detail-main-img-wrap">
                                 <img class="detail-main-img" id="d-main-img" src="" alt="">
                             </div>
                             <div class="thumbs-wrap">
-                                <button class="thumb-nav-btn" id="thumb-prev" onclick="scrollThumbs(-1)">‹</button>
+                                <button class="thumb-nav-btn" onclick="scrollThumbs(-1)">‹</button>
                                 <div class="thumbs" id="d-thumbs"></div>
-                                <button class="thumb-nav-btn" id="thumb-next" onclick="scrollThumbs(1)">›</button>
+                                <button class="thumb-nav-btn" onclick="scrollThumbs(1)">›</button>
                             </div>
                             <div class="next-case" id="d-next-case"></div>
                         </div>
-                        <!-- Info -->
                         <div class="info-side">
                             <div class="detail-category">Applications</div>
                             <div class="detail-title-row">
@@ -797,7 +706,7 @@
             </div>
         </div>
 
-    </div><!-- end main area -->
+    </div>
 </div>
 
 <!-- FOOTER -->
@@ -866,9 +775,6 @@
 </footer>
 
 <script>
-// ══════════════════════════════════════════
-//  CASE DATA
-// ══════════════════════════════════════════
 const CASES = {
     hospital: {
         title: 'Hospital', date: '2025-06-24 11:27:41',
@@ -879,14 +785,13 @@ const CASES = {
             'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=800&h=560&fit=crop',
-            'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=800&h=560&fit=crop',
         ],
-        shortDesc: 'Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents.',
-        next: { id: 'school', title: 'School classroom' },
-        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents. Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing", focusing on ceiling and wall panel full-case solution service providers, wall panel, metal decorative line, skirting board research and development, mold production and sales.</p><p>We follow the principle of "Focus Focusing on quality is our business tenet. With the leading position in the industry, we strictly require all departments of the company to concentrate on providing customers with fast and thoughtful services and dedicating extra value to every customer. For a long time, Mrs.Aluminum has always adhered to the tenet of excellent quality, thoughtful service and the spirit of excellence, and will work with you to create brilliance together!</p>'
+        shortDesc: 'Foshan Aluminum Lady Building Materials Co., Ltd. provides hygienic, durable aluminum wall panel and skirting solutions specifically designed for hospital and healthcare environments.',
+        next: { id: 'school', title: 'School Classroom' },
+        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents. Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing".</p><p>Hospital environments demand materials that are hygienic, easy to clean, and highly durable. Our aluminum wall panels and skirting boards meet international healthcare facility standards while offering a clean, modern aesthetic. The non-porous surface prevents bacterial growth and withstands the rigorous cleaning regimes required in medical settings.</p>'
     },
     school: {
-        title: 'School classroom', date: '2025-06-24 11:27:41',
+        title: 'School Classroom', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 6,
         imgs: [
@@ -895,9 +800,9 @@ const CASES = {
             'https://images.unsplash.com/photo-1564429238817-393bd4286b2d?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=560&fit=crop',
         ],
-        shortDesc: 'Our aluminum building materials are widely used in educational environments, providing durable, safe, and aesthetically pleasing wall panels and skirting boards for school classrooms across the country.',
+        shortDesc: 'Our aluminum building materials are widely used in educational environments, providing durable, safe, and aesthetically pleasing wall panels and skirting boards for school classrooms.',
         next: { id: 'stairs', title: 'Stairs' },
-        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents. Aluminum Lady adheres to the corporate culture and service concept of "innovation, quality, and sharing".</p><p>School environments demand materials that are safe, hygienic, and durable. Our aluminum wall panels and skirting boards meet all educational facility standards while offering a clean, modern aesthetic that creates an optimal learning environment for students and teachers alike.</p>'
+        article: '<p>School environments demand materials that are safe, hygienic, and durable. Our aluminum wall panels and skirting boards meet all educational facility standards while offering a clean, modern aesthetic that creates an optimal learning environment.</p><p>From primary schools to universities, Foshan Aluminum Lady Building Materials Co., Ltd. supplies purpose-built aluminum interior systems that are resistant to the everyday impact and wear typical of school environments. Easy to maintain and available in a wide range of colors, our products help create bright, welcoming classrooms.</p>'
     },
     stairs: {
         title: 'Stairs', date: '2025-06-24 11:27:41',
@@ -909,11 +814,11 @@ const CASES = {
             'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Aluminum staircase decorative solutions providing elegant finishes with exceptional durability, perfect for residential and commercial applications where both style and safety matter.',
-        next: { id: 'livingroom', title: 'Living room' },
-        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. The company has extrusion production lines, spraying lines, and reliable technical and service talents.</p><p>Our aluminum staircase decorative profiles combine beauty with function. The precision-extruded aluminum profiles provide a safe, non-slip surface while the wide range of finishes and colors allows for complete customization to match any interior design scheme.</p>'
+        next: { id: 'livingroom', title: 'Living Room' },
+        article: '<p>Our aluminum staircase decorative profiles combine beauty with function. The precision-extruded aluminum profiles provide a safe, non-slip surface while the wide range of finishes and colors allows for complete customization to match any interior design scheme.</p><p>Whether for a luxury villa, commercial building, or public facility, Mrs.Alu staircase solutions add a refined finishing touch that elevates the entire interior space. Each profile is engineered for structural performance and long-term aesthetic appeal.</p>'
     },
     livingroom: {
-        title: 'Living room', date: '2025-06-24 11:27:41',
+        title: 'Living Room', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 9,
         imgs: [
@@ -922,9 +827,9 @@ const CASES = {
             'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
         ],
-        shortDesc: 'Transform your living room with our premium aluminum wainscoting and decorative wall panels. Create sophisticated interiors that combine timeless elegance with modern material innovation.',
+        shortDesc: 'Transform your living room with our premium aluminum wainscoting and decorative wall panels — combining timeless elegance with modern material innovation.',
         next: { id: 'hotel', title: 'Hotel' },
-        article: '<p>Foshan Aluminum Lady Building Materials Co., Ltd. provides premium aluminum decorative solutions for residential living spaces. Our wall panels and metal decorative lines are used extensively in villa and high-end residential projects across China.</p><p>The living room is the heart of the home. Our all-aluminum welded large plates and wainscoting panels create stunning feature walls and accent pieces that elevate the overall aesthetic, providing a luxurious finish that stands the test of time.</p>'
+        article: '<p>The living room is the heart of the home. Our all-aluminum welded large plates and wainscoting panels create stunning feature walls and accent pieces that elevate the overall aesthetic, providing a luxurious finish that stands the test of time.</p><p>Foshan Aluminum Lady Building Materials Co., Ltd. provides premium aluminum decorative solutions for residential living spaces. Our wall panels and metal decorative lines are used extensively in villa and high-end residential projects, offering unmatched design flexibility and enduring quality.</p>'
     },
     hotel: {
         title: 'Hotel', date: '2025-06-24 11:27:41',
@@ -936,11 +841,11 @@ const CASES = {
             'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Luxury hotel interior solutions featuring our premium aluminum wall panels, decorative lines, and skirting boards — trusted by leading hotel chains for elegant, durable finishes.',
-        next: { id: 'meeting', title: 'Meeting room' },
+        next: { id: 'meeting', title: 'Meeting Room' },
         article: '<p>The hospitality industry demands the very best in interior finishing. Foshan Aluminum Lady Building Materials Co., Ltd. supplies premium aluminum decorative materials to hotels, resorts, and serviced apartments nationwide.</p><p>Our materials are specifically engineered for high-traffic commercial environments. The robust aluminum construction resists wear, moisture, and impact while maintaining its aesthetic appeal for years. From lobby feature walls to corridor skirting boards, we provide complete solutions for hotel interior fit-outs.</p>'
     },
     meeting: {
-        title: 'Meeting room', date: '2025-06-24 11:27:41',
+        title: 'Meeting Room', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 5,
         imgs: [
@@ -949,11 +854,11 @@ const CASES = {
             'https://images.unsplash.com/photo-1564429238817-393bd4286b2d?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Professional meeting room and boardroom finishing solutions. Our clean-lined aluminum panels create authoritative, impressive spaces that reflect corporate excellence.',
-        next: { id: 'grille', title: 'Grille plate scene map' },
-        article: '<p>Corporate environments require interior materials that project professionalism, durability, and sophistication. Foshan Aluminum Lady Building Materials Co., Ltd. provides tailored solutions for office meeting rooms, boardrooms, and conference facilities.</p><p>Our aluminum wall panels and acoustic solutions are designed to enhance the functionality of corporate spaces, providing both visual elegance and practical performance. Each installation is carried out to the highest standards by our experienced technical team.</p>'
+        next: { id: 'grille', title: 'Grille Plate' },
+        article: '<p>Corporate environments require interior materials that project professionalism, durability, and sophistication. Foshan Aluminum Lady Building Materials Co., Ltd. provides tailored solutions for office meeting rooms, boardrooms, and conference facilities.</p><p>Our aluminum wall panels are designed to enhance the functionality of corporate spaces, providing both visual elegance and practical performance. Each installation is carried out to the highest standards by our experienced technical team.</p>'
     },
     grille: {
-        title: 'Grille plate scene map', date: '2025-06-24 11:27:41',
+        title: 'Grille Plate', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 7,
         imgs: [
@@ -962,11 +867,11 @@ const CASES = {
             'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Decorative aluminum grille panels create stunning architectural feature walls, partition screens, and ceiling elements that add texture and depth to any interior space.',
-        next: { id: 'room', title: 'Room' },
+        next: { id: 'room', title: 'Room Interior' },
         article: '<p>Aluminum grille panels represent one of the most versatile product lines from Foshan Aluminum Lady Building Materials Co., Ltd. These precision-engineered panels can be configured in countless patterns and finishes to create unique decorative effects.</p><p>From restaurant partitions to hotel lobby features, our grille plate systems provide architects and designers with the creative freedom to realize their boldest visions while benefiting from the durability and ease of maintenance that aluminum offers.</p>'
     },
     room: {
-        title: 'Room', date: '2025-06-24 11:27:41',
+        title: 'Room Interior', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 8,
         imgs: [
@@ -975,11 +880,11 @@ const CASES = {
             'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Complete room interior solutions using our premium aluminum wainscoting, wall panels, and decorative lines for a refined, cohesive aesthetic throughout the living space.',
-        next: { id: 'tvbackdrop', title: 'TV backdrop' },
-        article: '<p>Full room fit-outs using Foshan Aluminum Lady Building Materials products represent the pinnacle of our residential offering. By combining our wainscoting panels, metal decorative lines, and skirting boards, we create unified interior spaces of exceptional quality.</p><p>Each room project is approached holistically, with our design team working closely with clients to select the perfect combination of materials, finishes, and profiles to achieve the desired aesthetic.</p>'
+        next: { id: 'tvbackdrop', title: 'TV Backdrop' },
+        article: '<p>Full room fit-outs using Foshan Aluminum Lady Building Materials products represent the pinnacle of our residential offering. By combining our wainscoting panels, metal decorative lines, and skirting boards, we create unified interior spaces of exceptional quality.</p><p>Each room project is approached holistically, with our design team working closely with clients to select the perfect combination of materials, finishes, and profiles to achieve the desired aesthetic and functional requirements.</p>'
     },
     tvbackdrop: {
-        title: 'TV backdrop', date: '2025-06-24 11:27:41',
+        title: 'TV Backdrop', date: '2025-06-24 11:27:41',
         author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
         category: 'Applications', views: 11,
         imgs: [
@@ -988,21 +893,8 @@ const CASES = {
             'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Create a dramatic focal point in your living space with our aluminum TV backdrop panels — available in a wide range of textures, colors, and patterns to complement any interior style.',
-        next: { id: 'office', title: 'Office' },
-        article: '<p>The TV backdrop wall is one of the most visually prominent features in a modern living room or bedroom. Foshan Aluminum Lady Building Materials Co., Ltd. offers a specialized range of aluminum panel systems designed specifically for creating stunning backdrop installations.</p><p>Our TV backdrop solutions include grooved panels, textured finishes, and integrated LED channel profiles that allow for creative lighting effects. The lightweight aluminum construction makes installation straightforward while providing a durable, easy-to-clean surface.</p>'
-    },
-    office: {
-        title: 'Office', date: '2025-06-24 11:27:41',
-        author: 'Foshan Aluminum Lady Building Materials Co., Ltd.',
-        category: 'Applications', views: 6,
-        imgs: [
-            'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?w=800&h=560&fit=crop',
-            'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&h=560&fit=crop',
-            'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
-        ],
-        shortDesc: 'Modern office interiors using our aluminum wall panel systems create professional, inspiring workplaces. From reception areas to open-plan offices, we have solutions for every corporate space.',
         next: { id: 'livingpanel', title: 'Living Room Panel' },
-        article: '<p>The modern office is a complex environment that demands interior materials capable of performing across multiple zones. Foshan Aluminum Lady Building Materials Co., Ltd. provides comprehensive aluminum interior solutions for the complete office environment.</p><p>Our office range includes full-height wall panel systems, partitioning solutions, skirting board profiles, and decorative ceiling systems. All products are designed to create a cohesive, professional aesthetic while meeting the practical demands of a busy commercial environment.</p>'
+        article: '<p>The TV backdrop wall is one of the most visually prominent features in a modern living room or bedroom. Foshan Aluminum Lady Building Materials Co., Ltd. offers a specialized range of aluminum panel systems designed specifically for creating stunning backdrop installations.</p><p>Our TV backdrop solutions include grooved panels, textured finishes, and integrated LED channel profiles that allow for creative lighting effects. The lightweight aluminum construction makes installation straightforward while providing a durable, easy-to-clean surface.</p>'
     },
     livingpanel: {
         title: 'Living Room Panel', date: '2025-06-22 10:15:00',
@@ -1012,7 +904,6 @@ const CASES = {
             'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=560&fit=crop',
-            'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&h=560&fit=crop',
         ],
         shortDesc: 'Premium aluminum wall panel systems for living rooms, featuring a wide selection of textures, colors, and patterns to create dramatic feature walls and accent designs.',
         next: { id: 'bedroom', title: 'Bedroom Interior' },
@@ -1040,15 +931,12 @@ const CASES = {
             'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=560&fit=crop',
             'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=800&h=560&fit=crop',
         ],
-        shortDesc: 'Stylish corridor and hallway design solutions using our slim-profile aluminum skirting boards and wall panels to create elegant transitional spaces throughout residential and commercial buildings.',
+        shortDesc: 'Stylish corridor and hallway design solutions using slim-profile aluminum skirting boards and wall panels to create elegant transitional spaces throughout residential and commercial buildings.',
         next: { id: 'hospital', title: 'Hospital' },
         article: '<p>Corridors and hallways are high-traffic areas that need durable, attractive finishing materials that can withstand daily wear and tear. Foshan Aluminum Lady Building Materials Co., Ltd. supplies purpose-designed aluminum solutions for corridor environments in both residential and commercial settings.</p><p>Our corridor range includes impact-resistant wall panels, precision-profile skirting boards, and decorative dado rails. All products are available in a range of finishes including brushed aluminum, matte white, and warm woodgrain effects to complement any interior scheme.</p>'
     }
 };
 
-// ══════════════════════════════════════════
-//  PAGINATION
-// ══════════════════════════════════════════
 let currentPage = 1;
 
 function goToPage(page) {
@@ -1061,40 +949,27 @@ function goToPage(page) {
 }
 function changePage(d) { goToPage(currentPage + d); }
 
-// ══════════════════════════════════════════
-//  SHOW LIST
-// ══════════════════════════════════════════
 function showList() {
     document.getElementById('list-view').style.display = 'block';
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('main-hero').style.display = 'flex';
-    document.getElementById('hero-label').textContent = 'Our Work';
     document.getElementById('breadcrumb-html').innerHTML =
         '<a onclick="showList()">Home</a><span class="sep">›</span><strong>Case</strong>';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ══════════════════════════════════════════
-//  SHOW DETAIL
-// ══════════════════════════════════════════
 function showDetail(id, scrollToTop = true) {
     const d = CASES[id];
     if (!d) return;
-
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
     document.getElementById('main-hero').style.display = 'none';
-
     document.getElementById('breadcrumb-html').innerHTML =
-        `<a onclick="showList()">Home</a><span class="sep">›</span><a onclick="showList()">Case</a><span class="sep">›</span><a onclick="showList()">Applications</a><span class="sep">›</span><strong>${d.title}</strong>`;
+        `<a onclick="showList()">Home</a><span class="sep">›</span><a onclick="showList()">Case</a><span class="sep">›</span><strong>${d.title}</strong>`;
 
     const mainImg = document.getElementById('d-main-img');
     mainImg.classList.add('fading');
-    setTimeout(() => {
-        mainImg.src = d.imgs[0];
-        mainImg.alt = d.title;
-        mainImg.classList.remove('fading');
-    }, 280);
+    setTimeout(() => { mainImg.src = d.imgs[0]; mainImg.alt = d.title; mainImg.classList.remove('fading'); }, 280);
 
     currentImgs = d.imgs;
     currentImgIndex = 0;
@@ -1109,44 +984,24 @@ function showDetail(id, scrollToTop = true) {
     });
 
     const nc = document.getElementById('d-next-case');
-    if (d.next) {
-        nc.innerHTML = `Next &nbsp;<span class="next-case-link" onclick="showDetail('${d.next.id}', false)">${d.next.title}</span>`;
-    } else { nc.innerHTML = ''; }
+    nc.innerHTML = d.next ? `Next &nbsp;<span class="next-case-link" onclick="showDetail('${d.next.id}', false)">${d.next.title}</span>` : '';
 
     document.getElementById('d-title').textContent = d.title;
     document.getElementById('d-desc').textContent = d.shortDesc;
     document.getElementById('d-meta').innerHTML = `
-        <div class="meta-row">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <strong>Date:</strong>${d.date}
-        </div>
-        <div class="meta-row">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <strong>Author:</strong>${d.author}
-        </div>
-        <div class="meta-row">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-            <strong>Category:</strong>${d.category}
-        </div>
-        <div class="meta-row">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-            <strong>Views:</strong>${d.views}
-        </div>
-    `;
+        <div class="meta-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><strong>Date:</strong>${d.date}</div>
+        <div class="meta-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><strong>Author:</strong>${d.author}</div>
+        <div class="meta-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><strong>Category:</strong>${d.category}</div>
+        <div class="meta-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg><strong>Views:</strong>${d.views}</div>`;
     document.getElementById('d-article').innerHTML = d.article;
-
     if (scrollToTop) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ══════════════════════════════════════════
-//  THUMBNAIL NAV
-// ══════════════════════════════════════════
-let currentImgIndex = 0;
-let currentImgs = [];
+let currentImgIndex = 0, currentImgs = [];
 
 function scrollThumbs(dir) {
     const total = currentImgs.length;
-    if (total === 0) return;
+    if (!total) return;
     currentImgIndex = (currentImgIndex + dir + total) % total;
     setActiveThumb(currentImgIndex);
 }
@@ -1155,42 +1010,24 @@ function setActiveThumb(idx) {
     currentImgIndex = idx;
     const mainImg = document.getElementById('d-main-img');
     mainImg.classList.add('fading');
-    setTimeout(() => {
-        mainImg.src = currentImgs[idx];
-        mainImg.classList.remove('fading');
-    }, 280);
-    document.querySelectorAll('#d-thumbs .thumb').forEach((t, i) => {
-        t.classList.toggle('active', i === idx);
-    });
+    setTimeout(() => { mainImg.src = currentImgs[idx]; mainImg.classList.remove('fading'); }, 280);
+    document.querySelectorAll('#d-thumbs .thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
 }
 
-// ══════════════════════════════════════════
-//  SHARE
-// ══════════════════════════════════════════
 function doShare() {
     if (navigator.share) {
         navigator.share({ title: document.title, url: window.location.href });
     } else {
         navigator.clipboard.writeText(window.location.href)
-            .then(() => alert('Link copied to clipboard!'))
-            .catch(() => alert('Copy this link: ' + window.location.href));
+            .then(() => alert('Link copied!'))
+            .catch(() => alert('Copy: ' + window.location.href));
     }
 }
 
-// Animate on scroll
-const animEls = document.querySelectorAll('.animate-up');
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
-            observer.unobserve(entry.target);
-        }
-    });
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; observer.unobserve(e.target); } });
 }, { threshold: 0.1 });
-animEls.forEach(function(el) {
-    el.style.animationPlayState = 'paused';
-    observer.observe(el);
-});
+document.querySelectorAll('.animate-up').forEach(el => { el.style.animationPlayState = 'paused'; observer.observe(el); });
 </script>
 </body>
 </html>
