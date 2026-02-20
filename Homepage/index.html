@@ -360,6 +360,251 @@
         @media (max-width: 600px) { 
             .footer-cols { grid-template-columns: 1fr 1fr; }
         }
+
+
+
+        /* ======================
+   Modal Background
+====================== */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+}
+
+
+
+
+
+/* Modal Box */
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  animation: fadeInModal 0.3s ease;
+}
+
+/* Smooth animation */
+@keyframes fadeInModal {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+  transition: 0.2s;
+}
+.close-btn:hover {
+  color: #000;
+}
+
+/* Form */
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  resize: none;
+}
+
+.submit-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.submit-btn:hover {
+  background-color: var(--brown);
+}
+
+/* Chat Modal Styling */
+.chat-modal {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 3000;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+}
+
+.chat-header {
+    background: var(--brown);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-dot {
+    width: 8px; height: 8px; background: #4dfd63; border-radius: 50%; display: inline-block; margin-right: 8px;
+}
+
+.chat-close { cursor: pointer; font-size: 20px; opacity: 0.8; }
+.chat-close:hover { opacity: 1; }
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f9f7f4;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.bot-msg {
+    background: #e5e0d8;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.user-msg {
+    background: var(--primary-accent);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.chat-footer {
+    padding: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-footer input {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.chat-footer button {
+    background: var(--brown);
+    color: white;
+    border: none;
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .chat-modal {
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+        height: 80vh;
+    }
+}
+
+/* Popup overlay */
+.product-popup {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    animation: fadeIn 0.3s ease;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup box */
+.popup-content {
+    position: relative;
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 90%;
+    text-align: center;
+    color: #fff;
+}
+
+/* Popup image */
+.popup-img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+/* Close button */
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.popup-close:hover {
+    color: #f44336;
+}
+
+/* Popup text */
+.popup-body h3 {
+    margin: 15px 0 10px;
+    font-size: 1.5em;
+}
+.popup-body p {
+    font-size: 1em;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
     </style>
 </head>
 <body>
@@ -481,6 +726,52 @@
         </div>
     </div>
 
+<<<<<<< HEAD
+     <!-- Products Preview -->
+<div class="products-preview">
+    <h2 class="section-title">Our Featured Products</h2>
+    <div class="products-grid">
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&h=200&fit=crop" alt="Wainscoting">
+            <div class="product-body">
+                <h3 class="product-name">Aluminum Wainscoting</h3>
+                <p class="product-desc">Premium aluminum wainscoting panels perfect for residential and commercial interior applications with various finish options.</p>
+            </div>
+        </div>
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=200&fit=crop" alt="Wall Panels">
+            <div class="product-body">
+                <h3 class="product-name">Wall Panels</h3>
+                <p class="product-desc">Elegant wall panel systems available in multiple textures and colors to create stunning interior feature walls.</p>
+            </div>
+        </div>
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=400&h=200&fit=crop" alt="Metal Decorative Lines">
+            <div class="product-body">
+                <h3 class="product-name">Metal Decorative Lines</h3>
+                <p class="product-desc">Precision-crafted metal decorative trim and molding solutions for sophisticated interior finishing details.</p>
+            </div>
+        </div>
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=400&h=200&fit=crop" alt="Skirting Boards">
+            <div class="product-body">
+                <h3 class="product-name">Aluminum Skirting Boards</h3>
+                <p class="product-desc">Durable and stylish aluminum skirting board profiles that provide clean, modern finishing touches.</p>
+            </div>
+        </div>
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=200&fit=crop" alt="Grille Plates">
+            <div class="product-body">
+                <h3 class="product-name">Aluminum Grille Plates</h3>
+                <p class="product-desc">Versatile decorative grille panels perfect for creating architectural features, partitions, and ceiling elements.</p>
+            </div>
+        </div>
+        <div class="product-card" onclick="openPopup(this)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=200&fit=crop" alt="Welded Large Plates">
+            <div class="product-body">
+                <h3 class="product-name">All-Aluminum Welded Large Plates</h3>
+                <p class="product-desc">Heavy-duty aluminum plate systems ideal for large-scale commercial and industrial interior applications.</p>
+=======
     <!-- Products Preview -->
     <div class="products-preview">
         <h2 class="section-title animate-up">Our Featured Products</h2>
@@ -512,17 +803,52 @@
                     <h3 class="product-name">Aluminum Skirting Boards</h3>
                     <p class="product-desc">Durable and stylish aluminum skirting board profiles that provide clean, modern finishing touches.</p>
                 </div>
+>>>>>>> e6ad302fc2daccfc81ae84f479ecfffdc98e6324
             </div>
         </div>
     </div>
+</div>
 
+<<<<<<< HEAD
+<!-- Popup Modal -->
+<div id="productPopup" class="product-popup">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <img class="popup-img" id="popupImg" src="">
+        <div class="popup-body">
+            <h3 id="popupTitle"></h3>
+            <p id="popupDesc"></p>
+        </div>
+    </div>
+</div>
+
+        <!-- Call to Action -->
+    <div class="cta-section">
+=======
     <!-- Call to Action -->
     <div class="cta-section animate-up">
+>>>>>>> e6ad302fc2daccfc81ae84f479ecfffdc98e6324
         <h2 class="cta-title">Ready to Transform Your Space?</h2>
         <p class="cta-desc">Contact us today to discuss your project requirements and discover how Mrs.Alu can bring your interior vision to life.</p>
+        
+        
         <div class="cta-buttons">
             <a href="#" class="cta-btn primary">View Our Products</a>
-            <a href="#" class="cta-btn">Request Quote</a>
+            <a href="#" class="cta-btn" id="openModal">Request Quote</a>
+
+<div id="quoteModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Request a Quote</h2>
+    <p>Please describe your project or concerns below:</p>
+    
+    <form id="quoteForm">
+      <textarea id="userConcern" placeholder="Type your request here..." required></textarea>
+      <button type="submit" class="submit-btn">Send Request</button>
+    </form>
+  </div>
+</div>
+
             <a href="case.html" class="cta-btn">View Case Studies</a>
         </div>
     </div>
@@ -558,9 +884,35 @@
                     <a href="#" class="social-btn" title="WeChat">
                         <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
                     </a>
+
+                    <div id="wechatModal" class="chat-modal">
+    <div class="chat-header">
+        <div class="chat-user-info">
+            <div class="status-dot"></div>
+            <span>Mrs.Alu Official Support</span>
+        </div>
+        <span class="chat-close">&times;</span>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="message bot-msg">
+            Hello! Welcome to Mrs.Alu. How can we help you with your aluminum project today?
+        </div>
+    </div>
+    <form class="chat-footer" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+        <button type="submit">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+    </form>
+</div>
+
+
+
                     <a href="#" class="social-btn" title="Notifications">
                         <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
                     </a>
+
+
                 </div>
             </div>
             <div class="footer-divider"></div>
@@ -617,6 +969,130 @@
             });
         }, { threshold: 0.15 });
         animEls.forEach(el => observer.observe(el));
+<<<<<<< HEAD
+
+
+        // ======================
+// QUOTE MODAL
+// ======================
+
+const modal = document.getElementById("quoteModal");
+const openBtn = document.getElementById("openModal");
+const closeBtn = document.querySelector(".close-btn");
+const quoteForm = document.getElementById("quoteForm");
+
+// Open modal
+openBtn.addEventListener("click", function(e) {
+  e.preventDefault();
+  modal.style.display = "block";
+});
+
+// Close modal (X)
+closeBtn.addEventListener("click", function() {
+  modal.style.display = "none";
+});
+
+// Close when clicking outside modal content
+window.addEventListener("click", function(event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Handle form submission
+quoteForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const message = document.getElementById("userConcern").value.trim();
+
+  if (message === "") {
+    alert("Please enter your request.");
+    return;
+  }
+
+  alert("Quote request sent successfully!");
+  modal.style.display = "none";
+  quoteForm.reset();
+});
+
+// 1. WeChat Modal Selection
+const wechatBtn = document.querySelector('a[title="WeChat"]');
+const wechatModal = document.getElementById('wechatModal');
+const chatClose = document.querySelector('.chat-close');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const chatBody = document.getElementById('chatBody');
+
+// Open WeChat Modal
+wechatBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    wechatModal.style.display = 'flex';
+});
+
+// Close WeChat Modal
+chatClose.onclick = () => wechatModal.style.display = 'none';
+
+// Chat Functionality
+chatForm.onsubmit = (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    // Append User Message
+    appendMessage(text, 'user-msg');
+    chatInput.value = '';
+
+    // Bot Auto-Reply Logic
+    setTimeout(() => {
+        let reply = "Thanks for your message! One of our specialists will get back to you shortly. You can also call us at 18927795653.";
+        
+        // Simple keyword logic
+        if(text.toLowerCase().includes("price")) reply = "Our pricing depends on the dimensions and material finish. Would you like to request a formal quote?";
+        if(text.toLowerCase().includes("catalog")) reply = "You can download our latest catalog from the Products page, or I can email it to you!";
+        
+        appendMessage(reply, 'bot-msg');
+    }, 1000);
+};
+
+function appendMessage(text, className) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${className}`;
+    msgDiv.innerText = text;
+    chatBody.appendChild(msgDiv);
+    
+    // Scroll to bottom
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function openPopup(card) {
+    const imgSrc = card.querySelector('.product-img').src;
+    const title = card.querySelector('.product-name').innerText;
+    const desc = card.querySelector('.product-desc').innerText;
+
+    document.getElementById('popupImg').src = imgSrc;
+    document.getElementById('popupTitle').innerText = title;
+    document.getElementById('popupDesc').innerText = desc;
+
+    document.getElementById('productPopup').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('productPopup').style.display = 'none';
+}
+
+// Close popup on clicking outside the box
+window.onclick = function(event) {
+    const popup = document.getElementById('productPopup');
+    if (event.target === popup) {
+        closePopup();
+    }
+}
+
+
+
+
+
+=======
+>>>>>>> e6ad302fc2daccfc81ae84f479ecfffdc98e6324
     </script>
 </body>
 </html>
