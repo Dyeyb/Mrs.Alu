@@ -8,342 +8,810 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ── GLOBAL STYLES ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        :root {
-            --brown: #6b4226;
-            --primary-dark: #1a1a1a;
-            --primary-accent: #c9a561;
-            --text-primary: #2d2d2d;
-            --text-light: #ffffff;
-            --hover-bg: #f8f5f0;
-            --border-color: #e5e0d8;
-            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
-        }
+:root {
+    --brown: #6b4226;
+    --primary-dark: #1a1a1a;
+    --primary-accent: #c9a561;
+    --text-primary: #2d2d2d;
+    --text-light: #ffffff;
+    --hover-bg: #f8f5f0;
+    --border-color: #e5e0d8;
+    --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
+    --transition: all 0.3s ease;
+}
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f0ece6;
-            min-height: 100vh;
-            padding-top: 90px;
-        }
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #f0ece6;
+    min-height: 100vh;
+    padding-top: 90px;
+}
 
-        /* ── NAVBAR ── */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: #fff;
-            box-shadow: var(--shadow-subtle);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .nav-container {
-            max-width: 1400px; margin: 0 auto;
-            padding: 0 40px;
-            display: flex; align-items: center; justify-content: space-between;
-            height: 90px;
-        }
-        .logo {
-            display: flex; align-items: center; gap: 12px;
-            text-decoration: none; transition: var(--transition);
-        }
-        .logo:hover { transform: translateY(-2px); }
-        .logo-icon {
-            width: 48px; height: 48px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #c9a561 100%);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px; font-weight: 700; color: #fff;
-        }
-        .logo-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px; font-weight: 600; color: #1a1a1a;
-        }
-        .nav-menu { display: flex; align-items: center; gap: 4px; list-style: none; }
-        .nav-link {
-            padding: 10px 18px;
-            text-decoration: none; color: #2d2d2d;
-            font-size: 15px; font-weight: 500;
-            transition: var(--transition);
-            border-radius: 6px; position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute; bottom: 6px; left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 60%; height: 2px;
-            background: var(--primary-accent);
-            transition: var(--transition);
-        }
-        .nav-link:hover, .nav-link.active { color: var(--primary-accent); background: var(--hover-bg); }
-        .nav-link:hover::after, .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+/* ── NAVBAR ── */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    box-shadow: var(--shadow-subtle);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
 
-        .search-wrapper { position: relative; display: flex; align-items: center; }
-        .search-input {
-            width: 200px; padding: 9px 38px 9px 14px;
-            border: 1px solid var(--border-color); border-radius: 50px;
-            font-size: 14px; background: var(--hover-bg); outline: none;
-            transition: var(--transition);
-        }
-        .search-input:focus { width: 250px; border-color: var(--primary-accent); }
-        .search-input::placeholder { color: #aaa; }
-        .search-btn {
-            position: absolute; right: 4px;
-            width: 32px; height: 32px; border: none;
-            background: var(--primary-accent); color: #fff;
-            border-radius: 50%; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .search-btn svg { width: 14px; height: 14px; }
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 90px;
+}
 
-        /* ── HERO BANNER ── */
-        .hero {
-            width: 100%; height: 280px;
-            background: linear-gradient(110deg, #5c3d1e 0%, #3e2810 45%, #2a1a0a 100%);
-            position: relative; overflow: hidden;
-            display: flex; align-items: center;
-        }
-        .hero-text {
-            padding-left: 80px;
-            z-index: 2; position: relative; flex-shrink: 0;
-        }
-        .hero-label { font-size: 42px; font-weight: 300; color: #fff; letter-spacing: 3px; }
-        .hero-line { width: 50px; height: 1px; background: rgba(255,255,255,0.4); margin: 12px 0; }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: var(--transition);
+}
 
-        .hex-area {
-            position: absolute; right: 0; top: 0;
-            width: 68%; height: 100%;
-            display: flex; align-items: center;
-            padding-left: 20px; overflow: hidden;
-        }
-        .hex-row { display: flex; gap: 8px; }
-        .hex-col { display: flex; flex-direction: column; gap: 8px; }
-        .hex-col.offset { margin-top: 72px; }
-        .hex {
-            width: 128px; height: 128px;
-            clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-            overflow: hidden; flex-shrink: 0;
-            background: rgba(255,255,255,0.08);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .hex svg { width: 70%; height: 70%; transition: var(--transition); }
-        .hex:hover svg { transform: scale(1.1); }
+.logo:hover {
+    transform: translateY(-2px);
+}
 
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #c9a561 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+}
 
+.logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
 
-        /* ── BREADCRUMB ── */
-        .breadcrumb {
-            background: #fff; border-bottom: 1px solid #e8e0d6;
-            padding: 13px 80px; font-size: 13px; color: #888;
-        }
-        .breadcrumb a { color: #888; text-decoration: none; }
-        .breadcrumb a:hover { color: var(--brown); }
-        .breadcrumb strong { color: var(--brown); }
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+}
 
-        /* ── CONTENT ── */
-        .content {
-            max-width: 1260px; margin: 36px auto 60px;
-            padding: 0 40px;
-            display: grid; grid-template-columns: 220px 1fr;
-            gap: 28px; align-items: start;
-        }
+.nav-link {
+    padding: 10px 18px;
+    text-decoration: none;
+    color: #2d2d2d;
+    font-size: 15px;
+    font-weight: 500;
+    transition: var(--transition);
+    border-radius: 6px;
+    position: relative;
+}
 
-        /* ── SIDEBAR ── */
-        .sidebar-box { background: var(--brown); }
-        .sidebar-title { padding: 16px 22px; font-size: 19px; font-weight: 600; color: #fff; }
-        .sidebar-menu { background: #fff; border: 1px solid #ddd; border-top: none; }
-        .sidebar-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 13px 20px; text-decoration: none; color: #555;
-            font-size: 14px; border-bottom: 1px solid #f0ebe5; transition: var(--transition);
-        }
-        .sidebar-item:last-child { border-bottom: none; }
-        .sidebar-item::before { content: '›'; color: var(--brown); font-size: 18px; font-weight: bold; }
-        .sidebar-item:hover, .sidebar-item.active { color: var(--brown); background: #fdf8f4; }
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2px;
+    background: var(--primary-accent);
+    transition: var(--transition);
+}
 
-        .sidebar-contact {
-            margin-top: 20px; background: #fff;
-            border: 1px solid #ddd; padding: 24px 20px; text-align: center;
-        }
-        .contact-label { font-size: 14px; color: #555; margin-bottom: 8px; font-weight: 500; }
-        .contact-phone { font-size: 22px; font-weight: 700; color: var(--brown); margin-bottom: 4px; }
-        .contact-sub { font-size: 12px; color: #aaa; margin-bottom: 16px; }
-        .contact-icon { font-size: 32px; margin-bottom: 14px; display: block; }
-        .contact-btn {
-            display: block; width: 100%;
-            background: var(--brown); color: #fff;
-            border: none; padding: 12px 0;
-            font-size: 14px; font-weight: 500; cursor: pointer;
-            border-radius: 2px; text-decoration: none;
-            transition: var(--transition);
-        }
-        .contact-btn:hover { background: #8b5a38; }
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-accent);
+    background: var(--hover-bg);
+}
 
-        /* ── FILTER BAR ── */
-        .filter-bar {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; border: 1px solid #e8e0d6;
-            padding: 14px 20px; margin-bottom: 18px;
-        }
-        .filter-label { font-size: 14px; color: #888; }
-        .filter-tabs { display: flex; gap: 8px; }
-        .filter-tab {
-            padding: 6px 16px; border: 1px solid #ddd;
-            background: #fff; color: #555; font-size: 13px;
-            cursor: pointer; border-radius: 2px; font-family: 'Outfit', sans-serif;
-            transition: var(--transition);
-        }
-        .filter-tab:hover, .filter-tab.active {
-            background: var(--brown); border-color: var(--brown); color: #fff;
-        }
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
 
-        /* ── PAGE SECTIONS ── */
-        .page-section { display: none; }
-        .page-section.active {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
-        /* ── CARD ── */
-        .card {
-            background: #fff;
-            border: 1px solid #e8e0d6;
-            border-radius: 2px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .card:hover {
-            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-            transform: translateY(-4px);
-        }
+.search-input {
+    width: 200px;
+    padding: 9px 38px 9px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    font-size: 14px;
+    background: var(--hover-bg);
+    outline: none;
+    transition: var(--transition);
+}
 
-        .card-img-wrap {
-            width: 100%;
-            aspect-ratio: 4/3;
-            background: #f5f0e8;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-        }
+.search-input:focus {
+    width: 250px;
+    border-color: var(--primary-accent);
+}
 
-        .card-img-wrap svg {
-            width: 65%; height: 65%;
-            transition: transform 0.4s ease;
-        }
-        .card:hover .card-img-wrap svg { transform: scale(1.08); }
+.search-input::placeholder {
+    color: #aaa;
+}
 
-        .card-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(107,66,38,0.7), transparent 55%);
-            opacity: 0; transition: var(--transition);
-            display: flex; align-items: flex-end; justify-content: center;
-            padding-bottom: 16px;
-        }
-        .card:hover .card-overlay { opacity: 1; }
-        .card-view {
-            background: #fff; color: var(--brown);
-            padding: 8px 22px; font-size: 12px; font-weight: 600;
-            letter-spacing: 1px; text-transform: uppercase; border: none;
-            cursor: pointer; font-family: 'Outfit', sans-serif; border-radius: 1px;
-        }
+.search-btn {
+    position: absolute;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--primary-accent);
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .card-body { padding: 18px 20px 16px; }
-        .card-title { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 5px; }
-        .card-date { font-size: 12px; color: #bbb; margin-bottom: 10px; }
-        .card-desc { font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 14px; }
+.search-btn svg {
+    width: 14px;
+    height: 14px;
+}
 
-        .card-footer {
-            display: flex; align-items: center; justify-content: space-between;
-            padding-top: 12px; border-top: 1px solid #f0ebe5;
-        }
-        .card-tag {
-            font-size: 12px; color: #888;
-            border: 1px solid #ddd; padding: 4px 10px; border-radius: 2px;
-        }
-        .card-arrow {
-            color: #bbb; font-size: 18px; line-height: 1;
-            transition: var(--transition);
-        }
-        .card:hover .card-arrow { color: var(--brown); transform: translateX(4px); }
+/* ── HERO BANNER ── */
+.hero {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(110deg, #5c3d1e 0%, #3e2810 45%, #2a1a0a 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
 
-        /* ── PAGINATION ── */
-        .pagination-wrap {
-            background: #fff; padding: 24px 0;
-            display: flex; justify-content: center; border-top: 1px solid #eee;
-        }
-        .pagination { display: flex; align-items: center; gap: 8px; }
-        .page-btn {
-            padding: 7px 16px; border: 1px solid #ddd; border-radius: 3px;
-            color: #555; font-size: 14px; cursor: pointer;
-            background: #fff; transition: var(--transition);
-            font-family: 'Outfit', sans-serif;
-        }
-        .page-btn:hover, .page-btn.active {
-            background: var(--brown); border-color: var(--brown); color: #fff;
-        }
+.hero-text {
+    padding-left: 80px;
+    z-index: 2;
+    position: relative;
+    flex-shrink: 0;
+}
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
-            .page-section.active { grid-template-columns: repeat(2, 1fr); }
-            .hex { width: 100px; height: 100px; }
-        }
-        @media (max-width: 768px) {
-            body { padding-top: 70px; }
-            .nav-container { padding: 0 16px; height: 70px; }
-            .nav-menu { display: none; }
-            .content { grid-template-columns: 1fr; padding: 0 16px; }
-            .page-section.active { grid-template-columns: 1fr; }
-            .hex-area { display: none; }
-            .hero-text { padding-left: 30px; }
-            .breadcrumb { padding: 12px 20px; }
-        }
+.hero-label {
+    font-size: 42px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 3px;
+}
 
-        /* ── FOOTER ── */
-        .footer {
-            background: rgba(20,12,4,0.92);
-            background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop');
-            background-size: cover; background-position: center;
-            background-blend-mode: multiply; color: #ccc; padding: 50px 0 0;
-        }
-        .footer-inner { max-width: 1260px; margin: 0 auto; padding: 0 40px; }
-        .footer-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 24px; }
-        .footer-logo { display: flex; align-items: center; gap: 14px; }
-        .footer-logo-icon {
-            width: 56px; height: 56px;
-            background: linear-gradient(135deg, #4a2e18 0%, #c9a561 100%);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 30px; font-weight: 700; color: #fff;
-        }
-        .footer-logo-cn { font-size: 13px; color: #aaa; margin-bottom: 2px; }
-        .footer-logo-en { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #fff; }
-        .footer-socials { display: flex; gap: 10px; }
-        .social-btn {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center;
-            color: #ccc; text-decoration: none; transition: var(--transition);
-        }
-        .social-btn:hover { background: var(--brown); color: #fff; border-color: var(--brown); }
-        .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 0; }
-        .footer-cols {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;
-            gap: 28px; padding: 40px 0;
-        }
-        .footer-col-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 14px; }
-        .footer-link { display: block; text-decoration: none; color: #888; font-size: 13px; margin-bottom: 9px; transition: var(--transition); }
-        .footer-link:hover { color: #c9a561; }
-        .footer-contact-label { font-size: 13px; color: #888; margin-bottom: 6px; }
-        .footer-contact-phone { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: 1px; }
-        .footer-contact-addr { font-size: 13px; color: #888; line-height: 1.7; margin-top: 8px; }
-        .footer-bottom { text-align: center; padding: 16px 0; font-size: 12px; color: #444; border-top: 1px solid rgba(255,255,255,0.07); }
-        @media (max-width: 1024px) { .footer-cols { grid-template-columns: 1fr 1fr 1fr; } }
-        @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
+.hero-line {
+    width: 50px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    margin: 12px 0;
+}
+
+.hex-area {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 68%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    overflow: hidden;
+}
+
+.hex-row {
+    display: flex;
+    gap: 8px;
+}
+
+.hex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hex-col.offset {
+    margin-top: 72px;
+}
+
+.hex {
+    width: 128px;
+    height: 128px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hex svg {
+    width: 70%;
+    height: 70%;
+    transition: var(--transition);
+}
+
+.hex:hover svg {
+    transform: scale(1.1);
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+    background: #fff;
+    border-bottom: 1px solid #e8e0d6;
+    padding: 13px 80px;
+    font-size: 13px;
+    color: #888;
+}
+
+.breadcrumb a {
+    color: #888;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--brown);
+}
+
+.breadcrumb strong {
+    color: var(--brown);
+}
+
+/* ── CONTENT LAYOUT ── */
+.content {
+    max-width: 1260px;
+    margin: 36px auto 60px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+/* ── SIDEBAR ── */
+.sidebar-box {
+    background: var(--brown);
+}
+
+.sidebar-title {
+    padding: 16px 22px;
+    font-size: 19px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.sidebar-menu {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 20px;
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    border-bottom: 1px solid #f0ebe5;
+    transition: var(--transition);
+}
+
+.sidebar-item:last-child {
+    border-bottom: none;
+}
+
+.sidebar-item::before {
+    content: '›';
+    color: var(--brown);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+    color: var(--brown);
+    background: #fdf8f4;
+}
+
+.sidebar-contact {
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 24px 20px;
+    text-align: center;
+}
+
+.contact-label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.contact-phone {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 4px;
+}
+
+.contact-sub {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 16px;
+}
+
+.contact-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.contact-btn {
+    display: block;
+    width: 100%;
+    background: var(--brown);
+    color: #fff;
+    border: none;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.contact-btn:hover {
+    background: #8b5a38;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #e8e0d6;
+    padding: 14px 20px;
+    margin-bottom: 18px;
+}
+
+.filter-label {
+    font-size: 14px;
+    color: #888;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-tab {
+    padding: 6px 16px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2px;
+    font-family: 'Outfit', sans-serif;
+    transition: var(--transition);
+}
+
+.filter-tab:hover,
+.filter-tab.active {
+    background: var(--brown);
+    border-color: var(--brown);
+    color: #fff;
+}
+
+/* ── PAGE SECTIONS ── */
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* ── CARD STYLES ── */
+.card {
+    background: #fff;
+    border: 1px solid #e8e0d6;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+.card-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #f5f0e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-img-wrap svg {
+    width: 65%;
+    height: 65%;
+    transition: transform 0.4s ease;
+}
+
+.card:hover .card-img-wrap svg {
+    transform: scale(1.08);
+}
+
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(107, 66, 38, 0.7), transparent 55%);
+    opacity: 0;
+    transition: var(--transition);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 16px;
+}
+
+.card:hover .card-overlay {
+    opacity: 1;
+}
+
+.card-view {
+    background: #fff;
+    color: var(--brown);
+    padding: 8px 22px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 1px;
+}
+
+.card-body {
+    padding: 18px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+.card-date {
+    font-size: 12px;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+.card-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.65;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 43px;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #f0ebe5;
+    margin-top: auto;
+}
+
+.card-tag {
+    font-size: 12px;
+    color: #888;
+    border: 1px solid #ddd;
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+
+.card-arrow {
+    color: #bbb;
+    font-size: 18px;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.card:hover .card-arrow {
+    color: var(--brown);
+    transform: translateX(4px);
+}
+
+/* ── CARD LINK ── */
+.card-link {
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+
+/* ── PAGINATION ── */
+.pagination-wrap {
+    background: #fff;
+    padding: 24px 0;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #eee;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-btn {
+    padding: 7px 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    background: #fff;
+    transition: var(--transition);
+    font-family: 'Outfit', sans-serif;
+}
+
+.page-btn:hover,
+.page-btn.active {
+    background: var(--brown);
+    border-color: var(--brown);
+    color: #fff;
+}
+
+/* ── FOOTER ── */
+.footer {
+    background: rgba(20, 12, 4, 0.92);
+    background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: #ccc;
+    padding: 50px 0 0;
+}
+
+.footer-inner {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.footer-logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #4a2e18 0%, #c9a561 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.footer-logo-cn {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 2px;
+}
+
+.footer-logo-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.social-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-btn:hover {
+    background: var(--brown);
+    color: #fff;
+    border-color: var(--brown);
+}
+
+.footer-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0;
+}
+
+.footer-cols {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;
+    gap: 28px;
+    padding: 40px 0;
+}
+
+.footer-col-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 14px;
+}
+
+.footer-link {
+    display: block;
+    text-decoration: none;
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 9px;
+    transition: var(--transition);
+}
+
+.footer-link:hover {
+    color: #c9a561;
+}
+
+.footer-contact-label {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.footer-contact-phone {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.footer-contact-addr {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.7;
+    margin-top: 8px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 16px 0;
+    font-size: 12px;
+    color: #444;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── RESPONSIVE DESIGN ── */
+@media (max-width: 1024px) {
+    .page-section.active {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hex {
+        width: 100px;
+        height: 100px;
+    }
+
+    .footer-cols {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .nav-container {
+        padding: 0 16px;
+        height: 70px;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+    }
+
+    .page-section.active {
+        grid-template-columns: 1fr;
+    }
+
+    .hex-area {
+        display: none;
+    }
+
+    .hero-text {
+        padding-left: 30px;
+    }
+
+    .breadcrumb {
+        padding: 12px 20px;
+    }
+
+    .footer-cols {
+        grid-template-columns: 1fr 1fr;
+    }
+}
     </style>
 </head>
 <body>
@@ -360,8 +828,8 @@
                 <li><a href="product.html" class="nav-link active">Products</a></li>
                 <li><a href="./About us/about.html" class="nav-link">About Us</a></li>
                 <li><a href="./case.html" class="nav-link">Case</a></li>
-                <li><a href="#" class="nav-link">News</a></li>
-                <li><a href="#" class="nav-link">Contact Us</a></li>
+                <li><a href="./news.html" class="nav-link">News</a></li>
+                <li><a href="./contactus.html" class="nav-link">Contact Us</a></li>
             </ul>
             <div class="search-wrapper">
                 <input type="text" class="search-input" placeholder="Search...">
@@ -383,7 +851,6 @@
         </div>
         <div class="hex-area">
             <div class="hex-row">
-                <!-- Hex 1: Honeycomb Panel -->
                 <div class="hex-col">
                     <div class="hex">
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -409,7 +876,6 @@
                         </svg>
                     </div>
                 </div>
-                <!-- Hex 2 offset -->
                 <div class="hex-col offset">
                     <div class="hex">
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -430,7 +896,6 @@
                         </svg>
                     </div>
                 </div>
-                <!-- Hex 3 -->
                 <div class="hex-col">
                     <div class="hex">
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -458,7 +923,6 @@
                         </svg>
                     </div>
                 </div>
-                <!-- Hex 4 offset -->
                 <div class="hex-col offset">
                     <div class="hex">
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -480,13 +944,12 @@
                         </svg>
                     </div>
                 </div>
-                <!-- Hex 5 -->
                 <div class="hex-col">
                     <div class="hex">
                         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                             <rect x="10" y="30" width="100" height="60" rx="3" fill="#e8e4dc"/>
                             <rect x="10" y="30" width="100" height="18" rx="3" fill="#f5f2ed"/>
-                            <g fill="none" stroke="#b0a890" stroke-width="0.8" opacity="0.55">
+                            <g fill="none" stroke="#b0a890" stroke-width="0.9" opacity="0.55">
                                 <polygon points="25,55 35,49 45,55 45,67 35,73 25,67"/>
                                 <polygon points="45,55 55,49 65,55 65,67 55,73 45,67"/>
                                 <polygon points="65,55 75,49 85,55 85,67 75,73 65,67"/>
@@ -508,7 +971,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
     <!-- BREADCRUMB -->
@@ -546,7 +1008,7 @@
 
             <!-- Filter bar -->
             <div class="filter-bar">
-                <span class="filter-label">All Products <span id="count" style="color:var(--brown);font-weight:600">(8)</span></span>
+                <span class="filter-label">All Products <span id="count" style="color:var(--brown);font-weight:600">(10)</span></span>
                 <div class="filter-tabs">
                     <button class="filter-tab active" onclick="filterTab(event,'all')">All</button>
                     <button class="filter-tab" onclick="filterTab(event,'panel')">Panels</button>
@@ -556,233 +1018,317 @@
             </div>
 
             <!-- PAGE 1 -->
-            <div id="page1" class="page-section active">
+<div id="page1" class="page-section active">
 
-                <div class="card" data-cat="honeycomb">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="10" width="180" height="130" rx="4" fill="#e8e4dc"/>
-                            <rect x="10" y="10" width="180" height="34" rx="4" fill="#f5f2ed"/>
-                            <rect x="10" y="50" width="180" height="26" fill="#e0dbd2"/>
-                            <rect x="10" y="82" width="180" height="26" fill="#c8c0b0"/>
-                            <rect x="10" y="114" width="180" height="20" fill="#a89880"/>
-                            <g fill="none" stroke="#b0a890" stroke-width="0.9" opacity="0.55">
-                                <polygon points="40,56 55,48 70,56 70,72 55,80 40,72"/>
-                                <polygon points="70,56 85,48 100,56 100,72 85,80 70,72"/>
-                                <polygon points="100,56 115,48 130,56 130,72 115,80 100,72"/>
-                                <polygon points="130,56 145,48 160,56 160,72 145,80 130,72"/>
-                                <polygon points="55,72 70,64 85,72 85,88 70,96 55,88"/>
-                                <polygon points="85,72 100,64 115,72 115,88 100,96 85,88"/>
-                                <polygon points="115,72 130,64 145,72 145,88 130,96 115,88"/>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">SPC Honeycomb Panel</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Lightweight composite panels with superior strength-to-weight ratio for modern interior wall and ceiling applications.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Panels</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-cat="grille">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <g transform="translate(10,10)">
-                                <rect x="0" y="0" width="180" height="38" rx="3" fill="#6b5040"/>
-                                <rect x="0" y="0" width="180" height="12" rx="3" fill="#8a6a50"/>
-                                <rect x="0" y="48" width="180" height="38" rx="3" fill="#6b5040"/>
-                                <rect x="0" y="48" width="180" height="12" rx="3" fill="#8a6a50"/>
-                                <rect x="0" y="96" width="180" height="38" rx="3" fill="#6b5040"/>
-                                <rect x="0" y="96" width="180" height="12" rx="3" fill="#8a6a50"/>
-                                <g fill="#2a1a0a" opacity="0.4">
-                                    <rect x="8" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="26" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="44" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="62" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="80" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="98" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="116" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="134" y="2" width="10" height="34" rx="1"/>
-                                    <rect x="152" y="2" width="10" height="34" rx="1"/>
-                                </g>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Grille Plate</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Wood-grain finish aluminum grille profiles for elegant wall and ceiling decorative applications in residential and commercial spaces.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Profiles</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-cat="honeycomb">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <g transform="translate(100,75)">
-                                <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#c8a870" opacity="0.6" transform="rotate(-18)"/>
-                                <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#d4bc90" opacity="0.72" transform="rotate(-8)"/>
-                                <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#ece4d4" opacity="0.88" transform="rotate(0)"/>
-                                <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#a09080" opacity="0.6" transform="rotate(8)"/>
-                                <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#707070" opacity="0.5" transform="rotate(18)"/>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Aluminum Honeycomb Panel</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">High-strength aluminum composite panels available in wood-grain, metallic, and solid color finishes for architectural projects.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Panels</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-cat="panel">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="10" width="180" height="130" rx="3" fill="#e8e0d4"/>
-                            <rect x="20" y="20" width="76" height="110" rx="2" fill="#f5f0e8" stroke="#d4ccc0" stroke-width="1.5"/>
-                            <rect x="104" y="20" width="76" height="110" rx="2" fill="#f5f0e8" stroke="#d4ccc0" stroke-width="1.5"/>
-                            <rect x="28" y="30" width="60" height="90" rx="1" fill="none" stroke="#c8c0b0" stroke-width="1"/>
-                            <rect x="112" y="30" width="60" height="90" rx="1" fill="none" stroke="#c8c0b0" stroke-width="1"/>
-                            <rect x="10" y="10" width="180" height="10" rx="2" fill="#a89070"/>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Wainscoting</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Classic metal wainscoting panels combining timeless aesthetics with durable aluminum construction for interior wall paneling.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Panels</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-cat="skirting">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <g transform="translate(10,45)">
-                                <rect x="0" y="0" width="180" height="68" rx="3" fill="#d0ccc8"/>
-                                <rect x="0" y="0" width="180" height="20" rx="3" fill="#e8e4e0"/>
-                                <rect x="0" y="20" width="180" height="4" fill="#b8b4b0"/>
-                                <line x1="0" y1="27" x2="180" y2="27" stroke="#c0bcb8" stroke-width="0.7"/>
-                                <line x1="0" y1="34" x2="180" y2="34" stroke="#c0bcb8" stroke-width="0.7"/>
-                                <line x1="0" y1="41" x2="180" y2="41" stroke="#c0bcb8" stroke-width="0.7"/>
-                                <line x1="0" y1="48" x2="180" y2="48" stroke="#c0bcb8" stroke-width="0.7"/>
-                                <line x1="0" y1="55" x2="180" y2="55" stroke="#c0bcb8" stroke-width="0.7"/>
-                                <rect x="0" y="62" width="180" height="6" rx="2" fill="#a8a4a0"/>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Stainless Steel Baseboard</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Precision-engineered stainless baseboards with brushed or mirror-polished finish. Ideal for modern and luxury interior spaces.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Skirting</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" data-cat="profile">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <g transform="translate(10,12)">
-                                <rect x="0" y="0" width="180" height="15" rx="7" fill="#b8a888"/>
-                                <rect x="0" y="22" width="180" height="10" rx="5" fill="#c8b898"/>
-                                <rect x="0" y="40" width="180" height="20" rx="3" fill="#a89878"/>
-                                <rect x="0" y="40" width="180" height="8" rx="3" fill="#c0b090"/>
-                                <rect x="0" y="70" width="180" height="7" rx="3" fill="#d4c8a0"/>
-                                <rect x="0" y="86" width="180" height="14" rx="6" fill="#b0a070"/>
-                                <rect x="0" y="86" width="180" height="5" rx="3" fill="#c8b888"/>
-                                <rect x="0" y="110" width="180" height="24" rx="3" fill="#907860"/>
-                                <rect x="0" y="110" width="180" height="10" rx="3" fill="#a89070"/>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Metal Decorative Lines</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Versatile metal trim profiles for accent detailing on walls, ceilings, and furniture edges in a variety of finishes.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Profiles</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="180" height="130" rx="4" fill="#e8e4dc"/>
+                    <rect x="10" y="10" width="180" height="34" rx="4" fill="#f5f2ed"/>
+                    <rect x="10" y="50" width="180" height="26" fill="#e0dbd2"/>
+                    <rect x="10" y="82" width="180" height="26" fill="#c8c0b0"/>
+                    <rect x="10" y="114" width="180" height="20" fill="#a89880"/>
+                    <g fill="none" stroke="#b0a890" stroke-width="0.9" opacity="0.55">
+                        <polygon points="40,56 55,48 70,56 70,72 55,80 40,72"/>
+                        <polygon points="70,56 85,48 100,56 100,72 85,80 70,72"/>
+                        <polygon points="100,56 115,48 130,56 130,72 115,80 100,72"/>
+                        <polygon points="130,56 145,48 160,56 160,72 145,80 130,72"/>
+                        <polygon points="55,72 70,64 85,72 85,88 70,96 55,88"/>
+                        <polygon points="85,72 100,64 115,72 115,88 100,96 85,88"/>
+                        <polygon points="115,72 130,64 145,72 145,88 130,96 115,88"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
             </div>
-
-            <!-- PAGE 2 -->
-            <div id="page2" class="page-section">
-
-                <div class="card" data-cat="welded">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="10" y="10" width="180" height="130" rx="4" fill="#e0d8cc"/>
-                            <rect x="20" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/>
-                            <rect x="102" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/>
-                            <rect x="20" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/>
-                            <rect x="102" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/>
-                            <circle cx="92" cy="70" r="6" fill="#a89870"/>
-                            <circle cx="102" cy="70" r="6" fill="#a89870"/>
-                            <circle cx="92" cy="80" r="6" fill="#a89870"/>
-                            <circle cx="102" cy="80" r="6" fill="#a89870"/>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">All-Aluminum Welded Large Plate</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Full-size seamlessly welded aluminum panels for large-area wall cladding with a clean, modern aesthetic and zero visible joints.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Panels</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
+            <div class="card-body">
+                <div class="card-title">SPC Honeycomb Panel</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Lightweight composite panels with superior strength-to-weight ratio for modern interior wall and ceiling applications.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Panels</span>
+                    <span class="card-arrow">→</span>
                 </div>
-
-                <div class="card" data-cat="skirting">
-                    <div class="card-img-wrap">
-                        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                            <g transform="translate(10,40)">
-                                <rect x="0" y="20" width="180" height="58" rx="2" fill="#a09080"/>
-                                <rect x="0" y="0" width="180" height="24" rx="3" fill="#c0b8a8"/>
-                                <rect x="0" y="0" width="180" height="8" rx="3" fill="#d4ccc0"/>
-                                <rect x="-4" y="18" width="188" height="6" rx="1" fill="#887868"/>
-                            </g>
-                        </svg>
-                        <div class="card-overlay"><button class="card-view">View Details</button></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Metal Skirting</div>
-                        <div class="card-date">2025-06-24</div>
-                        <div class="card-desc">Durable metal skirting boards that protect and finish wall bases with a sleek profile, available in multiple color and texture options.</div>
-                        <div class="card-footer">
-                            <span class="card-tag">Skirting</span>
-                            <span class="card-arrow">→</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="profile">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,10)">
+                        <rect x="0" y="0" width="180" height="38" rx="3" fill="#6b5040"/>
+                        <rect x="0" y="0" width="180" height="12" rx="3" fill="#8a6a50"/>
+                        <rect x="0" y="48" width="180" height="38" rx="3" fill="#6b5040"/>
+                        <rect x="0" y="48" width="180" height="12" rx="3" fill="#8a6a50"/>
+                        <rect x="0" y="96" width="180" height="38" rx="3" fill="#6b5040"/>
+                        <rect x="0" y="96" width="180" height="12" rx="3" fill="#8a6a50"/>
+                        <g fill="#2a1a0a" opacity="0.4">
+                            <rect x="8" y="2" width="10" height="34" rx="1"/>
+                            <rect x="26" y="2" width="10" height="34" rx="1"/>
+                            <rect x="44" y="2" width="10" height="34" rx="1"/>
+                            <rect x="62" y="2" width="10" height="34" rx="1"/>
+                            <rect x="80" y="2" width="10" height="34" rx="1"/>
+                            <rect x="98" y="2" width="10" height="34" rx="1"/>
+                            <rect x="116" y="2" width="10" height="34" rx="1"/>
+                            <rect x="134" y="2" width="10" height="34" rx="1"/>
+                            <rect x="152" y="2" width="10" height="34" rx="1"/>
+                        </g>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Grille Plate</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Wood-grain finish aluminum grille profiles for elegant wall and ceiling decorative applications in residential and commercial spaces.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Profiles</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(100,75)">
+                        <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#c8a870" opacity="0.6" transform="rotate(-18)"/>
+                        <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#d4bc90" opacity="0.72" transform="rotate(-8)"/>
+                        <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#ece4d4" opacity="0.88" transform="rotate(0)"/>
+                        <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#a09080" opacity="0.6" transform="rotate(8)"/>
+                        <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#707070" opacity="0.5" transform="rotate(18)"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Aluminum Honeycomb Panel</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">High-strength aluminum composite panels available in wood-grain, metallic, and solid color finishes for architectural projects.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Panels</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,10)">
+                        <rect x="0" y="0" width="180" height="130" rx="3" fill="#e8e0d4"/>
+                        <rect x="20" y="15" width="35" height="100" rx="2" fill="#1a1a1a"/>
+                        <rect x="65" y="15" width="35" height="100" rx="2" fill="#8b6f47"/>
+                        <rect x="110" y="15" width="35" height="100" rx="2" fill="#d4a574"/>
+                        <rect x="155" y="15" width="35" height="100" rx="2" fill="#f5f0e8"/>
+                        <line x1="20" y1="20" x2="190" y2="20" stroke="#c0b8a8" stroke-width="0.8"/>
+                        <line x1="20" y1="115" x2="190" y2="115" stroke="#c0b8a8" stroke-width="0.8"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Carbon crystal plate</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Premium carbon crystal composite plates with multiple color finishes for luxury interior applications.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Panels</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,40)">
+                        <rect x="0" y="20" width="180" height="58" rx="2" fill="#a09080"/>
+                        <rect x="0" y="0" width="180" height="24" rx="3" fill="#c0b8a8"/>
+                        <rect x="0" y="0" width="180" height="8" rx="3" fill="#d4ccc0"/>
+                        <rect x="-4" y="18" width="188" height="6" rx="1" fill="#887868"/>
+                        <circle cx="20" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                        <circle cx="50" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                        <circle cx="80" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                        <circle cx="110" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                        <circle cx="140" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                        <circle cx="170" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">LED Skirting</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Modern LED-integrated skirting boards with ambient lighting for contemporary interior spaces and accent detailing.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Skirting</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,45)">
+                        <rect x="0" y="0" width="180" height="68" rx="3" fill="#e8e8e8"/>
+                        <rect x="0" y="0" width="180" height="20" rx="3" fill="#f5f5f5"/>
+                        <rect x="0" y="20" width="180" height="4" fill="#d0d0d0"/>
+                        <line x1="0" y1="27" x2="180" y2="27" stroke="#c0c0c0" stroke-width="0.7"/>
+                        <line x1="0" y1="34" x2="180" y2="34" stroke="#c0c0c0" stroke-width="0.7"/>
+                        <line x1="0" y1="41" x2="180" y2="41" stroke="#c0c0c0" stroke-width="0.7"/>
+                        <line x1="0" y1="48" x2="180" y2="48" stroke="#c0c0c0" stroke-width="0.7"/>
+                        <line x1="0" y1="55" x2="180" y2="55" stroke="#c0c0c0" stroke-width="0.7"/>
+                        <rect x="0" y="62" width="180" height="6" rx="2" fill="#b8b8b8"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Stainless Steel Skirting</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Premium stainless steel skirting boards with brushed or mirror-polished finish for modern luxury interiors.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Skirting</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page-section">
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="profile">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,12)">
+                        <rect x="0" y="0" width="180" height="15" rx="7" fill="#b8a888"/>
+                        <rect x="0" y="22" width="180" height="10" rx="5" fill="#c8b898"/>
+                        <rect x="0" y="40" width="180" height="20" rx="3" fill="#a89878"/>
+                        <rect x="0" y="40" width="180" height="8" rx="3" fill="#c0b090"/>
+                        <rect x="0" y="70" width="180" height="7" rx="3" fill="#d4c8a0"/>
+                        <rect x="0" y="86" width="180" height="14" rx="6" fill="#b0a070"/>
+                        <rect x="0" y="86" width="180" height="5" rx="3" fill="#c8b888"/>
+                        <rect x="0" y="110" width="180" height="24" rx="3" fill="#907860"/>
+                        <rect x="0" y="110" width="180" height="10" rx="3" fill="#a89070"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Metal Decorative Lines</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Versatile metal trim profiles for accent detailing on walls, ceilings, and furniture edges in a variety of finishes.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Profiles</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,45)">
+                        <rect x="0" y="0" width="180" height="68" rx="3" fill="#d0ccc8"/>
+                        <rect x="0" y="0" width="180" height="20" rx="3" fill="#e8e4e0"/>
+                        <rect x="0" y="20" width="180" height="4" fill="#b8b4b0"/>
+                        <line x1="0" y1="27" x2="180" y2="27" stroke="#c0bcb8" stroke-width="0.7"/>
+                        <line x1="0" y1="34" x2="180" y2="34" stroke="#c0bcb8" stroke-width="0.7"/>
+                        <line x1="0" y1="41" x2="180" y2="41" stroke="#c0bcb8" stroke-width="0.7"/>
+                        <line x1="0" y1="48" x2="180" y2="48" stroke="#c0bcb8" stroke-width="0.7"/>
+                        <line x1="0" y1="55" x2="180" y2="55" stroke="#c0bcb8" stroke-width="0.7"/>
+                        <rect x="0" y="62" width="180" height="6" rx="2" fill="#a8a4a0"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Stainless Steel Baseboard</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Precision-engineered stainless baseboards with brushed or mirror-polished finish. Ideal for modern and luxury interior spaces.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Skirting</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(10,40)">
+                        <rect x="0" y="20" width="180" height="58" rx="2" fill="#b8a888"/>
+                        <rect x="0" y="0" width="180" height="24" rx="3" fill="#d4c4a0"/>
+                        <rect x="0" y="0" width="180" height="8" rx="3" fill="#e8dcc0"/>
+                        <rect x="-4" y="18" width="188" height="6" rx="1" fill="#a89878"/>
+                        <line x1="15" y1="30" x2="165" y2="30" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/>
+                        <line x1="15" y1="40" x2="165" y2="40" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/>
+                        <line x1="15" y1="50" x2="165" y2="50" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/>
+                        <line x1="15" y1="60" x2="165" y2="60" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/>
+                    </g>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Aluminum Alloy Skirting</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Lightweight yet durable aluminum alloy skirting boards with multiple finish options for versatile interior design.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Skirting</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="product-details.html" class="card-link">
+        <div class="card" data-cat="welded">
+            <div class="card-img-wrap">
+                <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="180" height="130" rx="4" fill="#e0d8cc"/>
+                    <rect x="20" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/>
+                    <rect x="102" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/>
+                    <rect x="20" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/>
+                    <rect x="102" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/>
+                    <circle cx="92" cy="70" r="6" fill="#a89870"/>
+                    <circle cx="102" cy="70" r="6" fill="#a89870"/>
+                    <circle cx="92" cy="80" r="6" fill="#a89870"/>
+                    <circle cx="102" cy="80" r="6" fill="#a89870"/>
+                </svg>
+                <div class="card-overlay"><button class="card-view">View Details</button></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">All-Aluminum Welded Large Plate</div>
+                <div class="card-date">2025-06-24</div>
+                <div class="card-desc">Full-size seamlessly welded aluminum panels for large-area wall cladding with a clean, modern aesthetic and zero visible joints.</div>
+                <div class="card-footer">
+                    <span class="card-tag">Panels</span>
+                    <span class="card-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+</div>
 
         </div><!-- end cards-wrapper -->
     </div>
@@ -813,7 +1359,6 @@
 
         function changePage(delta) { goToPage(currentPage + delta); }
 
-        // Sidebar filter
         function filterCat(e, cat) {
             e.preventDefault();
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
@@ -821,7 +1366,6 @@
             applyFilter(cat);
         }
 
-        // Top filter tabs
         function filterTab(e, cat) {
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             e.currentTarget.classList.add('active');
@@ -833,11 +1377,10 @@
             let visible = 0;
             allCards.forEach(c => {
                 const match = cat === 'all' || c.dataset.cat === cat;
-                c.style.display = match ? '' : 'none';
+                c.parentElement.style.display = match ? 'block' : 'none';
                 if (match) visible++;
             });
             document.getElementById('count').textContent = '(' + visible + ')';
-            // Show page1, hide page2 when filtering
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
             document.getElementById('page1').classList.add('active');
             currentPage = 1;
@@ -845,7 +1388,6 @@
             document.getElementById('btn-p2').classList.remove('active');
         }
 
-        // Search
         const si = document.querySelector('.search-input');
         const sb = document.querySelector('.search-btn');
         sb.addEventListener('click', () => { if (si.value.trim()) alert('Searching: ' + si.value.trim()); });
