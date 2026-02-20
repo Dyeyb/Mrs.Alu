@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account – Aluminum Lady</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #b8935a;
+            --gold-light: #d4aa72;
+            --dark: #1a1a18;
+            --surface: #222220;
+            --text: #e8e4dc;
+            --muted: #888880;
+            --border: rgba(184, 147, 90, 0.25);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.5s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .step-circle {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .step.done .step-circle,
+        .step.active .step-circle {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--dark);
+        }
+
+        .step-label {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        .step.active .step-label,
+        .step.done .step-label { color: var(--gold); }
+
+        .step-line {
+            width: 48px; height: 1px;
+            background: var(--border);
+            margin-bottom: 18px;
+        }
+
+        .step-line.done { background: var(--gold); opacity: 0.5; }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .form-header .tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .form-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .form-header p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .form-header .email-hint {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .otp-group {
+            display: flex;
+            justify-content: center;
+            gap: 0.65rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .otp-group input {
+            width: 52px; height: 58px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s;
+            caret-color: var(--gold);
+        }
+
+        .otp-group input:focus {
+            border-color: var(--gold);
+            background: rgba(184,147,90,0.04);
+            transform: translateY(-2px);
+        }
+
+        .otp-timer {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 1.8rem;
+        }
+
+        .otp-timer span { color: var(--gold); font-weight: 500; }
+
+        .otp-warning {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.6rem;
+            animation: fadeUp 0.2s ease both;
+        }
+
+
+        .resend-row {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 1.8rem;
+        }
+
+        .resend-row a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resend-row a:hover { text-decoration: underline; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-submit:hover { background: var(--gold-light); }
+        .btn-submit:active { transform: scale(0.99); }
+
+        .btn-ghost {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: border-color 0.2s, color 0.2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+        @media (max-width: 480px) {
+            body { padding: 2rem 1.5rem; }
+            .otp-group input { width: 42px; height: 50px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+
+    <div class="steps">
+        <div class="step done">
+            <div class="step-circle">&#10003;</div>
+            <span class="step-label">Email</span>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step active">
+            <div class="step-circle">2</div>
+            <span class="step-label">Verify</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle">3</div>
+            <span class="step-label">Reset</span>
+        </div>
+    </div>
+
+    <div class="form-header">
+        <span class="tag">Verification</span>
+        <h2>Verify Account</h2>
+        <p>We sent a 6-digit code to<br><span class="email-hint">you@example.com</span></p>
+    </div>
+
+    <div class="otp-group" id="otpGroup">
+        <input type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+    </div>
+
+    <div class="otp-warning" id="otpWarning">&#9888; Numbers only (0–9)</div>
+
+    <div class="otp-timer">Code expires in <span>02:00</span></div>
+
+    <div class="resend-row">Didn't receive it? <a href="#">Resend Code</a></div>
+
+    <a href="new-password.html" class="btn-submit">Verify &amp; Continue</a>
+    <a href="forgot-password.html" class="btn-ghost">&#8592; Back</a>
+
+</div>
+
+<script>
+    var inputs = Array.from(document.querySelectorAll('#otpGroup input'));
+
+    inputs.forEach(function(input, i) {
+
+        input.addEventListener('keydown', function(e) {
+            var allowedKeys = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'];
+
+            // Allow control shortcuts
+            if (e.ctrlKey || e.metaKey) return;
+
+            // Allow navigation/delete keys
+            if (allowedKeys.indexOf(e.key) !== -1) {
+                if (e.key === 'Backspace' && input.value === '' && i > 0) {
+                    inputs[i - 1].value = '';
+                    inputs[i - 1].focus();
+                }
+                return;
+            }
+
+            // *** BLOCK EVERYTHING that is not 0-9 ***
+            if (e.key.length === 1 && (e.key < '0' || e.key > '9')) {
+                e.preventDefault();
+                var warn = document.getElementById('otpWarning');
+                warn.style.display = 'block';
+                clearTimeout(warn._t);
+                warn._t = setTimeout(function() { warn.style.display = 'none'; }, 1800);
+                return;
+            }
+
+            // Block if box is already filled
+            if (input.value.length >= 1 && e.key.length === 1) {
+                e.preventDefault();
+                if (i < inputs.length - 1) inputs[i + 1].focus();
+                return;
+            }
+        });
+
+        input.addEventListener('input', function() {
+            // Strip any non-digit (safety net)
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+            // Auto-advance
+            if (input.value !== '' && i < inputs.length - 1) {
+                inputs[i + 1].focus();
+            }
+        });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var pasted = (e.clipboardData || window.clipboardData).getData('text');
+            var digits = pasted.replace(/[^0-9]/g, '').slice(0, 6);
+            digits.split('').forEach(function(d, idx) {
+                if (inputs[idx]) inputs[idx].value = d;
+            });
+            var focusIdx = Math.min(digits.length, inputs.length - 1);
+            inputs[focusIdx].focus();
+        });
+    });
+</script>
+
+</body>
+</html>
