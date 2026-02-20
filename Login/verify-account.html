@@ -40,6 +40,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
+        /* Steps */
         .steps {
             display: flex;
             align-items: center;
@@ -90,6 +91,7 @@
 
         .step-line.done { background: var(--gold); opacity: 0.5; }
 
+        /* Header */
         .form-header {
             margin-bottom: 2.5rem;
             text-align: center;
@@ -123,6 +125,7 @@
             font-weight: 500;
         }
 
+        /* OTP */
         .otp-group {
             display: flex;
             justify-content: center;
@@ -150,25 +153,41 @@
             transform: translateY(-2px);
         }
 
-        .otp-timer {
-            text-align: center;
-            font-size: 0.78rem;
-            color: var(--muted);
-            margin-bottom: 1.8rem;
-        }
-
-        .otp-timer span { color: var(--gold); font-weight: 500; }
-
+        /* Warning */
         .otp-warning {
             display: none;
             text-align: center;
             font-size: 0.75rem;
             color: #e05454;
             margin-bottom: 0.6rem;
-            animation: fadeUp 0.2s ease both;
         }
 
+        /* Timer */
+        .otp-timer {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 0.6rem;
+        }
 
+        .otp-timer span {
+            color: var(--gold);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .otp-timer span.expired { color: #e05454; }
+
+        /* Expired message */
+        .expired-msg {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Resend */
         .resend-row {
             text-align: center;
             font-size: 0.78rem;
@@ -184,6 +203,7 @@
 
         .resend-row a:hover { text-decoration: underline; }
 
+        /* Buttons */
         .btn-submit {
             width: 100%;
             padding: 1rem;
@@ -196,7 +216,7 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: background 0.2s, transform 0.1s, opacity 0.2s;
             margin-bottom: 1rem;
             text-decoration: none;
             display: block;
@@ -205,6 +225,11 @@
 
         .btn-submit:hover { background: var(--gold-light); }
         .btn-submit:active { transform: scale(0.99); }
+        .btn-submit.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
 
         .btn-ghost {
             width: 100%;
@@ -223,6 +248,14 @@
         }
 
         .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+        .submit-warning {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.8rem;
+        }
 
         @media (max-width: 480px) {
             body { padding: 2rem 1.5rem; }
@@ -254,7 +287,7 @@
     <div class="form-header">
         <span class="tag">Verification</span>
         <h2>Verify Account</h2>
-        <p>We sent a 6-digit code to<br><span class="email-hint">you@example.com</span></p>
+        <p>We sent a 6-digit code to<br><span class="email-hint"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="334a5c4673564b525e435f561d505c5e">[email&#160;protected]</a></span></p>
     </div>
 
     <div class="otp-group" id="otpGroup">
@@ -266,29 +299,30 @@
         <input type="text" maxlength="1" inputmode="numeric" />
     </div>
 
-    <div class="otp-warning" id="otpWarning">&#9888; Numbers only (0–9)</div>
+    <div class="otp-warning" id="otpWarning">&#9888; Numbers only (0&#8211;9)</div>
 
-    <div class="otp-timer">Code expires in <span>02:00</span></div>
+    <div class="otp-timer">Code expires in <span id="countdown">01:00</span></div>
 
-    <div class="resend-row">Didn't receive it? <a href="#">Resend Code</a></div>
+    <div class="expired-msg" id="expiredMsg">&#9888; Code expired. Please request a new one.</div>
 
-    <a href="new-password.html" class="btn-submit">Verify &amp; Continue</a>
+    <div class="resend-row">Didn't receive it? <a href="#" id="resendBtn">Resend Code</a></div>
+
+    <div class="submit-warning" id="submitWarning">&#9888; Please fill in all 6 digits before continuing.</div>
+
+    <a href="new-password.html" class="btn-submit" id="verifyBtn">Verify &#38; Continue</a>
     <a href="forgot-password.html" class="btn-ghost">&#8592; Back</a>
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── OTP Input Logic ──
     var inputs = Array.from(document.querySelectorAll('#otpGroup input'));
 
     inputs.forEach(function(input, i) {
-
         input.addEventListener('keydown', function(e) {
             var allowedKeys = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'];
-
-            // Allow control shortcuts
             if (e.ctrlKey || e.metaKey) return;
 
-            // Allow navigation/delete keys
             if (allowedKeys.indexOf(e.key) !== -1) {
                 if (e.key === 'Backspace' && input.value === '' && i > 0) {
                     inputs[i - 1].value = '';
@@ -297,7 +331,6 @@
                 return;
             }
 
-            // *** BLOCK EVERYTHING that is not 0-9 ***
             if (e.key.length === 1 && (e.key < '0' || e.key > '9')) {
                 e.preventDefault();
                 var warn = document.getElementById('otpWarning');
@@ -307,7 +340,6 @@
                 return;
             }
 
-            // Block if box is already filled
             if (input.value.length >= 1 && e.key.length === 1) {
                 e.preventDefault();
                 if (i < inputs.length - 1) inputs[i + 1].focus();
@@ -316,9 +348,7 @@
         });
 
         input.addEventListener('input', function() {
-            // Strip any non-digit (safety net)
             input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
-            // Auto-advance
             if (input.value !== '' && i < inputs.length - 1) {
                 inputs[i + 1].focus();
             }
@@ -331,9 +361,67 @@
             digits.split('').forEach(function(d, idx) {
                 if (inputs[idx]) inputs[idx].value = d;
             });
-            var focusIdx = Math.min(digits.length, inputs.length - 1);
-            inputs[focusIdx].focus();
+            inputs[Math.min(digits.length, inputs.length - 1)].focus();
         });
+    });
+
+    // ── Countdown Timer ──
+    var timeLeft = 60;
+    var countdownEl = document.getElementById('countdown');
+    var expiredMsg  = document.getElementById('expiredMsg');
+    var verifyBtn   = document.getElementById('verifyBtn');
+    var timerRef;
+
+    function startTimer() {
+        clearInterval(timerRef);
+        timeLeft = 60;
+        countdownEl.className = '';
+        countdownEl.style.color = '';
+        expiredMsg.style.display = 'none';
+        verifyBtn.classList.remove('disabled');
+
+        timerRef = setInterval(function() {
+            timeLeft--;
+
+            var mins = Math.floor(timeLeft / 60);
+            var secs = timeLeft % 60;
+            countdownEl.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+
+            if (timeLeft <= 10) {
+                countdownEl.style.color = '#e05454';
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerRef);
+                countdownEl.textContent = '00:00';
+                countdownEl.style.color = '#e05454';
+                expiredMsg.style.display = 'block';
+                verifyBtn.classList.add('disabled');
+            }
+        }, 1000);
+    }
+
+    // Start on page load
+    startTimer();
+
+    // Resend resets the timer
+    document.getElementById('resendBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        inputs.forEach(function(inp) { inp.value = ''; });
+        inputs[0].focus();
+        startTimer();
+    });
+
+    // ── Verify Button Warning ──
+    verifyBtn.addEventListener('click', function(e) {
+        var filled = inputs.every(function(inp) { return inp.value !== ''; });
+        if (!filled) {
+            e.preventDefault();
+            var warn = document.getElementById('submitWarning');
+            warn.style.display = 'block';
+            clearTimeout(warn._t);
+            warn._t = setTimeout(function() { warn.style.display = 'none'; }, 3000);
+        }
     });
 </script>
 
