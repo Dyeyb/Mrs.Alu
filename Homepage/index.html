@@ -262,9 +262,10 @@
             height: 14px;
         }
 
-        /* ── HERO ── */
+        /* ── HERO (now matching about.html style) ── */
         .hero {
             width: 100%;
+<<<<<<< HEAD
             height: 280px;
             background: linear-gradient(110deg, #3a5a70 0%, #2b4a60 45%, #1c3345 100%);
             position: relative;
@@ -398,6 +399,52 @@
         .dot.active {
             background: #fff;
         }
+=======
+            height: 320px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #3a3020 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a561' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-overlay {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-bottom: 16px;
+        }
+
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .hero-heading span {
+            color: var(--primary-accent);
+            font-style: italic;
+        }
+>>>>>>> 645bffe87446eff9019f678e134bd56cca1cfb21
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
@@ -854,7 +901,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        /* ── Scroll-triggered fade-up animations (from about.html) ── */
+        /* ── Scroll-triggered fade-up animations ── */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -909,6 +956,7 @@
         }
 
         @media (max-width: 768px) {
+<<<<<<< HEAD
             body {
                 padding-top: 70px;
             }
@@ -950,6 +998,17 @@
                 flex-direction: column;
                 align-items: center;
             }
+=======
+            body { padding-top: 70px; }
+            .nav-container { padding: 0 16px; height: 70px; }
+            .nav-menu { display: none; }
+            .homepage-content { padding: 0 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+            .breadcrumb { padding: 12px 20px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .hero-heading { font-size: 36px; }
+>>>>>>> 645bffe87446eff9019f678e134bd56cca1cfb21
         }
 
         @media (max-width: 600px) {
@@ -1215,6 +1274,7 @@
 
 <body>
 
+<<<<<<< HEAD
     <!-- NAVBAR -->
     <nav class="navbar"><!-- Animated Welcome Banner -->
 
@@ -1264,9 +1324,43 @@
         <div class="dot active"></div>
         <div class="dot"></div>
         <div class="dot"></div>
+=======
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">M</div>
+            <span class="logo-text">Mrs.Alu</span>
+        </a>
+       <ul class="nav-menu">
+            <li><a href="./index.html" class="nav-link active">Home</a></li>
+            <li><a href="../products.html" class="nav-link">Products</a></li>
+            <li><a href="../About us/about.html" class="nav-link">About Us</a></li>
+            <li><a href="../case.html" class="nav-link">Case</a></li>
+            <li><a href="../news-detail.html" class="nav-link">News</a></li>
+            <li><a href="../contactus.html" class="nav-link">Contact Us</a></li>
+        </ul>
+        <div class="search-wrapper">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="search-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO (matching about.html style) -->
+<section class="hero">
+    <div class="hero-overlay animate-up">
+        <p class="hero-label">Premium Aluminum Building Materials</p>
+        <h1 class="hero-heading">Welcome to <span>Mrs.Alu</span></h1>
+>>>>>>> 645bffe87446eff9019f678e134bd56cca1cfb21
     </div>
     </section>
 
+<<<<<<< HEAD
 
 
     <!-- HOMEPAGE CONTENT -->
@@ -1284,6 +1378,18 @@
                 spaces with elegance and durability.
             </p>
         </div>
+=======
+<!-- HOMEPAGE CONTENT -->
+<div class="homepage-content">
+
+    <!-- Welcome Section -->
+    <div class="welcome-section animate-up delay-1">
+        <p class="welcome-subtitle">Premium Aluminum Building Materials & Interior Solutions</p>
+        <p class="welcome-desc">
+            Foshan Aluminum Lady Building Materials Co., Ltd. was founded in Lishui Town, Nanhai, Foshan in 2004. We specialize in aluminum wainscoting, wall panels, metal decorative lines, and skirting boards. With advanced extrusion production lines, spraying facilities, and a dedicated team of technical professionals, we are committed to providing innovative, high-quality interior solutions that transform spaces with elegance and durability.
+        </p>
+    </div>
+>>>>>>> 645bffe87446eff9019f678e134bd56cca1cfb21
 
         <!-- Features Section -->
         <div class="features-section">
@@ -1552,7 +1658,7 @@
     </footer>
 
     <script>
-        // Intersection Observer — scroll-triggered fadeUp (from about.html)
+        // Intersection Observer — scroll-triggered fadeUp
         const animEls = document.querySelectorAll('.animate-up');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
