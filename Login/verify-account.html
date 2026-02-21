@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account – Aluminum Lady</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #b8935a;
+            --gold-light: #d4aa72;
+            --dark: #1a1a18;
+            --surface: #222220;
+            --text: #e8e4dc;
+            --muted: #888880;
+            --border: rgba(184, 147, 90, 0.25);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.5s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Steps */
+        .steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .step-circle {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .step.done .step-circle,
+        .step.active .step-circle {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--dark);
+        }
+
+        .step-label {
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        .step.active .step-label,
+        .step.done .step-label { color: var(--gold); }
+
+        .step-line {
+            width: 48px; height: 1px;
+            background: var(--border);
+            margin-bottom: 18px;
+        }
+
+        .step-line.done { background: var(--gold); opacity: 0.5; }
+
+        /* Header */
+        .form-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .form-header .tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .form-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .form-header p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .form-header .email-hint {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* OTP */
+        .otp-group {
+            display: flex;
+            justify-content: center;
+            gap: 0.65rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .otp-group input {
+            width: 52px; height: 58px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, background 0.2s, transform 0.15s;
+            caret-color: var(--gold);
+        }
+
+        .otp-group input:focus {
+            border-color: var(--gold);
+            background: rgba(184,147,90,0.04);
+            transform: translateY(-2px);
+        }
+
+        /* Warning */
+        .otp-warning {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.6rem;
+        }
+
+        /* Timer */
+        .otp-timer {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 0.6rem;
+        }
+
+        .otp-timer span {
+            color: var(--gold);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .otp-timer span.expired { color: #e05454; }
+
+        /* Expired message */
+        .expired-msg {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Resend */
+        .resend-row {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 1.8rem;
+        }
+
+        .resend-row a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resend-row a:hover { text-decoration: underline; }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, opacity 0.2s;
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-submit:hover { background: var(--gold-light); }
+        .btn-submit:active { transform: scale(0.99); }
+        .btn-submit.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: border-color 0.2s, color 0.2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+        .submit-warning {
+            display: none;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e05454;
+            margin-bottom: 0.8rem;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 2rem 1.5rem; }
+            .otp-group input { width: 42px; height: 50px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+
+    <div class="steps">
+        <div class="step done">
+            <div class="step-circle">&#10003;</div>
+            <span class="step-label">Email</span>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step active">
+            <div class="step-circle">2</div>
+            <span class="step-label">Verify</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle">3</div>
+            <span class="step-label">Reset</span>
+        </div>
+    </div>
+
+    <div class="form-header">
+        <span class="tag">Verification</span>
+        <h2>Verify Account</h2>
+        <p>We sent a 6-digit code to<br><span class="email-hint"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="334a5c4673564b525e435f561d505c5e">[email&#160;protected]</a></span></p>
+    </div>
+
+    <div class="otp-group" id="otpGroup">
+        <input type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+        <input type="text" maxlength="1" inputmode="numeric" />
+    </div>
+
+    <div class="otp-warning" id="otpWarning">&#9888; Numbers only (0&#8211;9)</div>
+
+    <div class="otp-timer">Code expires in <span id="countdown">01:00</span></div>
+
+    <div class="expired-msg" id="expiredMsg">&#9888; Code expired. Please request a new one.</div>
+
+    <div class="resend-row">Didn't receive it? <a href="#" id="resendBtn">Resend Code</a></div>
+
+    <div class="submit-warning" id="submitWarning">&#9888; Please fill in all 6 digits before continuing.</div>
+
+    <a href="new-password.html" class="btn-submit" id="verifyBtn">Verify &#38; Continue</a>
+    <a href="forgot-password.html" class="btn-ghost">&#8592; Back</a>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── OTP Input Logic ──
+    var inputs = Array.from(document.querySelectorAll('#otpGroup input'));
+
+    inputs.forEach(function(input, i) {
+        input.addEventListener('keydown', function(e) {
+            var allowedKeys = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight'];
+            if (e.ctrlKey || e.metaKey) return;
+
+            if (allowedKeys.indexOf(e.key) !== -1) {
+                if (e.key === 'Backspace' && input.value === '' && i > 0) {
+                    inputs[i - 1].value = '';
+                    inputs[i - 1].focus();
+                }
+                return;
+            }
+
+            if (e.key.length === 1 && (e.key < '0' || e.key > '9')) {
+                e.preventDefault();
+                var warn = document.getElementById('otpWarning');
+                warn.style.display = 'block';
+                clearTimeout(warn._t);
+                warn._t = setTimeout(function() { warn.style.display = 'none'; }, 1800);
+                return;
+            }
+
+            if (input.value.length >= 1 && e.key.length === 1) {
+                e.preventDefault();
+                if (i < inputs.length - 1) inputs[i + 1].focus();
+                return;
+            }
+        });
+
+        input.addEventListener('input', function() {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+            if (input.value !== '' && i < inputs.length - 1) {
+                inputs[i + 1].focus();
+            }
+        });
+
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var pasted = (e.clipboardData || window.clipboardData).getData('text');
+            var digits = pasted.replace(/[^0-9]/g, '').slice(0, 6);
+            digits.split('').forEach(function(d, idx) {
+                if (inputs[idx]) inputs[idx].value = d;
+            });
+            inputs[Math.min(digits.length, inputs.length - 1)].focus();
+        });
+    });
+
+    // ── Countdown Timer ──
+    var timeLeft = 60;
+    var countdownEl = document.getElementById('countdown');
+    var expiredMsg  = document.getElementById('expiredMsg');
+    var verifyBtn   = document.getElementById('verifyBtn');
+    var timerRef;
+
+    function startTimer() {
+        clearInterval(timerRef);
+        timeLeft = 60;
+        countdownEl.className = '';
+        countdownEl.style.color = '';
+        expiredMsg.style.display = 'none';
+        verifyBtn.classList.remove('disabled');
+
+        timerRef = setInterval(function() {
+            timeLeft--;
+
+            var mins = Math.floor(timeLeft / 60);
+            var secs = timeLeft % 60;
+            countdownEl.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+
+            if (timeLeft <= 10) {
+                countdownEl.style.color = '#e05454';
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerRef);
+                countdownEl.textContent = '00:00';
+                countdownEl.style.color = '#e05454';
+                expiredMsg.style.display = 'block';
+                verifyBtn.classList.add('disabled');
+            }
+        }, 1000);
+    }
+
+    // Start on page load
+    startTimer();
+
+    // Resend resets the timer
+    document.getElementById('resendBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        inputs.forEach(function(inp) { inp.value = ''; });
+        inputs[0].focus();
+        startTimer();
+    });
+
+    // ── Verify Button Warning ──
+    verifyBtn.addEventListener('click', function(e) {
+        var filled = inputs.every(function(inp) { return inp.value !== ''; });
+        if (!filled) {
+            e.preventDefault();
+            var warn = document.getElementById('submitWarning');
+            warn.style.display = 'block';
+            clearTimeout(warn._t);
+            warn._t = setTimeout(function() { warn.style.display = 'none'; }, 3000);
+        }
+    });
+</script>
+
+</body>
+</html>
