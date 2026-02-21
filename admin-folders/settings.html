@@ -28,19 +28,22 @@
         /* ══ SIDEBAR ══════════════════════════════════════ */
         .sidebar{width:var(--sidebar-w);min-height:100vh;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:width 0.3s cubic-bezier(0.4,0,0.2,1);overflow:hidden;}
         .sidebar.collapsed{width:var(--sidebar-collapsed);}
-        .sidebar-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=85&fit=crop&crop=center');background-size:cover;background-position:center 60%;filter:brightness(0.6) saturate(0.65) sepia(0.3);transition:transform 0.8s cubic-bezier(0.4,0,0.2,1),filter 0.4s ease;}
+        .sidebar-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=85&fit=crop&crop=center');background-size:cover;background-position:center 60%;background-repeat:no-repeat;filter:brightness(0.6) saturate(0.65) sepia(0.3);transition:transform 0.8s cubic-bezier(0.4,0,0.2,1),filter 0.4s ease;}
         .sidebar:hover .sidebar-bg{transform:scale(1.04);filter:brightness(0.7) saturate(0.75) sepia(0.2);}
         .sidebar-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,18,6,0.93) 0%,rgba(74,46,24,0.72) 28%,rgba(107,66,38,0.40) 52%,rgba(74,46,24,0.68) 78%,rgba(28,14,4,0.95) 100%);pointer-events:none;}
         .sidebar-overlay::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(201,165,97,0.07) 0%,transparent 70%);}
         .sidebar>*:not(.sidebar-bg):not(.sidebar-overlay){position:relative;z-index:1;}
-        .sidebar-logo{padding:28px 22px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(201,165,97,0.18);flex-shrink:0;text-decoration:none;}
+
+        /* ── Logo — matches admin_index exactly ── */
+        .sidebar-logo{height:70px;padding:0 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(201,165,97,0.18);flex-shrink:0;text-decoration:none;}
         .logo-icon{width:42px;height:42px;flex-shrink:0;background:linear-gradient(135deg,rgba(74,46,24,0.85) 0%,var(--primary-accent) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#fff;box-shadow:0 4px 18px rgba(201,165,97,0.45);transition:var(--transition);border:1px solid rgba(201,165,97,0.4);}
-        .sidebar-logo:hover .logo-icon{transform:scale(1.06);}
+        .sidebar-logo:hover .logo-icon{transform:scale(1.06);box-shadow:0 6px 24px rgba(201,165,97,0.65);}
         .logo-text-wrap{overflow:hidden;white-space:nowrap;transition:var(--transition);}
         .logo-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;line-height:1;}
         .logo-name span{color:var(--primary-accent);font-style:italic;}
         .logo-sub{font-size:11px;color:rgba(255,255,255,0.42);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
         .sidebar.collapsed .logo-text-wrap{opacity:0;width:0;}
+
         .sidebar-nav{flex:1;padding:16px 0;overflow-y:auto;overflow-x:hidden;}
         .sidebar-nav::-webkit-scrollbar{width:3px;}
         .sidebar-nav::-webkit-scrollbar-thumb{background:rgba(201,165,97,0.25);border-radius:3px;}
@@ -114,7 +117,6 @@
         /* ── Settings Panel ── */
         .settings-panel{display:none;flex-direction:column;gap:20px;animation:fadeUp 0.35s ease-out;}
         .settings-panel.active{display:flex;}
-
         @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
         .settings-card{background:#fff;border:1px solid var(--border-color);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-subtle);}
@@ -148,7 +150,6 @@
         .toggle input:checked+.toggle-slider::before{transform:translateX(18px);}
 
         /* ── Chip/Tag manager ── */
-        .chip-manager{display:flex;flex-direction:column;gap:0;}
         .chip-list{display:flex;flex-direction:column;gap:0;margin-bottom:0;}
         .chip-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border-color);transition:var(--transition);}
         .chip-item:last-child{border-bottom:none;}
@@ -163,23 +164,17 @@
         .chip-btn:hover{background:var(--hover-bg);color:var(--text-primary);}
         .chip-btn.del:hover{background:#fff0f0;border-color:#fcc;color:#e05555;}
         .chip-btn svg{width:13px;height:13px;}
-
-        /* Add row */
-        .chip-add-row{display:flex;align-items:center;gap:8px;padding-top:14px;border-top:1px solid var(--border-color);margin-top:4px;}
-        .chip-add-input{flex:1;padding:9px 13px;border:1px solid var(--border-color);border-radius:8px;font-size:13px;font-family:'Outfit',sans-serif;color:var(--text-primary);outline:none;transition:var(--transition);background:#fafafa;}
+        .chip-add-row{display:flex;align-items:center;gap:8px;padding-top:14px;border-top:1px solid var(--border-color);margin-top:4px;flex-wrap:wrap;}
+        .chip-add-input{flex:1;padding:9px 13px;border:1px solid var(--border-color);border-radius:8px;font-size:13px;font-family:'Outfit',sans-serif;color:var(--text-primary);outline:none;transition:var(--transition);background:#fafafa;min-width:160px;}
         .chip-add-input:focus{border-color:var(--primary-accent);background:#fff;box-shadow:0 0 0 3px rgba(201,165,97,0.12);}
         .chip-add-btn{padding:9px 16px;border-radius:8px;background:linear-gradient(135deg,var(--brown),var(--brown-light));color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:var(--transition);white-space:nowrap;box-shadow:0 3px 10px rgba(107,66,38,0.2);}
         .chip-add-btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(107,66,38,0.35);}
-
-        /* Color picker row for categories */
         .color-pick-row{display:flex;align-items:center;gap:8px;}
         .color-swatch{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:var(--transition);flex-shrink:0;}
         .color-swatch.selected,.color-swatch:hover{border-color:#1a1a1a;transform:scale(1.15);}
-
-        /* Status dot */
         .status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
-        /* ── Profile / General ── */
+        /* ── Profile ── */
         .avatar-row{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
         .profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--brown-dark),var(--primary-accent));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#fff;border:3px solid rgba(201,165,97,0.35);flex-shrink:0;}
         .avatar-actions{display:flex;flex-direction:column;gap:6px;}
@@ -206,7 +201,7 @@
         .toast.show{transform:translateY(0);opacity:1;}
         .toast svg{width:16px;height:16px;color:var(--primary-accent);}
 
-        /* ── Delete confirm mini ── */
+        /* ── Delete confirm ── */
         .del-overlay{position:fixed;inset:0;background:rgba(28,14,4,0.65);backdrop-filter:blur(4px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
         .del-overlay.open{opacity:1;pointer-events:all;}
         .del-box{background:#fff;border-radius:14px;padding:28px 28px 24px;width:min(380px,90vw);text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.22);transform:scale(0.94);transition:transform 0.25s;}
@@ -217,8 +212,6 @@
         .del-actions{display:flex;gap:10px;justify-content:center;}
         .btn-danger{padding:9px 22px;border-radius:8px;background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:var(--transition);}
         .btn-danger:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(192,57,43,0.4);}
-
-        /* ── Count badge ── */
         .section-count{font-size:12px;color:#aaa;background:#f5f2ee;padding:3px 9px;border-radius:50px;}
 
         @media(max-width:1024px){.settings-layout{grid-template-columns:1fr;}.settings-nav{position:static;display:flex;flex-wrap:wrap;gap:4px;padding:8px;}.settings-nav-title{display:none;}.s-nav-divider{display:none;}.s-nav-item{flex:none;}}
@@ -266,10 +259,22 @@
             <span class="nav-item-label">Emails</span>
             <span class="nav-badge">5</span>
         </a>
+        <a class="nav-item" href="#" data-label="Media">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+            <span class="nav-item-label">Media Library</span>
+        </a>
+        <a class="nav-item" href="../Admin/user_management/admin_user.html" data-label="Users">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <span class="nav-item-label">Users</span>
+        </a>
         <div class="nav-section-label">System</div>
         <a class="nav-item active" href="#" data-label="Settings">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
             <span class="nav-item-label">Settings</span>
+        </a>
+        <a class="nav-item" href="#" data-label="View Site" target="_blank">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            <span class="nav-item-label">View Site</span>
         </a>
     </nav>
     <div class="sidebar-bottom">
@@ -311,7 +316,6 @@
         </div>
 
         <div class="settings-layout">
-
             <!-- LEFT NAVIGATION -->
             <div class="settings-nav">
                 <div class="settings-nav-title">Settings</div>
@@ -515,8 +519,8 @@
                         </div>
                         <div class="settings-card-body" style="padding-bottom:16px;">
                             <div class="chip-list" id="categories-list"></div>
-                            <div class="chip-add-row" style="flex-wrap:wrap;gap:10px;">
-                                <input class="chip-add-input" id="cat-name-input" placeholder="New category name…" style="min-width:160px;">
+                            <div class="chip-add-row">
+                                <input class="chip-add-input" id="cat-name-input" placeholder="New category name…">
                                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                                     <span style="font-size:12px;color:#aaa;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Color:</span>
                                     <div class="color-pick-row" id="cat-color-swatches"></div>
@@ -529,7 +533,7 @@
                         <div class="settings-card-body" style="padding:16px 20px;">
                             <div style="font-size:13px;color:#888;display:flex;align-items:center;gap:8px;">
                                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Categories marked <strong style="color:var(--brown);">Default</strong> cannot be deleted. Hover a category to edit its name inline. Changes here are reflected across the Products page.
+                                Categories marked <strong style="color:var(--brown);">Default</strong> cannot be deleted. Hover a category to edit its name inline.
                             </div>
                         </div>
                     </div>
@@ -547,8 +551,8 @@
                         </div>
                         <div class="settings-card-body" style="padding-bottom:16px;">
                             <div class="chip-list" id="statuses-list"></div>
-                            <div class="chip-add-row" style="flex-wrap:wrap;gap:10px;">
-                                <input class="chip-add-input" id="status-name-input" placeholder="New status name…" style="min-width:160px;">
+                            <div class="chip-add-row">
+                                <input class="chip-add-input" id="status-name-input" placeholder="New status name…">
                                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                                     <span style="font-size:12px;color:#aaa;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Color:</span>
                                     <div class="color-pick-row" id="status-color-swatches"></div>
@@ -665,10 +669,10 @@
                     </div>
                 </div>
 
-            </div><!-- /panels-wrap -->
-        </div><!-- /settings-layout -->
-    </div><!-- /page-body -->
-</div><!-- /main -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- DELETE CONFIRM -->
 <div class="del-overlay" id="del-overlay">
@@ -690,247 +694,131 @@
 </div>
 
 <script>
-/* ─── STATE ────────────────────────────────────────────── */
-const PALETTE = [
-    {hex:'#6b4226',label:'Brown'},
-    {hex:'#2d5a8e',label:'Blue'},
-    {hex:'#3a7d44',label:'Green'},
-    {hex:'#7a5c1e',label:'Gold'},
-    {hex:'#6b2d6b',label:'Purple'},
-    {hex:'#c0392b',label:'Red'},
-    {hex:'#e67e22',label:'Orange'},
-    {hex:'#16a085',label:'Teal'},
-    {hex:'#555555',label:'Grey'},
-    {hex:'#1a1a2e',label:'Navy'},
-];
-
-let categories = [
-    {id:'cat-1',name:'Flooring',color:'#6b4226',isDefault:true},
-    {id:'cat-2',name:'Wall',color:'#2d5a8e',isDefault:true},
-    {id:'cat-3',name:'Ceiling',color:'#3a7d44',isDefault:true},
-    {id:'cat-4',name:'Outdoor',color:'#7a5c1e',isDefault:true},
-    {id:'cat-5',name:'Interior',color:'#6b2d6b',isDefault:true},
-    {id:'cat-6',name:'Other',color:'#555555',isDefault:true},
-];
-
-let statuses = [
-    {id:'st-1',name:'Active',color:'#2d9e6b',isDefault:true},
-    {id:'st-2',name:'Draft',color:'#e0a000',isDefault:true},
-    {id:'st-3',name:'Archived',color:'#aaaaaa',isDefault:true},
-];
-
-let selectedCatColor = PALETTE[0].hex;
-let selectedStatusColor = PALETTE[2].hex;
-let pendingDelete = null;  // {type:'cat'|'status', id}
-
-/* ─── HELPERS ──────────────────────────────────────────── */
-const $ = id => document.getElementById(id);
+const PALETTE=[{hex:'#6b4226',label:'Brown'},{hex:'#2d5a8e',label:'Blue'},{hex:'#3a7d44',label:'Green'},{hex:'#7a5c1e',label:'Gold'},{hex:'#6b2d6b',label:'Purple'},{hex:'#c0392b',label:'Red'},{hex:'#e67e22',label:'Orange'},{hex:'#16a085',label:'Teal'},{hex:'#555555',label:'Grey'},{hex:'#1a1a2e',label:'Navy'}];
+let categories=[{id:'cat-1',name:'Flooring',color:'#6b4226',isDefault:true},{id:'cat-2',name:'Wall',color:'#2d5a8e',isDefault:true},{id:'cat-3',name:'Ceiling',color:'#3a7d44',isDefault:true},{id:'cat-4',name:'Outdoor',color:'#7a5c1e',isDefault:true},{id:'cat-5',name:'Interior',color:'#6b2d6b',isDefault:true},{id:'cat-6',name:'Other',color:'#555555',isDefault:true}];
+let statuses=[{id:'st-1',name:'Active',color:'#2d9e6b',isDefault:true},{id:'st-2',name:'Draft',color:'#e0a000',isDefault:true},{id:'st-3',name:'Archived',color:'#aaaaaa',isDefault:true}];
+let selectedCatColor=PALETTE[0].hex,selectedStatusColor=PALETTE[2].hex,pendingDelete=null;
+const $=id=>document.getElementById(id);
 let toastTimer;
-function toast(msg) {
-    clearTimeout(toastTimer);
-    $('toast-msg').textContent = msg;
-    $('toast').classList.add('show');
-    toastTimer = setTimeout(() => $('toast').classList.remove('show'), 2800);
-}
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+function toast(msg){clearTimeout(toastTimer);$('toast-msg').textContent=msg;$('toast').classList.add('show');toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2800);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 
-/* ─── SETTINGS NAV ─────────────────────────────────────── */
-document.querySelectorAll('.s-nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.s-nav-item').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.s-nav-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+        document.querySelectorAll('.s-nav-item').forEach(i=>i.classList.remove('active'));
+        document.querySelectorAll('.settings-panel').forEach(p=>p.classList.remove('active'));
         item.classList.add('active');
-        $('panel-' + item.dataset.panel).classList.add('active');
+        $('panel-'+item.dataset.panel).classList.add('active');
     });
 });
 
-/* ─── COLOR SWATCHES ───────────────────────────────────── */
-function buildSwatches(containerId, selected, onSelect) {
-    const el = $(containerId);
-    el.innerHTML = PALETTE.map(c => `
-        <div class="color-swatch${c.hex === selected ? ' selected' : ''}" 
-             style="background:${c.hex};" 
-             title="${c.label}" 
-             data-hex="${c.hex}"></div>
-    `).join('');
-    el.querySelectorAll('.color-swatch').forEach(sw => {
-        sw.addEventListener('click', () => {
-            el.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+function buildSwatches(containerId,selected,onSelect){
+    const el=$(containerId);
+    el.innerHTML=PALETTE.map(c=>`<div class="color-swatch${c.hex===selected?' selected':''}" style="background:${c.hex};" title="${c.label}" data-hex="${c.hex}"></div>`).join('');
+    el.querySelectorAll('.color-swatch').forEach(sw=>{
+        sw.addEventListener('click',()=>{
+            el.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('selected'));
             sw.classList.add('selected');
             onSelect(sw.dataset.hex);
         });
     });
 }
 
-/* ─── CATEGORIES RENDER ─────────────────────────────────── */
-function renderCategories() {
-    const list = $('categories-list');
-    $('cat-count').textContent = categories.length + ' categor' + (categories.length === 1 ? 'y' : 'ies');
-    list.innerHTML = categories.map(c => `
+function renderCategories(){
+    const list=$('categories-list');
+    $('cat-count').textContent=categories.length+' categor'+(categories.length===1?'y':'ies');
+    list.innerHTML=categories.map(c=>`
         <div class="chip-item" data-id="${c.id}">
-            <div class="chip-drag" title="Drag to reorder">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </div>
+            <div class="chip-drag"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></div>
             <div class="chip-color-dot" style="background:${c.color};"></div>
             <div class="chip-name" id="cname-${c.id}">${c.name}</div>
-            ${c.isDefault ? '<span class="chip-default-tag">Default</span>' : ''}
+            ${c.isDefault?'<span class="chip-default-tag">Default</span>':''}
             <div class="chip-badge-preview" style="background:${c.color}22;color:${c.color};">${c.name}</div>
             <div class="chip-actions">
-                <button class="chip-btn edit-cat" data-id="${c.id}" title="Rename">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                </button>
-                ${!c.isDefault ? `<button class="chip-btn del del-cat" data-id="${c.id}" title="Delete">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>` : ''}
+                <button class="chip-btn edit-cat" data-id="${c.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
+                ${!c.isDefault?`<button class="chip-btn del del-cat" data-id="${c.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>`:''}
             </div>
-        </div>
-    `).join('');
-
-    list.querySelectorAll('.edit-cat').forEach(btn => {
-        btn.addEventListener('click', () => inlineEdit('cat', btn.dataset.id));
-    });
-    list.querySelectorAll('.del-cat').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const c = categories.find(x => x.id === btn.dataset.id);
-            openDelOverlay('cat', btn.dataset.id, `Delete category "${c.name}"?`, 'Products assigned to this category will not be removed.');
-        });
-    });
+        </div>`).join('');
+    list.querySelectorAll('.edit-cat').forEach(btn=>btn.addEventListener('click',()=>inlineEdit('cat',btn.dataset.id)));
+    list.querySelectorAll('.del-cat').forEach(btn=>btn.addEventListener('click',()=>{
+        const c=categories.find(x=>x.id===btn.dataset.id);
+        openDelOverlay('cat',btn.dataset.id,`Delete category "${c.name}"?`,'Products assigned to this category will not be removed.');
+    }));
 }
 
-/* ─── STATUSES RENDER ───────────────────────────────────── */
-function renderStatuses() {
-    const list = $('statuses-list');
-    $('status-count').textContent = statuses.length + ' status' + (statuses.length === 1 ? '' : 'es');
-    list.innerHTML = statuses.map(s => `
+function renderStatuses(){
+    const list=$('statuses-list');
+    $('status-count').textContent=statuses.length+' status'+(statuses.length===1?'':'es');
+    list.innerHTML=statuses.map(s=>`
         <div class="chip-item" data-id="${s.id}">
-            <div class="chip-drag" title="Drag to reorder">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </div>
+            <div class="chip-drag"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></div>
             <div class="status-dot" style="background:${s.color};"></div>
             <div class="chip-name" id="sname-${s.id}">${s.name}</div>
-            ${s.isDefault ? '<span class="chip-default-tag">Default</span>' : ''}
-            <div class="chip-badge-preview" style="background:${s.color}22;color:${s.color};display:flex;align-items:center;gap:5px;">
-                <span style="width:7px;height:7px;border-radius:50%;background:${s.color};display:inline-block;"></span>${s.name}
-            </div>
+            ${s.isDefault?'<span class="chip-default-tag">Default</span>':''}
+            <div class="chip-badge-preview" style="background:${s.color}22;color:${s.color};display:flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:${s.color};display:inline-block;"></span>${s.name}</div>
             <div class="chip-actions">
-                <button class="chip-btn edit-st" data-id="${s.id}" title="Rename">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                </button>
-                ${!s.isDefault ? `<button class="chip-btn del del-st" data-id="${s.id}" title="Delete">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>` : ''}
+                <button class="chip-btn edit-st" data-id="${s.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
+                ${!s.isDefault?`<button class="chip-btn del del-st" data-id="${s.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>`:''}
             </div>
-        </div>
-    `).join('');
-
-    list.querySelectorAll('.edit-st').forEach(btn => {
-        btn.addEventListener('click', () => inlineEdit('status', btn.dataset.id));
-    });
-    list.querySelectorAll('.del-st').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const s = statuses.find(x => x.id === btn.dataset.id);
-            openDelOverlay('status', btn.dataset.id, `Delete status "${s.name}"?`, 'Products with this status will keep the label, but it won\'t be selectable going forward.');
-        });
-    });
+        </div>`).join('');
+    list.querySelectorAll('.edit-st').forEach(btn=>btn.addEventListener('click',()=>inlineEdit('status',btn.dataset.id)));
+    list.querySelectorAll('.del-st').forEach(btn=>btn.addEventListener('click',()=>{
+        const s=statuses.find(x=>x.id===btn.dataset.id);
+        openDelOverlay('status',btn.dataset.id,`Delete status "${s.name}"?`,"Products with this status will keep the label, but it won't be selectable going forward.");
+    }));
 }
 
-/* ─── INLINE EDIT ───────────────────────────────────────── */
-function inlineEdit(type, id) {
-    const item = type === 'cat' ? categories.find(x => x.id === id) : statuses.find(x => x.id === id);
-    const nameEl = document.getElementById((type === 'cat' ? 'cname-' : 'sname-') + id);
-    if (!nameEl || nameEl.querySelector('input')) return; // already editing
-
-    const originalName = item.name;
-    nameEl.innerHTML = `
-        <div class="inline-edit-wrap">
-            <input class="inline-edit-input" value="${originalName}" id="inline-input-${id}">
-            <button class="inline-save-btn" id="inline-save-${id}">Save</button>
-            <button class="inline-cancel-btn" id="inline-cancel-${id}">Cancel</button>
-        </div>
-    `;
-    const input = document.getElementById('inline-input-' + id);
-    input.focus(); input.select();
-
-    function save() {
-        const val = input.value.trim();
-        if (!val) { cancel(); return; }
-        item.name = val;
-        if (type === 'cat') renderCategories(); else renderStatuses();
-        toast(`"${val}" renamed successfully.`);
-    }
-    function cancel() { item.name = originalName; if (type === 'cat') renderCategories(); else renderStatuses(); }
-
-    document.getElementById('inline-save-' + id).addEventListener('click', save);
-    document.getElementById('inline-cancel-' + id).addEventListener('click', cancel);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') cancel(); });
+function inlineEdit(type,id){
+    const item=type==='cat'?categories.find(x=>x.id===id):statuses.find(x=>x.id===id);
+    const nameEl=document.getElementById((type==='cat'?'cname-':'sname-')+id);
+    if(!nameEl||nameEl.querySelector('input'))return;
+    const originalName=item.name;
+    nameEl.innerHTML=`<div class="inline-edit-wrap"><input class="inline-edit-input" value="${originalName}" id="inline-input-${id}"><button class="inline-save-btn" id="inline-save-${id}">Save</button><button class="inline-cancel-btn" id="inline-cancel-${id}">Cancel</button></div>`;
+    const input=document.getElementById('inline-input-'+id);
+    input.focus();input.select();
+    function save(){const val=input.value.trim();if(!val){cancel();return;}item.name=val;if(type==='cat')renderCategories();else renderStatuses();toast(`"${val}" renamed successfully.`);}
+    function cancel(){item.name=originalName;if(type==='cat')renderCategories();else renderStatuses();}
+    document.getElementById('inline-save-'+id).addEventListener('click',save);
+    document.getElementById('inline-cancel-'+id).addEventListener('click',cancel);
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')save();if(e.key==='Escape')cancel();});
 }
 
-/* ─── ADD CATEGORY ──────────────────────────────────────── */
-$('cat-add-btn').addEventListener('click', () => {
-    const name = $('cat-name-input').value.trim();
-    if (!name) { toast('Please enter a category name.'); $('cat-name-input').focus(); return; }
-    if (categories.find(c => c.name.toLowerCase() === name.toLowerCase())) {
-        toast('A category with that name already exists.'); return;
-    }
-    categories.push({ id: uid(), name, color: selectedCatColor, isDefault: false });
-    $('cat-name-input').value = '';
-    renderCategories();
-    toast(`Category "${name}" added.`);
+$('cat-add-btn').addEventListener('click',()=>{
+    const name=$('cat-name-input').value.trim();
+    if(!name){toast('Please enter a category name.');$('cat-name-input').focus();return;}
+    if(categories.find(c=>c.name.toLowerCase()===name.toLowerCase())){toast('A category with that name already exists.');return;}
+    categories.push({id:uid(),name,color:selectedCatColor,isDefault:false});
+    $('cat-name-input').value='';renderCategories();toast(`Category "${name}" added.`);
 });
-$('cat-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') $('cat-add-btn').click(); });
+$('cat-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')$('cat-add-btn').click();});
 
-/* ─── ADD STATUS ────────────────────────────────────────── */
-$('status-add-btn').addEventListener('click', () => {
-    const name = $('status-name-input').value.trim();
-    if (!name) { toast('Please enter a status name.'); $('status-name-input').focus(); return; }
-    if (statuses.find(s => s.name.toLowerCase() === name.toLowerCase())) {
-        toast('A status with that name already exists.'); return;
-    }
-    statuses.push({ id: uid(), name, color: selectedStatusColor, isDefault: false });
-    $('status-name-input').value = '';
-    renderStatuses();
-    toast(`Status "${name}" added.`);
+$('status-add-btn').addEventListener('click',()=>{
+    const name=$('status-name-input').value.trim();
+    if(!name){toast('Please enter a status name.');$('status-name-input').focus();return;}
+    if(statuses.find(s=>s.name.toLowerCase()===name.toLowerCase())){toast('A status with that name already exists.');return;}
+    statuses.push({id:uid(),name,color:selectedStatusColor,isDefault:false});
+    $('status-name-input').value='';renderStatuses();toast(`Status "${name}" added.`);
 });
-$('status-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') $('status-add-btn').click(); });
+$('status-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')$('status-add-btn').click();});
 
-/* ─── DELETE OVERLAY ────────────────────────────────────── */
-function openDelOverlay(type, id, title, sub) {
-    pendingDelete = { type, id };
-    $('del-title').textContent = title;
-    $('del-sub').textContent = sub;
-    $('del-overlay').classList.add('open');
-}
-function closeDelOverlay() {
-    $('del-overlay').classList.remove('open');
-    pendingDelete = null;
-}
-$('del-confirm-btn').addEventListener('click', () => {
-    if (!pendingDelete) return;
-    if (pendingDelete.type === 'cat') {
-        const c = categories.find(x => x.id === pendingDelete.id);
-        categories = categories.filter(x => x.id !== pendingDelete.id);
-        renderCategories();
-        toast(`Category "${c.name}" deleted.`);
-    } else {
-        const s = statuses.find(x => x.id === pendingDelete.id);
-        statuses = statuses.filter(x => x.id !== pendingDelete.id);
-        renderStatuses();
-        toast(`Status "${s.name}" deleted.`);
-    }
+function openDelOverlay(type,id,title,sub){pendingDelete={type,id};$('del-title').textContent=title;$('del-sub').textContent=sub;$('del-overlay').classList.add('open');}
+function closeDelOverlay(){$('del-overlay').classList.remove('open');pendingDelete=null;}
+$('del-confirm-btn').addEventListener('click',()=>{
+    if(!pendingDelete)return;
+    if(pendingDelete.type==='cat'){const c=categories.find(x=>x.id===pendingDelete.id);categories=categories.filter(x=>x.id!==pendingDelete.id);renderCategories();toast(`Category "${c.name}" deleted.`);}
+    else{const s=statuses.find(x=>x.id===pendingDelete.id);statuses=statuses.filter(x=>x.id!==pendingDelete.id);renderStatuses();toast(`Status "${s.name}" deleted.`);}
     closeDelOverlay();
 });
-$('del-overlay').addEventListener('click', e => { if (e.target === $('del-overlay')) closeDelOverlay(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDelOverlay(); });
+$('del-overlay').addEventListener('click',e=>{if(e.target===$('del-overlay'))closeDelOverlay();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDelOverlay();});
 
-/* ─── SIDEBAR COLLAPSE ──────────────────────────────────── */
-$('collapse-btn').addEventListener('click', () => {
+$('collapse-btn').addEventListener('click',()=>{
     $('sidebar').classList.toggle('collapsed');
     $('main').classList.toggle('collapsed');
 });
 
-/* ─── INIT ──────────────────────────────────────────────── */
-buildSwatches('cat-color-swatches', selectedCatColor, hex => { selectedCatColor = hex; });
-buildSwatches('status-color-swatches', selectedStatusColor, hex => { selectedStatusColor = hex; });
+buildSwatches('cat-color-swatches',selectedCatColor,hex=>{selectedCatColor=hex;});
+buildSwatches('status-color-swatches',selectedStatusColor,hex=>{selectedStatusColor=hex;});
 renderCategories();
 renderStatuses();
 </script>
