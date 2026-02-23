@@ -20,47 +20,168 @@
             --bg-hover:    #f8f5f0;
             --shadow:      0 4px 20px rgba(0,0,0,.08);
             --ease:        all .35s cubic-bezier(.4,0,.2,1);
-            --sidebar-w:   270px;
+            --sidebar-w:          270px;
+            --sidebar-collapsed:  68px;
             --topbar-h:    70px;
+            --primary-accent: #c9a561;
+            --brown-dark:     #2d1a08;
+            --transition:     all .35s cubic-bezier(.4,0,.2,1);
         }
         body{font-family:'Outfit',sans-serif;background:var(--bg-page);min-height:100vh;color:var(--text);display:flex;}
 
-        /* ── SIDEBAR ── */
-        .sidebar{width:var(--sidebar-w);min-height:100vh;position:fixed;top:0;left:0;display:flex;flex-direction:column;overflow:hidden;z-index:200;}
-        .sb-bg{position:absolute;inset:0;z-index:0;}
-        .sb-buildings{position:absolute;bottom:0;left:0;width:100%;height:65%;opacity:.18;z-index:1;}
-        .sb-gradient{position:absolute;inset:0;background:linear-gradient(160deg,#1a0e05 0%,#2d1a08 20%,#3d2410 40%,#4a2e18 60%,#5c3820 75%,#3a2010 88%,#1a0e05 100%);z-index:2;}
-        .sb-pattern{position:absolute;inset:0;z-index:3;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a561' fill-opacity='0.05'%3E%3Cpath d='M20 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-16V0h-2v4H14v2h4v4h2V6h4V4h-4zM4 20v-4H2v4H-2v2h4v4h2v-4h4v-2H4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");opacity:.6;}
-        .sb-inner{position:relative;z-index:10;display:flex;flex-direction:column;height:100%;}
+        /* ═══════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════ */
+        .sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 100;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .sidebar.collapsed { width: var(--sidebar-collapsed); }
 
-        /* Logo */
-        .sb-logo{display:flex;align-items:center;gap:12px;padding:24px 24px 20px;border-bottom:1px solid rgba(201,165,97,.2);text-decoration:none;}
-        .sb-logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#c9a561,#e8c97a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#1a0e05;flex-shrink:0;box-shadow:0 4px 12px rgba(201,165,97,.3);}
-        .sb-logo-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;line-height:1;}
-        .sb-logo-sub{font-size:11px;color:rgba(201,165,97,.7);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+        .sidebar-bg {
+            position: absolute; inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=85&fit=crop&crop=center');
+            background-size: cover;
+            background-position: center 60%;
+            background-repeat: no-repeat;
+            filter: brightness(0.6) saturate(0.65) sepia(0.3);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+        }
+        .sidebar:hover .sidebar-bg { transform: scale(1.04); filter: brightness(0.7) saturate(0.75) sepia(0.2); }
 
-        /* Nav */
-        .sb-nav{flex:1;padding:8px 0;overflow-y:auto;}
-        .sb-nav::-webkit-scrollbar{width:3px;}
-        .sb-nav::-webkit-scrollbar-thumb{background:rgba(201,165,97,.3);border-radius:10px;}
-        .nav-section{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(201,165,97,.5);padding:20px 24px 8px;}
-        .nav-link{display:flex;align-items:center;gap:12px;padding:11px 24px;text-decoration:none;color:rgba(255,255,255,.65);font-size:14px;font-weight:500;transition:var(--ease);position:relative;cursor:pointer;}
-        .nav-link::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%) scaleY(0);width:3px;height:60%;background:var(--gold);border-radius:0 2px 2px 0;transition:transform .25s ease;}
-        .nav-link:hover,.nav-link.active{color:#fff;background:rgba(201,165,97,.1);}
-        .nav-link:hover::before,.nav-link.active::before{transform:translateY(-50%) scaleY(1);}
-        .nav-link.active{background:rgba(201,165,97,.15);}
-        .nav-link svg{width:18px;height:18px;flex-shrink:0;opacity:.8;}
-        .nav-link:hover svg,.nav-link.active svg{opacity:1;}
+        .sidebar-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg,rgba(36,18,6,0.93) 0%,rgba(74,46,24,0.72) 28%,rgba(107,66,38,0.40) 52%,rgba(74,46,24,0.68) 78%,rgba(28,14,4,0.95) 100%);
+            pointer-events: none;
+        }
+        .sidebar-overlay::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg,rgba(201,165,97,0.07) 0%,transparent 70%);
+        }
+        .sidebar > *:not(.sidebar-bg):not(.sidebar-overlay) { position: relative; z-index: 1; }
 
-        /* Sidebar user footer */
-        .sb-footer{padding:16px 24px;border-top:1px solid rgba(201,165,97,.15);}
-        .sb-user{display:flex;align-items:center;gap:10px;}
-        .sb-avatar{width:36px;height:36px;background:linear-gradient(135deg,#c9a561,#e8c97a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:#1a0e05;flex-shrink:0;}
-        .sb-uname{font-size:13px;font-weight:600;color:#fff;}
-        .sb-urole{font-size:11px;color:rgba(201,165,97,.7);}
+        .sidebar-logo {
+            height: 70px; padding: 0 22px;
+            display: flex; align-items: center; gap: 12px;
+            border-bottom: 1px solid rgba(201,165,97,0.18);
+            flex-shrink: 0; text-decoration: none;
+        }
+        .logo-icon {
+            width: 42px; height: 42px; flex-shrink: 0;
+            background: linear-gradient(135deg,rgba(74,46,24,0.85) 0%,var(--primary-accent) 100%);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cormorant Garamond',serif; font-size: 24px; font-weight: 700; color: #fff;
+            box-shadow: 0 4px 18px rgba(201,165,97,0.45); transition: var(--transition);
+            border: 1px solid rgba(201,165,97,0.4);
+        }
+        .sidebar-logo:hover .logo-icon { transform: scale(1.06); box-shadow: 0 6px 24px rgba(201,165,97,0.65); }
+        .logo-text-wrap { overflow: hidden; white-space: nowrap; transition: var(--transition); }
+        .logo-name { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: #fff; line-height: 1; }
+        .logo-name span { color: var(--primary-accent); font-style: italic; }
+        .logo-sub { font-size: 11px; color: rgba(255,255,255,0.42); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+        .sidebar.collapsed .logo-text-wrap { display: none; }
+        .sidebar.collapsed .sidebar-logo { justify-content: center; gap: 0; }
+        .sidebar.collapsed .logo-icon { margin: 0 auto; }
+
+        .sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; overflow-x: hidden; }
+        .sidebar-nav::-webkit-scrollbar { width: 3px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(201,165,97,0.25); border-radius: 3px; }
+
+        .nav-section-label {
+            font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+            text-transform: uppercase; color: rgba(201,165,97,0.5);
+            padding: 16px 22px 8px; white-space: nowrap; overflow: hidden; transition: var(--transition);
+        }
+        .sidebar.collapsed .nav-section-label { opacity: 0; height: 0; padding: 0; }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 22px; text-decoration: none; color: rgba(255,255,255,0.62);
+            font-size: 14px; font-weight: 500; position: relative; cursor: pointer;
+            transition: var(--transition); white-space: nowrap;
+        }
+        /* Active/hover indicator via pseudo-element so it never shifts layout */
+        .nav-item::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+            width: 3px; background: transparent; transition: var(--transition);
+        }
+        .nav-item:hover { color: rgba(255,255,255,0.96); background: rgba(201,165,97,0.1); }
+        .nav-item:hover::before { background: rgba(201,165,97,0.45); }
+        .nav-item.active { color: var(--primary-accent); background: rgba(201,165,97,0.14); }
+        .nav-item.active::before { background: var(--primary-accent); }
+        .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .nav-item-label { transition: var(--transition); }
+        .sidebar.collapsed .nav-item-label { opacity: 0; width: 0; overflow: hidden; }
+        .nav-badge {
+            margin-left: auto; background: var(--primary-accent); color: #1a1a1a;
+            font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 50px;
+            flex-shrink: 0; transition: var(--transition);
+        }
+        .sidebar.collapsed .nav-badge {
+            display: none;
+        }
+        .sidebar.collapsed .nav-item { justify-content: center; padding: 13px 0; gap: 0; }
+        .sidebar.collapsed .nav-item::before { display: none; }
+        .sidebar.collapsed .nav-item.active::after {
+            content: ''; position: absolute; right: 0; top: 0; bottom: 0;
+            width: 3px; background: var(--primary-accent);
+        }
+        .sidebar.collapsed .nav-item:hover::after {
+            content: attr(data-label); position: absolute; left: calc(var(--sidebar-collapsed) + 8px);
+            background: var(--brown-dark); color: #fff; font-size: 13px; font-weight: 500;
+            padding: 6px 12px; border-radius: 6px; white-space: nowrap;
+            border: 1px solid rgba(201,165,97,0.2); z-index: 200; pointer-events: none;
+        }
+
+        .sidebar-bottom { padding: 16px; border-top: 1px solid rgba(201,165,97,0.15); flex-shrink: 0; }
+        .sidebar.collapsed .sidebar-bottom { padding: 10px 6px; }
+        .sidebar-user {
+            display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px;
+            transition: var(--transition); cursor: pointer; border: 1px solid rgba(201,165,97,0.18);
+            background: rgba(0,0,0,0.25); backdrop-filter: blur(6px);
+        }
+        .sidebar-user:hover { background: rgba(201,165,97,0.12); border-color: rgba(201,165,97,0.35); }
+        .user-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg,var(--brown-dark),var(--primary-accent));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
+            border: 1.5px solid rgba(201,165,97,0.45);
+        }
+        .user-info { overflow: hidden; transition: var(--transition); }
+        .user-name { font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; }
+        .user-role { font-size: 11px; color: rgba(255,255,255,0.4); white-space: nowrap; }
+        .sidebar.collapsed .user-info { display: none; }
+        .sidebar.collapsed .sidebar-user {
+            justify-content: center;
+            padding: 10px;
+            gap: 0;
+        }
+        .sidebar.collapsed .user-avatar {
+            margin: 0 auto;
+        }
+
+        .collapse-btn {
+            width: 100%; background: none; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            color: rgba(255,255,255,0.32); font-size: 12px; font-family: 'Outfit',sans-serif;
+            padding: 10px 0 0; transition: var(--transition);
+        }
+        .collapse-btn:hover { color: var(--primary-accent); }
+        .collapse-btn svg { width: 16px; height: 16px; transition: transform 0.3s; }
+        .sidebar.collapsed .collapse-btn svg { transform: rotate(180deg); }
+        .sidebar.collapsed .collapse-btn span { display: none; }
 
         /* ── MAIN AREA ── */
-        .main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+        .main-wrap{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column;transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
+        .main-wrap.collapsed-main { margin-left: var(--sidebar-collapsed); }
 
         /* ── TOPBAR ── */
         .topbar{height:var(--topbar-h);background:#fff;border-bottom:1px solid var(--border);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:100;}
@@ -206,137 +327,95 @@
 <body>
 
 <!-- ══════════════════ SIDEBAR ══════════════════ -->
-<aside class="sidebar">
-    <div class="sb-bg">
-        <svg class="sb-buildings" viewBox="0 0 270 500" fill="white" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <rect x="0"   y="160" width="22" height="340"/>
-            <rect x="25"  y="80"  width="18" height="420"/>
-            <rect x="46"  y="200" width="28" height="300"/>
-            <rect x="78"  y="60"  width="20" height="440"/>
-            <rect x="102" y="140" width="24" height="360"/>
-            <rect x="130" y="40"  width="16" height="460"/>
-            <rect x="150" y="180" width="30" height="320"/>
-            <rect x="184" y="100" width="22" height="400"/>
-            <rect x="210" y="220" width="18" height="280"/>
-            <rect x="232" y="70"  width="20" height="430"/>
-            <rect x="256" y="190" width="14" height="310"/>
-            <rect x="10"  y="260" width="35" height="240"/>
-            <rect x="50"  y="200" width="28" height="300"/>
-            <rect x="85"  y="290" width="22" height="210"/>
-            <rect x="112" y="240" width="40" height="260"/>
-            <rect x="158" y="270" width="30" height="230"/>
-            <rect x="193" y="220" width="36" height="280"/>
-            <rect x="234" y="260" width="28" height="240"/>
-            <rect x="0"   y="340" width="55" height="160"/>
-            <rect x="60"  y="310" width="45" height="190"/>
-            <rect x="110" y="360" width="60" height="140"/>
-            <rect x="175" y="330" width="50" height="170"/>
-            <rect x="230" y="350" width="40" height="150"/>
-            <rect x="5"   y="350" width="6" height="6" fill="#c9a561" opacity="0.5"/>
-            <rect x="15"  y="350" width="6" height="6" fill="#c9a561" opacity="0.3"/>
-            <rect x="5"   y="362" width="6" height="6" fill="#c9a561" opacity="0.2"/>
-            <rect x="15"  y="362" width="6" height="6" fill="#c9a561" opacity="0.5"/>
-            <rect x="30"  y="350" width="6" height="6" fill="#c9a561" opacity="0.3"/>
-            <rect x="68"  y="320" width="6" height="6" fill="#c9a561" opacity="0.4"/>
-            <rect x="80"  y="320" width="6" height="6" fill="#c9a561" opacity="0.2"/>
-            <rect x="68"  y="332" width="6" height="6" fill="#c9a561" opacity="0.3"/>
-            <rect x="118" y="370" width="6" height="6" fill="#c9a561" opacity="0.3"/>
-            <rect x="130" y="370" width="6" height="6" fill="#c9a561" opacity="0.5"/>
-            <rect x="155" y="370" width="6" height="6" fill="#c9a561" opacity="0.4"/>
-            <rect x="183" y="340" width="6" height="6" fill="#c9a561" opacity="0.4"/>
-            <rect x="210" y="340" width="6" height="6" fill="#c9a561" opacity="0.5"/>
-            <rect x="128" y="20"  width="4" height="40"/>
-            <rect x="77"  y="50"  width="3" height="30"/>
-            <rect x="23"  y="68"  width="3" height="25"/>
-            <rect x="183" y="92"  width="3" height="30"/>
-        </svg>
-        <div class="sb-gradient"></div>
-        <div class="sb-pattern"></div>
-    </div>
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-bg"></div>
+    <div class="sidebar-overlay"></div>
 
-    <div class="sb-inner">
-        <a href="index.html" class="sb-logo">
-            <div class="sb-logo-icon">M</div>
-            <div>
-                <div class="sb-logo-name">Mrs.Alu</div>
-                <div class="sb-logo-sub">Admin Panel</div>
-            </div>
+    <a href="index.html" class="sidebar-logo">
+        <div class="logo-icon">M</div>
+        <div class="logo-text-wrap">
+            <div class="logo-name">Mrs.<span>Alu</span></div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+    </a>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+        <a href="admin-dashboard.html" class="nav-item" data-label="Dashboard" data-page="dashboard">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            <span class="nav-item-label">Dashboard</span>
         </a>
 
-        <nav class="sb-nav">
-            <div class="nav-section">Main Menu</div>
-            <a href="admin-dashboard.html" class="nav-link active" data-page="dashboard">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-                Dashboard
-            </a>
+        <div class="nav-section-label">User Management</div>
+        <a href="admin-users.html" class="nav-item" data-label="All Users" data-page="users">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span class="nav-item-label">All Users</span>
+        </a>
+        <a href="admin-add-user.html" class="nav-item" data-label="Add User" data-page="add-users">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            <span class="nav-item-label">Add User</span>
+        </a>
+        <a href="admin-archive.html" class="nav-item" data-label="Archived Users" data-page="archive-users">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+            <span class="nav-item-label">Archived Users</span>
+        </a>
 
-            <div class="nav-section">User Management</div>
-            <a href="admin-users.html" class="nav-link" data-page="users">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                All Users
-            </a>
-            <a href="admin-add-user.html" class="nav-link" data-page="add-users">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-                Add User
-            </a>
-            <a href="admin-archive.html" class="nav-link" data-page="archive-users">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-                Archived Users
-            </a>
+        <div class="nav-section-label">Content</div>
+        <a href="admin-products.html" class="nav-item" data-label="Products" data-page="products">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span class="nav-item-label">Products</span>
+        </a>
+        <a href="admin-news.html" class="nav-item" data-label="News" data-page="news">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span class="nav-item-label">News</span>
+        </a>
+        <a href="admin-case.html" class="nav-item active" data-label="Case" data-page="case">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span class="nav-item-label">Case</span>
+        </a>
 
-            <div class="nav-section">Content</div>
-            <a href="admin-products.html" class="nav-link" data-page="products">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                Products
-            </a>
-            <a href="admin-news.html" class="nav-link" data-page="news">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                News
-            </a>
-            <a href="admin-cases.html" class="nav-link" data-page="cases">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                Cases
-            </a>
+        <div class="nav-section-label">System</div>
+        <a href="admin-settings.html" class="nav-item" data-label="Settings" data-page="settings">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span class="nav-item-label">Settings</span>
+        </a>
+        <a href="admin-login.html" class="nav-item" id="logout-btn" data-label="Logout">
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span class="nav-item-label">Logout</span>
+        </a>
+    </nav>
 
-            <div class="nav-section">System</div>
-            <a href="admin-settings.html" class="nav-link" data-page="settings">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                Settings
-            </a>
-            <a href="admin-login.html" class="nav-link" id="logout-btn">
-                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                Logout
-            </a>
-        </nav>
-
-        <div class="sb-footer">
-            <div class="sb-user">
-                <div class="sb-avatar" id="sb-avatar-letter">A</div>
-                <div>
-                    <div class="sb-uname" id="sb-username">Administrator</div>
-                    <div class="sb-urole" id="sb-role">Super Admin</div>
-                </div>
+    <div class="sidebar-bottom">
+        <div class="sidebar-user">
+            <div class="user-avatar">A</div>
+            <div class="user-info">
+                <div class="user-name">Administrator</div>
+                <div class="user-role">Super Admin</div>
             </div>
         </div>
+        <button class="collapse-btn" id="collapse-btn" onclick="toggleSidebar()">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Collapse</span>
+        </button>
     </div>
 </aside>
 
 <!-- ══════════════════ MAIN ══════════════════ -->
-<div class="main-wrap">
+<div class="main-wrap" id="main-wrap">
 
     <!-- TOPBAR -->
     <header class="topbar">
         <div>
-            <div class="topbar-title" id="topbar-title">Admin <span>Dashboard</span></div>
-            <div class="topbar-crumb" id="topbar-crumb">
+            <div class="topbar-title">Admin <span>Case</span></div>
+            <div class="topbar-crumb">
                 <a href="admin-dashboard.html">Dashboard</a>
                 <span class="sep">›</span>
-                <span class="cur">Overview</span>
+                <span class="cur">Case</span>
             </div>
         </div>
         <div class="topbar-right">
             <div class="tb-search">
-                <input type="text" placeholder="Search..." id="topbar-search">
+                <input type="text" placeholder="Search...">
                 <button class="tb-search-btn">
                     <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 </button>
@@ -345,21 +424,21 @@
                 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                 <div class="notif-dot"></div>
             </div>
-            <div class="tb-avatar" id="tb-avatar">A</div>
+            <div class="tb-avatar">A</div>
         </div>
     </header>
 
-    <!-- FLASH (hidden by default, shown via JS) -->
+    <!-- FLASH -->
     <div class="flash flash-success anim" id="flash-msg" style="display:none;">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         <span id="flash-text">Action completed successfully.</span>
         <button class="flash-close" onclick="hideFlash()">×</button>
     </div>
 
-    <!-- ══════════ PAGE CONTENT ══════════ -->
+    <!-- PAGE CONTENT -->
     <div class="page">
 
-        <!-- ── STATS GRID ── -->
+        <!-- STATS GRID -->
         <div class="stats-grid">
             <div class="stat-card anim d1">
                 <div class="stat-icon si-gold">
@@ -368,7 +447,7 @@
                 <div>
                     <div class="stat-num" id="stat-users">—</div>
                     <div class="stat-label">Total Users</div>
-                    <div class="stat-delta delta-up">↑ Loading...</div>
+                    <div class="stat-delta delta-up">↑ Live from DB</div>
                 </div>
             </div>
             <div class="stat-card anim d2">
@@ -403,13 +482,13 @@
             </div>
         </div>
 
-        <!-- ── RECENT CASES TABLE ── -->
+        <!-- RECENT CASES TABLE -->
         <div class="card anim d5">
             <div class="card-header">
-                <div class="card-title">Recent <span>Cases</span></div>
-                <a href="admin-cases.html" class="btn btn-primary btn-sm">
+                <div class="card-title">Recent <span>Case</span></div>
+                <a href="admin-case.html" class="btn btn-primary btn-sm">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    Manage Cases
+                    Manage Case
                 </a>
             </div>
             <div class="table-wrap">
@@ -424,16 +503,16 @@
                         </tr>
                     </thead>
                     <tbody id="cases-tbody">
-                        <tr><td colspan="5" style="text-align:center;padding:32px;color:#bbb;">Loading cases from Supabase…</td></tr>
+                        <tr><td colspan="5" style="text-align:center;padding:32px;color:#bbb;">Loading case…</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-    </div><!-- /page -->
-</div><!-- /main-wrap -->
+    </div>
+</div>
 
-<!-- ══════ EDIT CASE MODAL ══════ -->
+<!-- EDIT CASE MODAL -->
 <div class="modal-overlay" id="edit-modal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -472,7 +551,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeModal('edit-modal')">Cancel</button>
-            <button class="btn btn-primary" onclick="saveCase()">
+            <button class="btn btn-primary" id="save-btn" onclick="saveCase()">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                 Save Changes
             </button>
@@ -480,7 +559,7 @@
     </div>
 </div>
 
-<!-- ══════ DELETE CONFIRM MODAL ══════ -->
+<!-- DELETE CONFIRM MODAL -->
 <div class="modal-overlay" id="delete-modal">
     <div class="modal modal-sm">
         <div class="confirm-body">
@@ -492,7 +571,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" onclick="closeModal('delete-modal')">Cancel</button>
-            <button class="btn btn-danger" onclick="confirmDelete()">
+            <button class="btn btn-danger" id="confirm-delete-btn" onclick="confirmDelete()">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                 Delete
             </button>
@@ -501,30 +580,66 @@
 </div>
 
 <script>
+// ─── SIDEBAR COLLAPSE ─────────────────────────────────────────────
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainWrap = document.getElementById('main-wrap');
+    sidebar.classList.toggle('collapsed');
+    mainWrap.classList.toggle('collapsed-main');
+}
+
 // ─── CONFIG ───────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://pdqhbxtxvxrwtkvymjlm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWhieHR4dnhyd3RrdnltamxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTEyMzIsImV4cCI6MjA4NzEyNzIzMn0.jKq6Zw1XWDYXkxdrkW6HscOpsOuUm0gcyBCwFsAwN9U';
 
-const HEADERS = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': `Bearer ${SUPABASE_KEY}`,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=representation'
-};
+// ─── CORE FETCH WRAPPER — throws on any non-2xx response ──────────
+async function sbFetch(path, options = {}) {
+    const url = `${SUPABASE_URL}/rest/v1/${path}`;
+    const headers = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+        ...(options.headers || {})
+    };
 
-async function sbGet(table, query = '') {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, { headers: HEADERS });
+    const res = await fetch(url, { ...options, headers });
+
+    // Supabase returns 200/201/204 on success
+    if (!res.ok) {
+        // Try to get the Supabase error message
+        let errMsg = `HTTP ${res.status}`;
+        try {
+            const errBody = await res.json();
+            errMsg = errBody.message || errBody.error || errMsg;
+        } catch (_) {}
+        throw new Error(errMsg);
+    }
+
+    // 204 No Content (DELETE success) — return null
+    if (res.status === 204) return null;
+
     return res.json();
 }
-async function sbPatch(table, id, data) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-        method: 'PATCH', headers: HEADERS, body: JSON.stringify(data)
+
+// ─── HELPER FUNCTIONS ─────────────────────────────────────────────
+function sbGet(table, query = '') {
+    return sbFetch(`${table}?${query}`);
+}
+
+// PATCH by text ID column (your cases use text ids like "bedroom")
+function sbPatch(table, id, data) {
+    return sbFetch(`${table}?id=eq.${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data)
     });
-    return res.json();
 }
-async function sbDelete(table, id) {
-    await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-        method: 'DELETE', headers: HEADERS
+
+// DELETE by text ID column
+function sbDelete(table, id) {
+    return sbFetch(`${table}?id=eq.${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: { 'Prefer': '' } // DELETE doesn't need return=representation
     });
 }
 
@@ -536,34 +651,40 @@ let deletingId = null;
 // ─── INIT ─────────────────────────────────────────────────────────
 async function init() {
     try {
-        // Load cases
+        // Load all cases
         const cases = await sbGet('cases', 'select=*&order=sort_order.asc');
         allCases = Array.isArray(cases) ? cases : [];
         document.getElementById('stat-cases').textContent = allCases.length;
-        renderCasesTable(allCases.slice(0, 8)); // show first 8
+        renderCasesTable(allCases.slice(0, 8));
 
         // Load messages count
         const msgs = await sbGet('contact_messages', 'select=id');
         document.getElementById('stat-messages').textContent = Array.isArray(msgs) ? msgs.length : 0;
 
-        // Placeholder stats
-        document.getElementById('stat-users').textContent = '1';
+        // Load users count
+        const users = await sbGet('users', 'select=id');
+        document.getElementById('stat-users').textContent = Array.isArray(users) ? users.length : 0;
+
+        // Placeholder for news
         document.getElementById('stat-news').textContent = '0';
 
     } catch (err) {
+        console.error('Init error:', err);
         showFlash('error', 'Failed to load data: ' + err.message);
     }
 }
 
-// ─── TABLE ────────────────────────────────────────────────────────
+// ─── TABLE RENDER ─────────────────────────────────────────────────
 function renderCasesTable(cases) {
     const tbody = document.getElementById('cases-tbody');
     if (!cases.length) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#bbb;">No cases found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#bbb;">No case found.</td></tr>';
         return;
     }
     tbody.innerHTML = cases.map(c => {
-        const date = new Date(c.published_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+        const date = c.published_at
+            ? new Date(c.published_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+            : '—';
         return `
         <tr>
             <td>
@@ -575,11 +696,11 @@ function renderCasesTable(cases) {
             <td>${date}</td>
             <td>
                 <div class="td-actions">
-                    <button class="btn btn-edit btn-sm" onclick="openEdit('${c.id}')">
+                    <button class="btn btn-edit btn-sm" onclick="openEdit('${escHtml(c.id)}')">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         Edit
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="openDelete('${c.id}', '${escHtml(c.title)}')">
+                    <button class="btn btn-danger btn-sm" onclick="openDelete('${escHtml(c.id)}', '${escHtml(c.title)}')">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                         Delete
                     </button>
@@ -594,16 +715,21 @@ function openEdit(id) {
     const c = allCases.find(x => x.id === id);
     if (!c) return;
     editingId = id;
-    document.getElementById('edit-title').value    = c.title || '';
+    document.getElementById('edit-title').value    = c.title      || '';
     document.getElementById('edit-desc').value     = c.short_desc || '';
-    document.getElementById('edit-category').value = c.category || 'Applications';
-    document.getElementById('edit-next-id').value  = c.next_id || '';
-    document.getElementById('edit-article').value  = c.article || '';
+    document.getElementById('edit-category').value = c.category   || 'Applications';
+    document.getElementById('edit-next-id').value  = c.next_id    || '';
+    document.getElementById('edit-article').value  = c.article    || '';
     openModal('edit-modal');
 }
 
 async function saveCase() {
     if (!editingId) return;
+
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+
     const data = {
         title:      document.getElementById('edit-title').value.trim(),
         short_desc: document.getElementById('edit-desc').value.trim(),
@@ -611,16 +737,23 @@ async function saveCase() {
         next_id:    document.getElementById('edit-next-id').value.trim(),
         article:    document.getElementById('edit-article').value.trim(),
     };
+
     try {
         await sbPatch('cases', editingId, data);
-        // Update local state
+
+        // Update local cache
         const idx = allCases.findIndex(x => x.id === editingId);
         if (idx > -1) allCases[idx] = { ...allCases[idx], ...data };
+
         renderCasesTable(allCases.slice(0, 8));
         closeModal('edit-modal');
         showFlash('success', `"${data.title}" updated successfully.`);
     } catch (err) {
+        console.error('Save error:', err);
         showFlash('error', 'Save failed: ' + err.message);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Changes`;
     }
 }
 
@@ -633,8 +766,15 @@ function openDelete(id, title) {
 
 async function confirmDelete() {
     if (!deletingId) return;
+
+    const deleteBtn = document.getElementById('confirm-delete-btn');
+    deleteBtn.disabled = true;
+    deleteBtn.textContent = 'Deleting…';
+
     try {
         await sbDelete('cases', deletingId);
+
+        // Remove from local cache
         allCases = allCases.filter(x => x.id !== deletingId);
         document.getElementById('stat-cases').textContent = allCases.length;
         renderCasesTable(allCases.slice(0, 8));
@@ -642,7 +782,11 @@ async function confirmDelete() {
         showFlash('success', 'Case deleted successfully.');
         deletingId = null;
     } catch (err) {
+        console.error('Delete error:', err);
         showFlash('error', 'Delete failed: ' + err.message);
+    } finally {
+        deleteBtn.disabled = false;
+        deleteBtn.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Delete`;
     }
 }
 
@@ -650,7 +794,6 @@ async function confirmDelete() {
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// Close on backdrop click
 document.querySelectorAll('.modal-overlay').forEach(el => {
     el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
@@ -662,7 +805,7 @@ function showFlash(type, msg) {
     document.getElementById('flash-text').textContent = msg;
     el.style.display = 'flex';
     clearTimeout(window._flashTimer);
-    window._flashTimer = setTimeout(() => hideFlash(), 4000);
+    window._flashTimer = setTimeout(hideFlash, 5000);
 }
 function hideFlash() {
     document.getElementById('flash-msg').style.display = 'none';
@@ -670,17 +813,13 @@ function hideFlash() {
 
 // ─── UTILS ────────────────────────────────────────────────────────
 function escHtml(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
-
-// ─── ACTIVE NAV HIGHLIGHTING ──────────────────────────────────────
-(function() {
-    const page = location.pathname.split('/').pop();
-    document.querySelectorAll('.nav-link[data-page]').forEach(a => {
-        a.classList.remove('active');
-        if (a.getAttribute('href') === page) a.classList.add('active');
-    });
-})();
 
 // ─── BOOT ─────────────────────────────────────────────────────────
 init();
