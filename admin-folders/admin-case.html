@@ -430,11 +430,7 @@
         </div>
         <div class="modal-body">
             <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Case ID * <span style="font-size:10px;color:#bbb;">(unique slug)</span></label>
-                    <input type="text" class="form-input" id="add-id" placeholder="e.g. hotel-project">
-                </div>
-                <div class="form-group">
+                <div class="form-group full">
                     <label class="form-label">Category</label>
                     <select class="form-select" id="add-category">
                         <option>Applications</option>
@@ -589,7 +585,7 @@ function renderTable(cases) {
         return `<tr>
             <td>
                 <div class="td-name">${esc(c.title)}</div>
-                <div class="td-sub">${esc(c.id)}</div>
+                <div class="td-sub">#${String(c.id).padStart(3,'0')}</div>
             </td>
             <td><span class="tag tag-user">${esc(c.category || '—')}</span></td>
             <td>${(c.views || 0).toLocaleString()}</td>
@@ -623,7 +619,6 @@ function filterCases(q) {
 
 /* ── ADD ── */
 function openAddModal() {
-    document.getElementById('add-id').value = '';
     document.getElementById('add-title').value = '';
     document.getElementById('add-desc').value = '';
     document.getElementById('add-article').value = '';
@@ -632,28 +627,27 @@ function openAddModal() {
     document.getElementById('add-category').value = 'Applications';
     document.getElementById('add-error').style.display = 'none';
     openModal('add-modal');
-    setTimeout(() => document.getElementById('add-id').focus(), 200);
+    setTimeout(() => document.getElementById('add-title').focus(), 200);
 }
 
 async function addCase() {
-    const id       = document.getElementById('add-id').value.trim();
-    const title    = document.getElementById('add-title').value.trim();
-    const category = document.getElementById('add-category').value;
+    const title      = document.getElementById('add-title').value.trim();
+    const category   = document.getElementById('add-category').value;
     const short_desc = document.getElementById('add-desc').value.trim();
-    const article  = document.getElementById('add-article').value.trim();
-    const next_id  = document.getElementById('add-next-id').value.trim();
+    const article    = document.getElementById('add-article').value.trim();
+    const next_id    = document.getElementById('add-next-id').value.trim();
     const sort_order = parseInt(document.getElementById('add-sort').value) || 99;
 
     const errEl = document.getElementById('add-error');
-    if (!id)    { errEl.textContent = 'Case ID is required.'; errEl.style.display='block'; return; }
-    if (!title) { errEl.textContent = 'Title is required.';   errEl.style.display='block'; return; }
+    if (!title) { errEl.textContent = 'Title is required.'; errEl.style.display='block'; return; }
     errEl.style.display = 'none';
 
     const btn = document.getElementById('add-save-btn');
     btn.disabled = true; btn.textContent = 'Adding…';
 
     try {
-        const result = await sbPost('cases', { id, title, category, short_desc, article, next_id, sort_order, views: 0, published_at: new Date().toISOString() });
+        // No 'id' sent — Supabase serial column auto-generates it
+        const result = await sbPost('cases', { title, category, short_desc, article, next_id, sort_order, views: 0, published_at: new Date().toISOString() });
         const newCase = Array.isArray(result) ? result[0] : result;
         allCases.unshift(newCase);
         updateStats();
@@ -771,4 +765,4 @@ function esc(s) {
 init();
 </script>
 </body>
-</html
+</html>
