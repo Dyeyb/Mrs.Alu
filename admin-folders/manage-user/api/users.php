@@ -1,7 +1,6 @@
 <?php
-// ── All config is inline — no require_once needed ──────────────────────────
-define('SB_URL', 'https://pdqhbxtxvxrwtkvymjlm.supabase.co');
-define('SB_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWhieHR4dnhyd3RrdnltamxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTEyMzIsImV4cCI6MjA4NzEyNzIzMn0.jKq6Zw1XWDYXkxdrkW6HscOpsOuUm0gcyBCwFsAwN9U');
+define('SB_URL',   'https://pdqhbxtxvxrwtkvymjlm.supabase.co');
+define('SB_KEY',   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWhieHR4dnhyd3RrdnltamxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTEyMzIsImV4cCI6MjA4NzEyNzIzMn0.jKq6Zw1XWDYXkxdrkW6HscOpsOuUm0gcyBCwFsAwN9U');
 define('SB_TABLE', 'Users');
 
 header('Content-Type: application/json');
@@ -11,7 +10,10 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-// ── Supabase request ────────────────────────────────────────────────────────
+const VALID_TYPES    = ['admin', 'editor', 'moderator', 'viewer'];
+const VALID_STATUSES = ['active', 'inactive', 'suspended', 'archived'];
+
+// ── Supabase request ─────────────────────────────────────────────────────────
 function sb(string $method, string $endpoint, ?array $body = null): array {
     $ch = curl_init(SB_URL . '/rest/v1/' . $endpoint);
     curl_setopt_array($ch, [
@@ -19,7 +21,7 @@ function sb(string $method, string $endpoint, ?array $body = null): array {
         CURLOPT_CUSTOMREQUEST  => $method,
         CURLOPT_HTTPHEADER     => [
             'Content-Type: application/json',
-            'apikey: '           . SB_KEY,
+            'apikey: '               . SB_KEY,
             'Authorization: Bearer ' . SB_KEY,
             'Prefer: return=representation',
         ],
@@ -34,7 +36,7 @@ function sb(string $method, string $endpoint, ?array $body = null): array {
     return ['status' => $status, 'body' => json_decode($raw, true), 'raw' => $raw, 'cerr' => $cerr];
 }
 
-// ── JSON output ─────────────────────────────────────────────────────────────
+// ── JSON response ────────────────────────────────────────────────────────────
 function out(bool $ok, string $msg, $data = null, int $code = 200): void {
     http_response_code($code);
     echo json_encode(['success' => $ok, 'message' => $msg, 'data' => $data]);
@@ -44,23 +46,35 @@ function out(bool $ok, string $msg, $data = null, int $code = 200): void {
 $method = strtoupper($_SERVER['REQUEST_METHOD']);
 $userId = trim($_GET['id'] ?? '');
 
-// ── GET ──────────────────────────────────────────────────────────────────────
+// ── GET — returns ALL users (active + archived); frontend separates them ─────
 if ($method === 'GET') {
-    $r = sb('GET', SB_TABLE . '?select=user_id,first_name,last_name,email,phone,user_type,status,created_at,updated_at&order=created_at.desc');
-    if ($r['cerr'])          out(false, 'cURL error: ' . $r['cerr'], null, 500);
-    if ($r['status'] === 200) out(true, 'OK', $r['body']);
+    $r = sb('GET', SB_TABLE
+        . '?select=user_id,first_name,last_name,email,phone,user_type,status,is_archived,prev_status,archived_at,created_at,updated_at'
+        . '&order=created_at.desc');
+    if ($r['cerr'])           out(false, 'cURL error: ' . $r['cerr'], null, 500);
+    if ($r['status'] === 200) out(true,  'OK', $r['body']);
     out(false, $r['body']['message'] ?? ('Supabase error HTTP ' . $r['status']), ['raw' => $r['raw']], 500);
 }
 
-// ── POST ─────────────────────────────────────────────────────────────────────
+// ── POST — create a new user (always active, never archived) ─────────────────
 if ($method === 'POST') {
     $in = json_decode(file_get_contents('php://input'), true) ?? [];
-    if (empty(trim($in['first_name'] ?? ''))) out(false, 'First name is required.', null, 422);
-    if (empty(trim($in['last_name']  ?? ''))) out(false, 'Last name is required.',  null, 422);
-    if (empty(trim($in['email']      ?? ''))) out(false, 'Email is required.',       null, 422);
+
+    if (empty(trim($in['first_name'] ?? ''))) out(false, 'First name is required.',   null, 422);
+    if (empty(trim($in['last_name']  ?? ''))) out(false, 'Last name is required.',    null, 422);
+    if (empty(trim($in['email']      ?? ''))) out(false, 'Email is required.',        null, 422);
     if (!filter_var($in['email'] ?? '', FILTER_VALIDATE_EMAIL)) out(false, 'Invalid email address.', null, 422);
+
     $pw = trim($in['password'] ?? '');
     if (empty($pw)) out(false, 'Password is required.', null, 422);
+
+    $userType = trim($in['user_type'] ?? '');
+    if (empty($userType))                  out(false, 'User type is required.', null, 422);
+    if (!in_array($userType, VALID_TYPES)) out(false, 'Invalid user type. Allowed: ' . implode(', ', VALID_TYPES), null, 422);
+
+    $status = trim($in['status'] ?? '');
+    if (empty($status))                      out(false, 'Status is required.', null, 422);
+    if (!in_array($status, VALID_STATUSES))  out(false, 'Invalid status. Allowed: ' . implode(', ', VALID_STATUSES), null, 422);
 
     $r = sb('POST', SB_TABLE, [
         'first_name'    => trim($in['first_name']),
@@ -68,6 +82,11 @@ if ($method === 'POST') {
         'email'         => strtolower(trim($in['email'])),
         'password_hash' => password_hash($pw, PASSWORD_BCRYPT),
         'phone'         => trim($in['phone'] ?? ''),
+        'user_type'     => $userType,
+        'status'        => $status,
+        'is_archived'   => false,       // always starts as active
+        'prev_status'   => null,
+        'archived_at'   => null,
         'created_at'    => date('c'),
         'updated_at'    => date('c'),
     ]);
@@ -88,11 +107,14 @@ if ($method === 'POST') {
     out(false, $r['body']['message'] ?? ('Insert failed. HTTP ' . $r['status']), ['raw' => $r['raw']], 500);
 }
 
-// ── PUT ──────────────────────────────────────────────────────────────────────
+// ── PUT — update user fields OR archive/restore ───────────────────────────────
 if ($method === 'PUT') {
     if (!$userId) out(false, 'User ID is required.', null, 400);
-    $in = json_decode(file_get_contents('php://input'), true) ?? [];
+
+    $in      = json_decode(file_get_contents('php://input'), true) ?? [];
     $payload = [];
+
+    // ── Standard editable fields ──
     if (!empty($in['first_name'])) $payload['first_name'] = trim($in['first_name']);
     if (!empty($in['last_name']))  $payload['last_name']  = trim($in['last_name']);
     if (!empty($in['email'])) {
@@ -100,8 +122,43 @@ if ($method === 'PUT') {
         $payload['email'] = strtolower(trim($in['email']));
     }
     if (!empty($in['password'])) $payload['password_hash'] = password_hash($in['password'], PASSWORD_BCRYPT);
-    if (isset($in['phone']))     $payload['phone'] = trim($in['phone']);
-    if (empty($payload))         out(false, 'No fields to update.', null, 422);
+    if (isset($in['phone']))     $payload['phone']         = trim($in['phone']);
+
+    if (isset($in['user_type'])) {
+        if (!in_array($in['user_type'], VALID_TYPES)) out(false, 'Invalid user type.', null, 422);
+        $payload['user_type'] = trim($in['user_type']);
+    }
+
+    // ── Archive: is_archived=true → save prev_status, set archived_at ──
+    if (isset($in['is_archived'])) {
+        $archive = (bool)$in['is_archived'];
+        $payload['is_archived'] = $archive;
+
+        if ($archive) {
+            // Moving to archive: save current status so we can restore it later
+            // Fetch current user to grab prev status
+            $cur = sb('GET', SB_TABLE . '?user_id=eq.' . urlencode($userId)
+                . '&select=status&limit=1');
+            $curStatus = $cur['body'][0]['status'] ?? 'active';
+            $payload['prev_status'] = $curStatus;
+            $payload['status']      = 'archived';
+            $payload['archived_at'] = date('c');
+        } else {
+            // Restoring: put prev_status back (or fallback to active)
+            $restoreStatus          = trim($in['status'] ?? 'active');
+            $payload['status']      = in_array($restoreStatus, VALID_STATUSES) ? $restoreStatus : 'active';
+            $payload['prev_status'] = null;
+            $payload['archived_at'] = null;
+        }
+    }
+
+    // ── Status-only update (normal edit) ──
+    if (isset($in['status']) && !isset($in['is_archived'])) {
+        if (!in_array($in['status'], VALID_STATUSES)) out(false, 'Invalid status.', null, 422);
+        $payload['status'] = trim($in['status']);
+    }
+
+    if (empty($payload)) out(false, 'No fields to update.', null, 422);
     $payload['updated_at'] = date('c');
 
     $r = sb('PATCH', SB_TABLE . '?user_id=eq.' . urlencode($userId), $payload);
@@ -113,12 +170,12 @@ if ($method === 'PUT') {
     out(false, $r['body']['message'] ?? ('Update failed. HTTP ' . $r['status']), ['raw' => $r['raw']], 500);
 }
 
-// ── DELETE ───────────────────────────────────────────────────────────────────
+// ── DELETE — permanent, hard delete ──────────────────────────────────────────
 if ($method === 'DELETE') {
     if (!$userId) out(false, 'User ID is required.', null, 400);
     $r = sb('DELETE', SB_TABLE . '?user_id=eq.' . urlencode($userId));
     if ($r['cerr']) out(false, 'cURL error: ' . $r['cerr'], null, 500);
-    if (in_array($r['status'], [200, 204])) out(true, 'User deleted successfully.');
+    if (in_array($r['status'], [200, 204])) out(true, 'User permanently deleted.');
     out(false, $r['body']['message'] ?? ('Delete failed. HTTP ' . $r['status']), ['raw' => $r['raw']], 500);
 }
 
