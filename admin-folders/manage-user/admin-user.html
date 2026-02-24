@@ -900,7 +900,7 @@ async function saveUser() {
         }
         updateStats(); applyFilter();
         closeUserModal();
-        toast(editingId ? 'User updated (demo).' : 'User added (demo).', 'success');
+        toast(editingId ? 'User updated.' : 'User added.', 'success');
     } finally {
         saveBtn.disabled = false;
         $('save-btn-text').textContent = editingId ? 'Save Changes' : 'Add User';
@@ -964,7 +964,7 @@ $('archive-confirm-btn').onclick = async () => {
         }
         updateStats(); applyFilter(); renderArchiveTable();
         $('archive-modal').classList.remove('open');
-        toast('User moved to archive (demo).', 'warn');
+        toast('User moved to archive.', 'warn');
     } finally {
         btn.disabled = false;
         $('arch-btn-text').textContent = 'Move to Archive';
@@ -1006,7 +1006,7 @@ $('restore-confirm-btn').onclick = async () => {
         }
         updateStats(); applyFilter(); renderArchiveTable();
         $('restore-modal').classList.remove('open');
-        toast('User restored (demo).', 'success');
+        toast('User restored.', 'success');
     } finally {
         btn.disabled = false;
         $('restore-btn-text').textContent = 'Restore User';
@@ -1043,7 +1043,7 @@ $('delete-confirm-btn').onclick = async () => {
         else allUsers = allUsers.filter(u => String(u.user_id) !== String(id));
         updateStats(); applyFilter(); renderArchiveTable();
         $('delete-modal').classList.remove('open');
-        toast('User permanently deleted (demo).', 'error');
+        toast('User permanently deleted.', 'error');
     } finally {
         btn.disabled = false;
         $('del-btn-text').textContent = 'Yes, Delete Forever';

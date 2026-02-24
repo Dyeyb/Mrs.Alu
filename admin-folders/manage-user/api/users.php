@@ -10,7 +10,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-const VALID_TYPES    = ['admin', 'editor', 'moderator', 'viewer'];
+// ── FIX: 'user' added to valid types ─────────────────────────────────────────
+const VALID_TYPES    = ['admin', 'user', 'editor', 'moderator', 'viewer'];
 const VALID_STATUSES = ['active', 'inactive', 'suspended', 'archived'];
 
 // ── Supabase request ─────────────────────────────────────────────────────────
@@ -56,7 +57,7 @@ if ($method === 'GET') {
     out(false, $r['body']['message'] ?? ('Supabase error HTTP ' . $r['status']), ['raw' => $r['raw']], 500);
 }
 
-// ── POST — create a new user (always active, never archived) ─────────────────
+// ── POST — create a new user ──────────────────────────────────────────────────
 if ($method === 'POST') {
     $in = json_decode(file_get_contents('php://input'), true) ?? [];
 
@@ -73,9 +74,10 @@ if ($method === 'POST') {
     if (!in_array($userType, VALID_TYPES)) out(false, 'Invalid user type. Allowed: ' . implode(', ', VALID_TYPES), null, 422);
 
     $status = trim($in['status'] ?? '');
-    if (empty($status))                      out(false, 'Status is required.', null, 422);
-    if (!in_array($status, VALID_STATUSES))  out(false, 'Invalid status. Allowed: ' . implode(', ', VALID_STATUSES), null, 422);
+    if (empty($status))                     out(false, 'Status is required.', null, 422);
+    if (!in_array($status, VALID_STATUSES)) out(false, 'Invalid status. Allowed: ' . implode(', ', VALID_STATUSES), null, 422);
 
+    // ── FIX: removed manual created_at / updated_at — let Supabase handle defaults ──
     $r = sb('POST', SB_TABLE, [
         'first_name'    => trim($in['first_name']),
         'last_name'     => trim($in['last_name']),
@@ -84,11 +86,9 @@ if ($method === 'POST') {
         'phone'         => trim($in['phone'] ?? ''),
         'user_type'     => $userType,
         'status'        => $status,
-        'is_archived'   => false,       // always starts as active
+        'is_archived'   => false,
         'prev_status'   => null,
         'archived_at'   => null,
-        'created_at'    => date('c'),
-        'updated_at'    => date('c'),
     ]);
 
     if ($r['cerr']) out(false, 'cURL error: ' . $r['cerr'], null, 500);
@@ -114,7 +114,6 @@ if ($method === 'PUT') {
     $in      = json_decode(file_get_contents('php://input'), true) ?? [];
     $payload = [];
 
-    // ── Standard editable fields ──
     if (!empty($in['first_name'])) $payload['first_name'] = trim($in['first_name']);
     if (!empty($in['last_name']))  $payload['last_name']  = trim($in['last_name']);
     if (!empty($in['email'])) {
@@ -129,22 +128,17 @@ if ($method === 'PUT') {
         $payload['user_type'] = trim($in['user_type']);
     }
 
-    // ── Archive: is_archived=true → save prev_status, set archived_at ──
     if (isset($in['is_archived'])) {
         $archive = (bool)$in['is_archived'];
         $payload['is_archived'] = $archive;
 
         if ($archive) {
-            // Moving to archive: save current status so we can restore it later
-            // Fetch current user to grab prev status
-            $cur = sb('GET', SB_TABLE . '?user_id=eq.' . urlencode($userId)
-                . '&select=status&limit=1');
+            $cur = sb('GET', SB_TABLE . '?user_id=eq.' . urlencode($userId) . '&select=status&limit=1');
             $curStatus = $cur['body'][0]['status'] ?? 'active';
             $payload['prev_status'] = $curStatus;
             $payload['status']      = 'archived';
             $payload['archived_at'] = date('c');
         } else {
-            // Restoring: put prev_status back (or fallback to active)
             $restoreStatus          = trim($in['status'] ?? 'active');
             $payload['status']      = in_array($restoreStatus, VALID_STATUSES) ? $restoreStatus : 'active';
             $payload['prev_status'] = null;
@@ -152,7 +146,6 @@ if ($method === 'PUT') {
         }
     }
 
-    // ── Status-only update (normal edit) ──
     if (isset($in['status']) && !isset($in['is_archived'])) {
         if (!in_array($in['status'], VALID_STATUSES)) out(false, 'Invalid status.', null, 422);
         $payload['status'] = trim($in['status']);
