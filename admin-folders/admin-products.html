@@ -1,3 +1,8 @@
+<?php
+// products_admin.php
+// Uses Supabase REST API via JavaScript fetch (no PHP curl needed)
+// All CRUD operations run client-side via Supabase JS SDK
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         :root{
@@ -33,8 +40,6 @@
         .sidebar-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,18,6,0.93) 0%,rgba(74,46,24,0.72) 28%,rgba(107,66,38,0.40) 52%,rgba(74,46,24,0.68) 78%,rgba(28,14,4,0.95) 100%);pointer-events:none;}
         .sidebar-overlay::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(201,165,97,0.07) 0%,transparent 70%);}
         .sidebar>*:not(.sidebar-bg):not(.sidebar-overlay){position:relative;z-index:1;}
-
-        /* ── Logo — matches admin_index exactly ── */
         .sidebar-logo{height:70px;padding:0 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(201,165,97,0.18);flex-shrink:0;text-decoration:none;}
         .logo-icon{width:42px;height:42px;flex-shrink:0;background:linear-gradient(135deg,rgba(74,46,24,0.85) 0%,var(--primary-accent) 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#fff;box-shadow:0 4px 18px rgba(201,165,97,0.45);transition:var(--transition);border:1px solid rgba(201,165,97,0.4);}
         .sidebar-logo:hover .logo-icon{transform:scale(1.06);box-shadow:0 6px 24px rgba(201,165,97,0.65);}
@@ -43,7 +48,6 @@
         .logo-name span{color:var(--primary-accent);font-style:italic;}
         .logo-sub{font-size:11px;color:rgba(255,255,255,0.42);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
         .sidebar.collapsed .logo-text-wrap{opacity:0;width:0;}
-
         .sidebar-nav{flex:1;padding:16px 0;overflow-y:auto;overflow-x:hidden;}
         .sidebar-nav::-webkit-scrollbar{width:3px;}
         .sidebar-nav::-webkit-scrollbar-thumb{background:rgba(201,165,97,0.25);border-radius:3px;}
@@ -99,6 +103,17 @@
         /* ── PAGE BODY ── */
         .page-body{padding:32px 36px;flex:1;}
 
+        /* ── LOADING OVERLAY ── */
+        .loading-overlay{position:fixed;inset:0;background:rgba(245,242,238,0.85);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;backdrop-filter:blur(3px);}
+        .loading-overlay.hidden{display:none;}
+        .loading-spinner{width:44px;height:44px;border:3px solid var(--border-color);border-top-color:var(--brown);border-radius:50%;animation:spin 0.8s linear infinite;}
+        .loading-text{font-size:14px;color:var(--brown);font-weight:500;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        /* ── DB ERROR BANNER ── */
+        .db-error-banner{background:#fff0f0;border:1px solid #fcc;border-radius:10px;padding:14px 20px;margin-bottom:20px;font-size:13px;color:#c0392b;display:none;align-items:center;gap:10px;}
+        .db-error-banner.show{display:flex;}
+
         /* ── TOP CONTROLS ── */
         .controls-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
         .controls-left{display:flex;flex-direction:column;}
@@ -115,6 +130,7 @@
         .add-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:linear-gradient(135deg,var(--brown) 0%,var(--brown-light) 100%);color:#fff;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:var(--transition);text-decoration:none;box-shadow:0 4px 14px rgba(107,66,38,0.25);}
         .add-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(107,66,38,0.4);}
         .add-btn svg{width:15px;height:15px;}
+        .add-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 
         /* ── CATEGORY TABS ── */
         .category-tabs{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
@@ -173,6 +189,7 @@
         .btn-secondary:hover{background:var(--hover-bg);}
         .btn-primary{padding:10px 24px;border-radius:8px;background:linear-gradient(135deg,var(--brown) 0%,var(--brown-light) 100%);color:#fff;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:var(--transition);box-shadow:0 4px 14px rgba(107,66,38,0.25);}
         .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(107,66,38,0.4);}
+        .btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 
         /* ── DELETE CONFIRM ── */
         .delete-overlay{position:fixed;inset:0;background:rgba(28,14,4,0.7);backdrop-filter:blur(4px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
@@ -185,11 +202,14 @@
         .delete-actions{display:flex;gap:10px;justify-content:center;}
         .btn-danger{padding:10px 24px;border-radius:8px;background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Outfit',sans-serif;transition:var(--transition);}
         .btn-danger:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(192,57,43,0.4);}
+        .btn-danger:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 
         /* ── TOAST ── */
         .toast{position:fixed;bottom:28px;right:28px;z-index:700;background:var(--brown-dark);color:#fff;padding:13px 20px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,0.25);display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border-left:3px solid var(--primary-accent);}
         .toast.show{transform:translateY(0);opacity:1;}
+        .toast.error{border-left-color:#e74c3c;}
         .toast svg{width:16px;height:16px;color:var(--primary-accent);flex-shrink:0;}
+        .toast.error svg{color:#e74c3c;}
 
         /* ── CATEGORY STRIPES & BADGES ── */
         .stripe-Flooring{background:linear-gradient(90deg,#6b4226,#c9a561);}
@@ -219,6 +239,12 @@
 </head>
 <body>
 
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Connecting to database…</div>
+</div>
+
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-bg"></div>
@@ -240,29 +266,26 @@
         <a class="nav-item active" href="#" data-label="Products">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             <span class="nav-item-label">Products</span>
-            <span class="nav-badge" id="nav-badge">12</span>
+            <span class="nav-badge" id="nav-badge">—</span>
         </a>
         <a class="nav-item" href="#" data-label="Case Studies">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <span class="nav-item-label">Case Studies</span>
-            <span class="nav-badge">8</span>
         </a>
         <a class="nav-item" href="#" data-label="News">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
             <span class="nav-item-label">News</span>
-            <span class="nav-badge">3</span>
         </a>
         <div class="nav-section-label">Management</div>
         <a class="nav-item" href="#" data-label="Emails">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
             <span class="nav-item-label">Emails</span>
-            <span class="nav-badge">5</span>
         </a>
         <a class="nav-item" href="#" data-label="Media">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
             <span class="nav-item-label">Media Library</span>
         </a>
-        <a class="nav-item" href="../Admin/user_management/admin_user.html" data-label="Users">
+        <a class="nav-item" href="#" data-label="Users">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             <span class="nav-item-label">Users</span>
         </a>
@@ -301,8 +324,8 @@
             </div>
         </div>
         <div class="topbar-right">
-            <button class="topbar-btn" title="Search">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <button class="topbar-btn" title="Refresh" id="refresh-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             </button>
             <button class="topbar-btn" title="Notifications">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
@@ -313,10 +336,15 @@
     </header>
 
     <div class="page-body">
+        <div class="db-error-banner" id="db-error-banner">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <span id="db-error-msg">Database connection error.</span>
+        </div>
+
         <div class="controls-row">
             <div class="controls-left">
                 <div class="page-section-title">All <span>Products</span></div>
-                <div class="page-section-sub" id="product-count-label">12 products across 5 categories</div>
+                <div class="page-section-sub" id="product-count-label">Loading…</div>
             </div>
             <div class="controls-right">
                 <div class="search-wrap">
@@ -420,122 +448,325 @@
 </div>
 
 <script>
-let products=[
-    {id:'PRD-001',name:'Marble Elite Series',category:'Flooring',desc:'Premium imported marble tiles with veined finish, ideal for luxury interiors. Available in 60×60 and 120×60 cm formats.',sku:'MES-WHT-60',status:'Active',created:new Date('2025-01-10')},
-    {id:'PRD-002',name:'Terracotta Rustic',category:'Flooring',desc:'Hand-crafted terracotta tiles inspired by Mediterranean architecture. Natural color variations add authentic character to every installation.',sku:'TRC-RUS-45',status:'Active',created:new Date('2025-01-22')},
-    {id:'PRD-003',name:'Arctic Concrete',category:'Wall',desc:'Large-format concrete-look wall panels with matte finish. Seamlessly replicates raw industrial aesthetics without the weight.',sku:'ACW-GRY-90',status:'Active',created:new Date('2025-02-05')},
-    {id:'PRD-004',name:'Velvet Stone Cladding',category:'Wall',desc:'Textured stone cladding with a smooth velvet surface. Perfect for feature walls, lobbies, and accent areas.',sku:'VSC-BLK-30',status:'Active',created:new Date('2025-02-14')},
-    {id:'PRD-005',name:'Coastal Timber Plank',category:'Flooring',desc:'Engineered wood-look ceramic planks designed for high-humidity coastal environments. Scratch-resistant, waterproof.',sku:'CTP-OAK-20',status:'Active',created:new Date('2025-02-20')},
-    {id:'PRD-006',name:'Cloud White Drop',category:'Ceiling',desc:'Lightweight acoustic ceiling tiles with cloud-white finish. Reduces noise by up to 45dB while maintaining an elegant appearance.',sku:'CWD-WHT-60',status:'Active',created:new Date('2025-03-01')},
-    {id:'PRD-007',name:'Hex Garden Mosaic',category:'Outdoor',desc:'Weather-resistant hexagonal mosaic tiles for outdoor patios, pool surrounds, and garden paths. UV-stable glaze.',sku:'HGM-MOS-10',status:'Active',created:new Date('2025-03-08')},
-    {id:'PRD-008',name:'Obsidian Feature Slab',category:'Interior',desc:'Bold full-height obsidian slabs for statement walls and countertops. Polished surface, 3cm thickness.',sku:'OFS-BLK-120',status:'Active',created:new Date('2025-03-15')},
-    {id:'PRD-009',name:'Bamboo Weave Panel',category:'Interior',desc:'Eco-certified bamboo weave decorative panels. Warm natural tones, flame-retardant coating, easy clip-on installation.',sku:'BWP-NAT-60',status:'Draft',created:new Date('2025-03-20')},
-    {id:'PRD-010',name:'Sahara Dune',category:'Flooring',desc:'Desert-inspired porcelain stoneware with subtle sand-like texture. Slip-rated R10, suitable for commercial spaces.',sku:'SHD-SND-90',status:'Active',created:new Date('2025-04-02')},
-    {id:'PRD-011',name:'Riviera Pool Tile',category:'Outdoor',desc:'Non-slip vitrified tiles engineered for pool decks and wet zones. Marine-grade surface treatment.',sku:'RPT-BLU-30',status:'Active',created:new Date('2025-04-10')},
-    {id:'PRD-012',name:'Plaster & Oak Beam',category:'Ceiling',desc:'Decorative faux-oak beam panels for rustic ceiling finishes. Lightweight polyurethane core, real wood grain mold.',sku:'POB-OAK-200',status:'Active',created:new Date('2025-04-18')},
-];
-const CATEGORIES=['Flooring','Wall','Ceiling','Outdoor','Interior','Other'];
-let activeCategory='All',searchQuery='',sortMode='newest',editingId=null,deletingId=null;
-const $=id=>document.getElementById(id);
-function toast(msg){const t=$('toast');$('toast-msg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
-function showError(msg){const el=$('form-error');if(msg){el.textContent=msg;el.style.display='block';}else{el.style.display='none';}}
+/* ══════════════════════════════════════════
+   SUPABASE CONFIG
+══════════════════════════════════════════ */
+const SUPABASE_URL = 'https://pdqhbxtxvxrwtkvymjlm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkcWhieHR4dnhyd3RrdnltamxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTEyMzIsImV4cCI6MjA4NzEyNzIzMn0.jKq6Zw1XWDYXkxdrkW6HscOpsOuUm0gcyBCwFsAwN9U';
+const TABLE = 'products';
 
-function getFiltered(){
-    let list=[...products];
-    if(activeCategory!=='All')list=list.filter(p=>p.category===activeCategory);
-    if(searchQuery)list=list.filter(p=>p.name.toLowerCase().includes(searchQuery)||p.id.toLowerCase().includes(searchQuery)||p.desc.toLowerCase().includes(searchQuery)||p.category.toLowerCase().includes(searchQuery));
-    if(sortMode==='newest')list.sort((a,b)=>b.created-a.created);
-    else if(sortMode==='oldest')list.sort((a,b)=>a.created-b.created);
-    else if(sortMode==='name-az')list.sort((a,b)=>a.name.localeCompare(b.name));
-    else if(sortMode==='name-za')list.sort((a,b)=>b.name.localeCompare(a.name));
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+const CATEGORIES = ['Flooring','Wall','Ceiling','Outdoor','Interior','Other'];
+let products = [];
+let activeCategory = 'All';
+let searchQuery = '';
+let sortMode = 'newest';
+let editingId = null;   // Supabase row id (uuid/int)
+let deletingId = null;
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+
+function toast(msg, isError = false) {
+    const t = $('toast');
+    $('toast-msg').textContent = msg;
+    t.classList.toggle('error', isError);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function showError(msg) {
+    const el = $('form-error');
+    if (msg) { el.textContent = msg; el.style.display = 'block'; }
+    else { el.style.display = 'none'; }
+}
+
+function showDbError(msg) {
+    const banner = $('db-error-banner');
+    if (msg) { $('db-error-msg').textContent = msg; banner.classList.add('show'); }
+    else { banner.classList.remove('show'); }
+}
+
+function setLoading(show) {
+    $('loading-overlay').classList.toggle('hidden', !show);
+}
+
+/* ══════════════════════════════════════════
+   SUPABASE CRUD
+══════════════════════════════════════════ */
+async function fetchProducts() {
+    setLoading(true);
+    try {
+        const { data, error } = await db
+            .from(TABLE)
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        products = data || [];
+        showDbError('');
+        renderTabs();
+        renderGrid();
+    } catch (err) {
+        console.error('Fetch error:', err);
+        showDbError(`Failed to load products: ${err.message}`);
+        products = [];
+        renderTabs();
+        renderGrid();
+    } finally {
+        setLoading(false);
+    }
+}
+
+async function insertProduct(payload) {
+    const { data, error } = await db.from(TABLE).insert([payload]).select();
+    if (error) throw error;
+    return data[0];
+}
+
+async function updateProduct(id, payload) {
+    const { data, error } = await db.from(TABLE).update(payload).eq('id', id).select();
+    if (error) throw error;
+    return data[0];
+}
+
+async function deleteProduct(id) {
+    const { error } = await db.from(TABLE).delete().eq('id', id);
+    if (error) throw error;
+}
+
+/* ══════════════════════════════════════════
+   FILTER & SORT
+══════════════════════════════════════════ */
+function getFiltered() {
+    let list = [...products];
+    if (activeCategory !== 'All') list = list.filter(p => p.category === activeCategory);
+    if (searchQuery) {
+        list = list.filter(p =>
+            (p.name||'').toLowerCase().includes(searchQuery) ||
+            (p.product_id||'').toLowerCase().includes(searchQuery) ||
+            (p.description||'').toLowerCase().includes(searchQuery) ||
+            (p.category||'').toLowerCase().includes(searchQuery)
+        );
+    }
+    if (sortMode === 'newest') list.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+    else if (sortMode === 'oldest') list.sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+    else if (sortMode === 'name-az') list.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+    else if (sortMode === 'name-za') list.sort((a,b) => (b.name||'').localeCompare(a.name||''));
     return list;
 }
 
-function renderTabs(){
-    const tabs=$('category-tabs');
-    const counts={All:products.length};
-    CATEGORIES.forEach(c=>{counts[c]=products.filter(p=>p.category===c).length;});
-    const all=['All',...CATEGORIES.filter(c=>counts[c]>0)];
-    tabs.innerHTML=all.map(c=>`<div class="cat-tab${activeCategory===c?' active':''}" data-cat="${c}">${c}<span class="count">${counts[c]||0}</span></div>`).join('');
-    tabs.querySelectorAll('.cat-tab').forEach(el=>{el.addEventListener('click',()=>{activeCategory=el.dataset.cat;renderTabs();renderGrid();});});
+/* ══════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════ */
+function renderTabs() {
+    const tabs = $('category-tabs');
+    const counts = { All: products.length };
+    CATEGORIES.forEach(c => { counts[c] = products.filter(p => p.category === c).length; });
+    const all = ['All', ...CATEGORIES.filter(c => counts[c] > 0)];
+    tabs.innerHTML = all.map(c =>
+        `<div class="cat-tab${activeCategory===c?' active':''}" data-cat="${c}">${c}<span class="count">${counts[c]||0}</span></div>`
+    ).join('');
+    tabs.querySelectorAll('.cat-tab').forEach(el => {
+        el.addEventListener('click', () => { activeCategory = el.dataset.cat; renderTabs(); renderGrid(); });
+    });
 }
 
-function statusDot(s){const map={Active:'#2d9e6b',Draft:'#e0a000',Archived:'#aaa'};return `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${map[s]||'#aaa'};margin-right:5px;"></span>${s}`;}
+function statusDot(s) {
+    const map = { Active:'#2d9e6b', Draft:'#e0a000', Archived:'#aaa' };
+    return `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${map[s]||'#aaa'};margin-right:5px;"></span>${s}`;
+}
 
-function renderGrid(){
-    const grid=$('product-grid');
-    const list=getFiltered();
-    $('nav-badge').textContent=products.length;
-    $('product-count-label').textContent=`${products.length} product${products.length!==1?'s':''} · ${list.length} shown`;
-    if(!list.length){grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📦</div><div class="empty-state-title">No products found</div><div class="empty-state-sub">${searchQuery?'Try a different search term.':'Add your first product to get started.'}</div></div>`;return;}
-    grid.innerHTML=list.map(p=>`
+function renderGrid() {
+    const grid = $('product-grid');
+    const list = getFiltered();
+    $('nav-badge').textContent = products.length;
+    $('product-count-label').textContent = `${products.length} product${products.length!==1?'s':''} · ${list.length} shown`;
+
+    if (!list.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+            <div class="empty-state-icon">📦</div>
+            <div class="empty-state-title">No products found</div>
+            <div class="empty-state-sub">${searchQuery ? 'Try a different search term.' : 'Add your first product to get started.'}</div>
+        </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(p => `
         <div class="product-card" data-id="${p.id}">
             <div class="card-top-stripe stripe-${p.category||'Other'}"></div>
             <div class="card-body">
                 <div class="card-header">
-                    <span class="card-id-badge">${p.id}</span>
+                    <span class="card-id-badge">${p.product_id||p.id}</span>
                     <span class="card-category-badge badge-${p.category||'Other'}">${p.category||'Other'}</span>
                 </div>
-                <div class="card-name">${p.name}</div>
-                <div class="card-desc">${p.desc}</div>
+                <div class="card-name">${p.name||'—'}</div>
+                <div class="card-desc">${p.description||''}</div>
                 <div class="card-footer">
-                    <div class="card-meta">${p.sku?`<b>${p.sku}</b> &middot; `:''}${statusDot(p.status)}</div>
+                    <div class="card-meta">${p.sku?`<b>${p.sku}</b> &middot; `:''}${statusDot(p.status||'Draft')}</div>
                     <div class="card-actions">
-                        <button class="card-action-btn edit-btn" data-id="${p.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
-                        <button class="card-action-btn delete delete-btn" data-id="${p.id}"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                        <button class="card-action-btn edit-btn" data-id="${p.id}" title="Edit">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </button>
+                        <button class="card-action-btn delete delete-btn" data-id="${p.id}" title="Delete">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>`).join('');
-    grid.querySelectorAll('.edit-btn').forEach(btn=>btn.addEventListener('click',()=>openEdit(btn.dataset.id)));
-    grid.querySelectorAll('.delete-btn').forEach(btn=>btn.addEventListener('click',()=>openDelete(btn.dataset.id)));
+
+    grid.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => openEdit(btn.dataset.id)));
+    grid.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => openDelete(btn.dataset.id)));
 }
 
-function openAdd(){editingId=null;$('modal-title').innerHTML='Add <span>Product</span>';$('f-id').value='';$('f-name').value='';$('f-category').value='Flooring';$('f-desc').value='';$('f-sku').value='';$('f-status').value='Active';$('f-id').disabled=false;showError('');$('modal-overlay').classList.add('open');setTimeout(()=>$('f-id').focus(),300);}
-function openEdit(id){const p=products.find(x=>x.id===id);if(!p)return;editingId=id;$('modal-title').innerHTML='Edit <span>Product</span>';$('f-id').value=p.id;$('f-id').disabled=true;$('f-name').value=p.name;$('f-category').value=p.category;$('f-desc').value=p.desc;$('f-sku').value=p.sku||'';$('f-status').value=p.status||'Active';showError('');$('modal-overlay').classList.add('open');setTimeout(()=>$('f-name').focus(),300);}
-function closeModal(){$('modal-overlay').classList.remove('open');}
+/* ══════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════ */
+function openAdd() {
+    editingId = null;
+    $('modal-title').innerHTML = 'Add <span>Product</span>';
+    $('f-id').value = '';
+    $('f-name').value = '';
+    $('f-category').value = 'Flooring';
+    $('f-desc').value = '';
+    $('f-sku').value = '';
+    $('f-status').value = 'Active';
+    $('f-id').disabled = false;
+    showError('');
+    $('modal-overlay').classList.add('open');
+    setTimeout(() => $('f-id').focus(), 300);
+}
 
-function saveProduct(){
-    const id=$('f-id').value.trim(),name=$('f-name').value.trim(),category=$('f-category').value,desc=$('f-desc').value.trim(),sku=$('f-sku').value.trim(),status=$('f-status').value;
-    if(!id){showError('Product ID is required.');return;}
-    if(!name){showError('Product Name is required.');return;}
-    if(!desc){showError('Description is required.');return;}
-    if(!editingId){
-        if(products.find(p=>p.id===id)){showError(`ID "${id}" already exists.`);return;}
-        products.push({id,name,category,desc,sku,status,created:new Date()});
-        toast(`✓ "${name}" added successfully.`);
-    }else{
-        const idx=products.findIndex(p=>p.id===editingId);
-        if(idx>-1)products[idx]={...products[idx],name,category,desc,sku,status};
-        toast(`✓ "${name}" updated.`);
+function openEdit(rowId) {
+    const p = products.find(x => String(x.id) === String(rowId));
+    if (!p) return;
+    editingId = p.id;
+    $('modal-title').innerHTML = 'Edit <span>Product</span>';
+    $('f-id').value = p.product_id || '';
+    $('f-id').disabled = true;
+    $('f-name').value = p.name || '';
+    $('f-category').value = p.category || 'Flooring';
+    $('f-desc').value = p.description || '';
+    $('f-sku').value = p.sku || '';
+    $('f-status').value = p.status || 'Active';
+    showError('');
+    $('modal-overlay').classList.add('open');
+    setTimeout(() => $('f-name').focus(), 300);
+}
+
+function closeModal() { $('modal-overlay').classList.remove('open'); }
+
+async function saveProduct() {
+    const productId = $('f-id').value.trim();
+    const name      = $('f-name').value.trim();
+    const category  = $('f-category').value;
+    const description = $('f-desc').value.trim();
+    const sku       = $('f-sku').value.trim();
+    const status    = $('f-status').value;
+
+    if (!productId) { showError('Product ID is required.'); return; }
+    if (!name)      { showError('Product Name is required.'); return; }
+    if (!description) { showError('Description is required.'); return; }
+
+    const saveBtn = $('save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+
+    try {
+        if (!editingId) {
+            // Check duplicate product_id
+            const exists = products.find(p => p.product_id === productId);
+            if (exists) { showError(`ID "${productId}" already exists.`); return; }
+
+            const newProduct = await insertProduct({ product_id: productId, name, category, description, sku, status });
+            products.unshift(newProduct);
+            toast(`✓ "${name}" added successfully.`);
+        } else {
+            const updated = await updateProduct(editingId, { name, category, description, sku, status });
+            const idx = products.findIndex(p => p.id === editingId);
+            if (idx > -1) products[idx] = updated;
+            toast(`✓ "${name}" updated.`);
+        }
+        closeModal();
+        renderTabs();
+        renderGrid();
+    } catch (err) {
+        console.error('Save error:', err);
+        showError(`Save failed: ${err.message}`);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Product';
     }
-    closeModal();renderTabs();renderGrid();
 }
 
-function openDelete(id){const p=products.find(x=>x.id===id);if(!p)return;deletingId=id;$('delete-sub').textContent=`"${p.name}" will be permanently removed.`;$('delete-overlay').classList.add('open');}
-function closeDelete(){$('delete-overlay').classList.remove('open');deletingId=null;}
+/* ══════════════════════════════════════════
+   DELETE
+══════════════════════════════════════════ */
+function openDelete(rowId) {
+    const p = products.find(x => String(x.id) === String(rowId));
+    if (!p) return;
+    deletingId = p.id;
+    $('delete-sub').textContent = `"${p.name}" will be permanently removed.`;
+    $('delete-overlay').classList.add('open');
+}
 
-$('open-modal-btn').addEventListener('click',openAdd);
-$('modal-close').addEventListener('click',closeModal);
-$('cancel-btn').addEventListener('click',closeModal);
-$('save-btn').addEventListener('click',saveProduct);
-$('delete-cancel').addEventListener('click',closeDelete);
-$('delete-confirm').addEventListener('click',()=>{
-    const p=products.find(x=>x.id===deletingId);
-    if(p){products=products.filter(x=>x.id!==deletingId);toast(`"${p.name}" deleted.`);closeDelete();renderTabs();renderGrid();}
-});
-$('modal-overlay').addEventListener('click',e=>{if(e.target===$('modal-overlay'))closeModal();});
-$('delete-overlay').addEventListener('click',e=>{if(e.target===$('delete-overlay'))closeDelete();});
-document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){closeModal();closeDelete();}
-    if(e.key==='Enter'&&$('modal-overlay').classList.contains('open')&&document.activeElement.tagName!=='TEXTAREA')saveProduct();
-});
-$('search-input').addEventListener('input',e=>{searchQuery=e.target.value.toLowerCase().trim();renderGrid();});
-$('sort-select').addEventListener('change',e=>{sortMode=e.target.value;renderGrid();});
-$('collapse-btn').addEventListener('click',()=>{$('sidebar').classList.toggle('collapsed');$('main').classList.toggle('collapsed');});
+function closeDelete() { $('delete-overlay').classList.remove('open'); deletingId = null; }
 
-renderTabs();
-renderGrid();
+/* ══════════════════════════════════════════
+   EVENT LISTENERS
+══════════════════════════════════════════ */
+$('open-modal-btn').addEventListener('click', openAdd);
+$('modal-close').addEventListener('click', closeModal);
+$('cancel-btn').addEventListener('click', closeModal);
+$('save-btn').addEventListener('click', saveProduct);
+$('delete-cancel').addEventListener('click', closeDelete);
+$('refresh-btn').addEventListener('click', fetchProducts);
+
+$('delete-confirm').addEventListener('click', async () => {
+    const p = products.find(x => x.id === deletingId);
+    if (!p) return;
+    const btn = $('delete-confirm');
+    btn.disabled = true;
+    btn.textContent = 'Deleting…';
+    try {
+        await deleteProduct(deletingId);
+        products = products.filter(x => x.id !== deletingId);
+        toast(`"${p.name}" deleted.`);
+        closeDelete();
+        renderTabs();
+        renderGrid();
+    } catch (err) {
+        toast(`Delete failed: ${err.message}`, true);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Delete';
+    }
+});
+
+$('modal-overlay').addEventListener('click', e => { if (e.target === $('modal-overlay')) closeModal(); });
+$('delete-overlay').addEventListener('click', e => { if (e.target === $('delete-overlay')) closeDelete(); });
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closeDelete(); }
+    if (e.key === 'Enter' && $('modal-overlay').classList.contains('open') && document.activeElement.tagName !== 'TEXTAREA') saveProduct();
+});
+
+$('search-input').addEventListener('input', e => { searchQuery = e.target.value.toLowerCase().trim(); renderGrid(); });
+$('sort-select').addEventListener('change', e => { sortMode = e.target.value; renderGrid(); });
+$('collapse-btn').addEventListener('click', () => { $('sidebar').classList.toggle('collapsed'); $('main').classList.toggle('collapsed'); });
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+fetchProducts();
 </script>
 </body>
 </html>
