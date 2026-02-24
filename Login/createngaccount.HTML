@@ -41,7 +41,8 @@
       display: flex;
     }
 
-    /* ── SLIDE-LEFT TRANSITION ── */
+    /* ── TRANSITION OVERLAY ── */
+    /* Panels slide in from RIGHT → signup exits to the LEFT (back toward login) */
     .transition-overlay {
       position: fixed;
       inset: 0;
@@ -53,7 +54,8 @@
 
     .overlay-panel {
       flex: 1;
-      transform: translateX(-100%);
+      transform: translateX(100%);
+      /* come from RIGHT */
       transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
     }
 
@@ -80,11 +82,18 @@
       transform: translateX(0);
     }
 
+    /* When transitioning BACK to login: signup slides out to the LEFT */
+    .transition-overlay.active~.split {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+
     /* ── SPLIT ── */
     .split {
       display: flex;
       width: 100%;
       height: 100vh;
+      transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease;
     }
 
     /* ── LEFT: FORM PANEL ── */
@@ -195,7 +204,6 @@
       font-weight: 300;
     }
 
-    /* Fields */
     .row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -250,7 +258,6 @@
       box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
     }
 
-    /* Select wrapper */
     .select-wrap {
       position: relative;
     }
@@ -274,7 +281,6 @@
       background: #1c1c1a;
     }
 
-    /* Password icon fields */
     .field.has-icon {
       position: relative;
     }
@@ -301,7 +307,6 @@
       color: var(--gold);
     }
 
-    /* Strength bar */
     .strength-bar {
       display: flex;
       gap: 4px;
@@ -352,7 +357,6 @@
       color: #e05454;
     }
 
-    /* Checkbox */
     .checkbox-row {
       display: flex;
       align-items: flex-start;
@@ -408,7 +412,6 @@
       text-decoration: underline;
     }
 
-    /* Submit */
     .btn-submit {
       width: 100%;
       padding: 0.72rem 1.5rem;
@@ -448,6 +451,7 @@
       border-bottom: 1px solid rgba(184, 147, 90, 0.3);
       padding-bottom: 1px;
       transition: border-color 0.2s;
+      cursor: pointer;
     }
 
     .signin-row a:hover {
@@ -459,11 +463,8 @@
       width: 1px;
       flex-shrink: 0;
       background: linear-gradient(to bottom,
-          transparent 0%,
-          rgba(201, 165, 97, 0.35) 15%,
-          rgba(201, 165, 97, 0.55) 50%,
-          rgba(201, 165, 97, 0.35) 85%,
-          transparent 100%);
+          transparent 0%, rgba(201, 165, 97, 0.35) 15%,
+          rgba(201, 165, 97, 0.55) 50%, rgba(201, 165, 97, 0.35) 85%, transparent 100%);
       position: relative;
       z-index: 3;
     }
@@ -563,8 +564,6 @@
       margin-top: 2px;
     }
 
-    .right-bottom {}
-
     .right-divider {
       width: 52px;
       height: 1px;
@@ -585,7 +584,7 @@
     }
 
     .right-quote::before {
-      content: '"';
+      content: '\201C';
       color: var(--gold);
       font-size: 3.5rem;
       line-height: 0;
@@ -829,7 +828,6 @@
       color: var(--gold);
     }
 
-    /* Confetti */
     .conf-wrap {
       position: fixed;
       inset: 0;
@@ -877,7 +875,6 @@
 
 <body>
 
-  <!-- Slide-left transition overlay -->
   <div class="transition-overlay" id="transitionOverlay">
     <div class="overlay-panel"></div>
     <div class="overlay-panel"></div>
@@ -886,7 +883,6 @@
 
   <div class="split">
 
-    <!-- LEFT: Create Account Form -->
     <div class="left-panel">
       <div class="left-scroll">
         <div class="form-card">
@@ -961,7 +957,8 @@
             <button type="submit" class="btn-submit">Create My Account</button>
 
             <div class="signin-row">
-              Already have an account? <a href="login.html">Sign in</a>
+              Already have an account?
+              <a onclick="transitionTo('login.html'); return false;">Sign in</a>
             </div>
           </form>
 
@@ -969,10 +966,8 @@
       </div>
     </div>
 
-    <!-- Gold seam -->
     <div class="split-divider"></div>
 
-    <!-- RIGHT: Cinematic Image Panel -->
     <div class="right-panel">
       <div class="right-bg"></div>
       <div class="right-overlay"></div>
@@ -987,14 +982,13 @@
         <div class="right-bottom">
           <div class="right-divider"></div>
           <p class="right-quote">Build with confidence. Design with purpose.</p>
-          <div class="right-meta">Est. 2024 &nbsp;·&nbsp; Premium Building Materials</div>
+          <div class="right-meta">Est. 2024 &nbsp;&middot;&nbsp; Premium Building Materials</div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- SUCCESS MODAL -->
   <div class="modal-backdrop" id="successModal">
     <div class="modal">
       <div class="modal-icon-wrap">
@@ -1005,10 +999,7 @@
         </div>
       </div>
       <div class="modal-tag">✦ Registration complete</div>
-      <h2 class="modal-title">
-        You Successfully<br />
-        <strong>Created Your Account!</strong>
-      </h2>
+      <h2 class="modal-title">You Successfully<br /><strong>Created Your Account!</strong></h2>
       <p class="modal-desc">
         Welcome aboard, <span class="modal-name" id="modalName">Juan</span>! 🎉<br />
         Your account has been created. Start exploring our premium building materials today.
@@ -1023,7 +1014,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // ── Slide-left transition ──
+    // ── Transition: overlay sweeps from RIGHT → signup appears to exit LEFT (back to login) ──
     function transitionTo(url) {
       const overlay = document.getElementById('transitionOverlay');
       overlay.classList.add('active');
@@ -1033,7 +1024,9 @@
     // ── Eye toggles ──
     const pwInput = document.getElementById('password');
     const eyePath = document.getElementById('eyePath');
-    let v1 = false;
+    const eyePath2 = document.getElementById('eyePath2');
+    let v1 = false, v2 = false;
+
     document.getElementById('togglePw').addEventListener('click', () => {
       v1 = !v1;
       pwInput.type = v1 ? 'text' : 'password';
@@ -1044,8 +1037,6 @@
     });
 
     const cpwInput = document.getElementById('confirmPassword');
-    const eyePath2 = document.getElementById('eyePath2');
-    let v2 = false;
     document.getElementById('toggleConfirmPw').addEventListener('click', () => {
       v2 = !v2;
       cpwInput.type = v2 ? 'text' : 'password';
@@ -1099,19 +1090,10 @@
       const cpw = cpwInput.value;
       const terms = document.getElementById('terms').checked;
 
-      if (!fname || !email || !pw || !cpw || !terms) {
-        showToast('⚠ Please fill all required fields.', true); return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showToast('⚠ Please enter a valid email.', true); return;
-      }
-      if (pw.length < 8) {
-        showToast('⚠ Password must be at least 8 characters.', true); return;
-      }
-      if (pw !== cpw) {
-        showToast('⚠ Passwords do not match.', true);
-        cpwInput.focus(); return;
-      }
+      if (!fname || !email || !pw || !cpw || !terms) { showToast('⚠ Please fill all required fields.', true); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('⚠ Please enter a valid email.', true); return; }
+      if (pw.length < 8) { showToast('⚠ Password must be at least 8 characters.', true); return; }
+      if (pw !== cpw) { showToast('⚠ Passwords do not match.', true); cpwInput.focus(); return; }
 
       document.getElementById('modalName').textContent = fname;
       openModal();
@@ -1127,9 +1109,8 @@
       document.getElementById('successModal').classList.remove('show');
       document.body.style.overflow = '';
     }
-    function goToDashboard() {
-      transitionTo('dashboard-user.html');
-    }
+    function goToDashboard() { transitionTo('dashboard-user.html'); }
+
     document.getElementById('successModal').addEventListener('click', function (e) {
       if (e.target === this) closeModal();
     });
@@ -1147,8 +1128,7 @@
           el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
           const w = 5 + Math.random() * 7, h = 8 + Math.random() * 8;
           el.style.width = w + 'px'; el.style.height = h + 'px';
-          const dur = 1.8 + Math.random() * 2.2;
-          const delay = Math.random() * 0.5;
+          const dur = 1.8 + Math.random() * 2.2, delay = Math.random() * 0.5;
           el.style.animation = `confFall ${dur}s ${delay}s linear forwards`;
           wrap.appendChild(el);
           setTimeout(() => el.remove(), (dur + delay + 0.5) * 1000);
