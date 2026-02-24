@@ -101,7 +101,6 @@
         .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,var(--brown),var(--primary-accent)); }
         .stat-card.green::after  { background: linear-gradient(90deg,#2d6a4f,#52b788); }
         .stat-card.blue::after   { background: linear-gradient(90deg,#1a4a8a,#4a90d9); }
-        .stat-card.purple::after { background: linear-gradient(90deg,#5a2d82,#9b59b6); }
         .stat-card.orange::after { background: linear-gradient(90deg,#7a3a00,#e67e22); }
         .stat-num { font-family: 'Cormorant Garamond',serif; font-size: 32px; font-weight: 700; color: var(--primary-dark); line-height: 1; }
         .stat-label { font-size: 12px; color: #aaa; margin-top: 4px; }
@@ -125,8 +124,6 @@
         .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(107,66,38,0.4); }
         .add-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .add-btn svg { width: 15px; height: 15px; }
-
-        /* Archive toggle button - same shape as add-btn but muted amber style */
         .archive-toggle-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 8px; background: #fff; color: #7a5a2a; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid rgba(201,165,97,0.5); font-family: 'Outfit',sans-serif; transition: var(--transition); white-space: nowrap; }
         .archive-toggle-btn:hover { background: rgba(201,165,97,0.1); border-color: var(--primary-accent); transform: translateY(-2px); }
         .archive-toggle-btn svg { width: 15px; height: 15px; }
@@ -144,8 +141,6 @@
         tbody tr:last-child { border-bottom: none; }
         tbody tr:hover { background: #faf8f5; }
         tbody td { padding: 14px 20px; font-size: 13.5px; color: var(--text-primary); vertical-align: middle; }
-
-        /* Archive table subtle amber tint */
         .archive-table thead th { background: #fdf8f0; }
         .archive-table tbody tr:hover { background: #fdf8f0; }
 
@@ -153,8 +148,6 @@
         .user-ava { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; border: 2px solid rgba(201,165,97,0.25); }
         .user-full-name { font-weight: 600; color: var(--primary-dark); font-size: 14px; line-height: 1.2; }
         .user-email-small { font-size: 12px; color: #aaa; }
-
-        /* Archived row dims avatar slightly */
         .archived-ava { filter: grayscale(0.5); opacity: 0.85; }
 
         /* ─── STATUS BADGES ─── */
@@ -169,21 +162,19 @@
         .badge-archived  { background: rgba(149,165,166,0.15); color: #5a6a6a;  border: 1px solid rgba(149,165,166,0.30); }
         .badge-archived .badge-dot  { background: #95a5a6; }
 
-        /* ─── TYPE BADGES ─── */
+        /* ─── TYPE BADGES — Admin & User only ─── */
         .type-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-        .type-admin     { background: rgba(201,165,97,0.15); color: #7a4a1a; border: 1px solid rgba(201,165,97,0.30); }
-        .type-editor    { background: rgba(74,144,217,0.10); color: #2a6aaa; border: 1px solid rgba(74,144,217,0.25); }
-        .type-moderator { background: rgba(155,89,182,0.10); color: #7a3a9a; border: 1px solid rgba(155,89,182,0.25); }
-        .type-viewer    { background: rgba(149,165,166,0.15); color: #555;   border: 1px solid rgba(149,165,166,0.30); }
+        .type-admin { background: rgba(201,165,97,0.15); color: #7a4a1a; border: 1px solid rgba(201,165,97,0.30); }
+        .type-user  { background: rgba(74,144,217,0.10); color: #2a6aaa; border: 1px solid rgba(74,144,217,0.25); }
 
         /* ─── ACTION BUTTONS ─── */
         .action-btns { display: flex; align-items: center; gap: 6px; }
         .action-btn { width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--border-color); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); color: #888; }
-        .action-btn.edit:hover     { background: rgba(74,144,217,0.08);  border-color: rgba(74,144,217,0.35);  color: #2a7ad5; }
-        .action-btn.view:hover     { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
-        .action-btn.archive:hover  { background: rgba(201,165,97,0.12);  border-color: rgba(201,165,97,0.45);  color: #7a4a1a; }
-        .action-btn.restore:hover  { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
-        .action-btn.delete:hover   { background: rgba(224,85,85,0.08);   border-color: rgba(224,85,85,0.35);   color: #e05555; }
+        .action-btn.edit:hover    { background: rgba(74,144,217,0.08);  border-color: rgba(74,144,217,0.35);  color: #2a7ad5; }
+        .action-btn.view:hover    { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
+        .action-btn.archive:hover { background: rgba(201,165,97,0.12);  border-color: rgba(201,165,97,0.45);  color: #7a4a1a; }
+        .action-btn.restore:hover { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
+        .action-btn.delete:hover  { background: rgba(224,85,85,0.08);   border-color: rgba(224,85,85,0.35);   color: #e05555; }
         .action-btn svg { width: 14px; height: 14px; }
         .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -254,26 +245,21 @@
         .view-detail-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #bbb; margin-bottom: 6px; }
         .view-detail-val   { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
 
-        /* Archive confirm modal */
+        /* Archive / Restore / Delete confirm modals */
         .archive-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(201,165,97,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
         .archive-icon svg { width: 28px; height: 28px; color: #c9a561; }
-
-        /* Delete (permanent) modal */
         .delete-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(224,85,85,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
         .delete-icon svg { width: 28px; height: 28px; color: #e05555; }
         .modal-center-text { text-align: center; }
         .modal-center-text h3 { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
         .modal-center-text p  { font-size: 13.5px; color: #888; line-height: 1.6; }
         .modal-center-text .user-highlight { font-weight: 700; color: var(--primary-dark); }
-
         .btn-archive-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#a07820,var(--primary-accent)); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(201,165,97,0.3); display: flex; align-items: center; gap: 8px; }
         .btn-archive-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,165,97,0.45); }
         .btn-archive-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
         .btn-delete-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#c0392b,#e05555); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(224,85,85,0.25); display: flex; align-items: center; gap: 8px; }
         .btn-delete-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(224,85,85,0.4); }
         .btn-delete-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
         .btn-restore-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#2d6a4f,#52b788); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(82,183,136,0.3); display: flex; align-items: center; gap: 8px; }
         .btn-restore-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(82,183,136,0.4); }
         .btn-restore-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -427,12 +413,11 @@
                     <option value="inactive">Inactive</option>
                     <option value="suspended">Suspended</option>
                 </select>
+                <!-- ── User Type Filter: Admin & User only ── -->
                 <select class="filter-select" id="filter-type">
                     <option value="">All Types</option>
                     <option value="admin">Admin</option>
-                    <option value="editor">Editor</option>
-                    <option value="moderator">Moderator</option>
-                    <option value="viewer">Viewer</option>
+                    <option value="user">User</option>
                 </select>
             </div>
             <div class="toolbar-right">
@@ -546,14 +531,13 @@
                     <label class="form-label">Phone</label>
                     <input class="form-input" type="text" id="form-phone" placeholder="+63 912 345 6789">
                 </div>
+                <!-- ── User Type: Admin & User only ── -->
                 <div class="form-group">
                     <label class="form-label">User Type <span class="req">*</span></label>
                     <select class="form-select" id="form-type">
                         <option value="" disabled selected>Select type…</option>
                         <option value="admin">Admin</option>
-                        <option value="editor">Editor</option>
-                        <option value="moderator">Moderator</option>
-                        <option value="viewer">Viewer</option>
+                        <option value="user">User</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -645,16 +629,16 @@
 <script>
 const API_BASE = './api/users.php';
 
-let allUsers    = [];   // active users
-let archivedUsers = []; // archived (soft-deleted) users
-let filtered    = [];
-let currentPage = 1;
-const PER_PAGE  = 8;
-let editingId   = null;
-let archivingId = null;
-let restoringId = null;
-let deletingId  = null;
-let viewingId   = null;
+let allUsers      = [];
+let archivedUsers = [];
+let filtered      = [];
+let currentPage   = 1;
+const PER_PAGE    = 8;
+let editingId     = null;
+let archivingId   = null;
+let restoringId   = null;
+let deletingId    = null;
+let viewingId     = null;
 
 const COLORS = ['#c9a561','#4a90d9','#52b788','#9b59b6','#e05555','#e67e22','#1abc9c','#16a085'];
 const $ = id => document.getElementById(id);
@@ -664,20 +648,33 @@ function fmtDate(d)   { if (!d) return '—'; return new Date(d).toLocaleDateStr
 function esc(s)       { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function statusBadge(s) {
-    const map = { active:['badge-active','Active'], inactive:['badge-inactive','Inactive'], suspended:['badge-suspended','Suspended'], archived:['badge-archived','Archived'] };
+    const map = {
+        active:    ['badge-active','Active'],
+        inactive:  ['badge-inactive','Inactive'],
+        suspended: ['badge-suspended','Suspended'],
+        archived:  ['badge-archived','Archived']
+    };
     const [cls, label] = map[s] || ['badge-inactive', s||'—'];
     return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`;
 }
+
+/* ── Only Admin & User types ── */
 function typeBadge(t) {
-    const map = { admin:'type-admin', editor:'type-editor', moderator:'type-moderator', viewer:'type-viewer' };
-    return `<span class="type-badge ${map[t]||'type-viewer'}">${t ? t.charAt(0).toUpperCase()+t.slice(1) : '—'}</span>`;
+    const map = { admin:'type-admin', user:'type-user' };
+    const cls = map[t] || 'type-user';
+    const label = t ? (t.charAt(0).toUpperCase() + t.slice(1)) : '—';
+    return `<span class="type-badge ${cls}">${label}</span>`;
 }
 
 // ─── TOAST ──────────────────────────────────────────────────────────────────
 function toast(msg, type = 'success') {
     const t = document.createElement('div');
     t.className = `toast ${type}`;
-    const icons = { success:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>', error:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>', warn:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>' };
+    const icons = {
+        success: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>',
+        error:   '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>',
+        warn:    '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>'
+    };
     t.innerHTML = (icons[type]||icons.success) + msg;
     $('toast-wrap').appendChild(t);
     setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 3500);
@@ -698,14 +695,13 @@ async function loadUsers() {
         const data = await apiCall('GET');
         if (!data.success) throw new Error(data.message);
         const all = data.data || [];
-        // Separate active vs archived based on is_archived flag or status
         allUsers      = all.filter(u => !u.is_archived);
         archivedUsers = all.filter(u =>  u.is_archived);
     } catch {
-        // Demo seed data
         allUsers = [
-            { user_id:6, first_name:'John',  last_name:'Mitra',   email:'johnbernardmitra25@gmail.com', phone:'09477188719', user_type:'viewer', status:'active', is_archived:false, created_at:'2026-02-23T08:06:34+00:00', updated_at:'2026-02-23T08:07:42+00:00' },
-            { user_id:7, first_name:'Abo',   last_name:'Gerrald', email:'geraldabo@gmail.com',           phone:'12312313',    user_type:'viewer', status:'active', is_archived:false, created_at:'2026-02-23T08:13:35+00:00', updated_at:'2026-02-23T08:13:35+00:00' },
+            { user_id:6, first_name:'John',  last_name:'Mitra',   email:'johnbernardmitra25@gmail.com', phone:'09477188719', user_type:'user',  status:'active', is_archived:false, created_at:'2026-02-23T08:06:34+00:00', updated_at:'2026-02-23T08:07:42+00:00' },
+            { user_id:7, first_name:'Abo',   last_name:'Gerrald', email:'geraldabo@gmail.com',           phone:'12312313',    user_type:'user',  status:'active', is_archived:false, created_at:'2026-02-23T08:13:35+00:00', updated_at:'2026-02-23T08:13:35+00:00' },
+            { user_id:1, first_name:'Maria', last_name:'Santos',  email:'maria@mrsalu.com',              phone:'09171234567', user_type:'admin', status:'active', is_archived:false, created_at:'2026-01-10T09:00:00+00:00', updated_at:'2026-01-10T09:00:00+00:00' },
         ];
         archivedUsers = [];
         toast('Demo mode — connect XAMPP for live data.', 'warn');
@@ -721,12 +717,11 @@ function updateStats() {
     $('stat-active').textContent   = allUsers.filter(u => u.status === 'active').length;
     $('stat-admins').textContent   = allUsers.filter(u => u.user_type === 'admin').length;
     $('stat-archived').textContent = archivedUsers.length;
-    // Update archive count badge in toolbar button
-    $('arch-count-badge').textContent  = archivedUsers.length;
+    $('arch-count-badge').textContent   = archivedUsers.length;
     $('arch-section-count').textContent = `${archivedUsers.length} record${archivedUsers.length !== 1 ? 's' : ''}`;
 }
 
-// ─── FILTER (active users) ───────────────────────────────────────────────────
+// ─── FILTER ─────────────────────────────────────────────────────────────────
 function applyFilter() {
     const q  = $('search-input').value.toLowerCase();
     const fs = $('filter-status').value;
@@ -780,7 +775,6 @@ function renderTable() {
             </tr>`).join('');
     }
 
-    // Pagination
     $('page-info').textContent = `Page ${currentPage} of ${pages}`;
     let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>`;
     for (let i=1; i<=pages; i++) html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
@@ -793,7 +787,6 @@ function goPage(p) { currentPage = p; renderTable(); }
 function renderArchiveTable() {
     const tbody = $('archive-table-body');
     $('archive-table-count').textContent = `${archivedUsers.length} archived`;
-
     if (!archivedUsers.length) {
         tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
@@ -822,7 +815,6 @@ function renderArchiveTable() {
         </tr>`).join('');
 }
 
-// ─── SCROLL TO ARCHIVE ───────────────────────────────────────────────────────
 function scrollToArchive() {
     $('archive-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -853,8 +845,10 @@ function openEdit(id) {
     $('form-email').value    = u.email      || '';
     $('form-password').value = '';
     $('form-phone').value    = u.phone      || '';
-    $('form-type').value     = u.user_type  || '';
-    $('form-status').value   = u.status     || '';
+    // Normalize legacy types (editor/moderator/viewer → user)
+    const type = ['admin','user'].includes(u.user_type) ? u.user_type : 'user';
+    $('form-type').value   = type;
+    $('form-status').value = u.status || '';
     ['form-fname','form-lname','form-email','form-type','form-status'].forEach(id => $(id).classList.remove('error'));
     $('user-modal').classList.add('open');
     $('form-fname').focus();
@@ -890,7 +884,9 @@ async function saveUser() {
     try {
         const body = { first_name:fname, last_name:lname, email, phone, user_type:type, status };
         if (password) body.password = password;
-        const data = editingId ? await apiCall('PUT','id='+encodeURIComponent(editingId),body) : await apiCall('POST','',body);
+        const data = editingId
+            ? await apiCall('PUT', 'id='+encodeURIComponent(editingId), body)
+            : await apiCall('POST', '', body);
         if (!data.success) throw new Error(data.message);
         closeUserModal();
         toast(editingId ? 'User updated successfully.' : 'User added successfully.', 'success');
@@ -954,14 +950,12 @@ $('archive-confirm-btn').onclick = async () => {
     $('arch-btn-text').textContent = 'Archiving…';
     btn.insertAdjacentHTML('afterbegin','<span class="spinner" id="arch-spinner"></span>');
     try {
-        // API: PATCH user set is_archived=true, status=archived
         const data = await apiCall('PUT', 'id='+encodeURIComponent(archivingId), { is_archived: true, status: 'archived' });
         if (!data.success) throw new Error(data.message);
         $('archive-modal').classList.remove('open');
         toast('User moved to archive.', 'warn');
         await loadUsers();
     } catch {
-        // Demo: move locally
         const idx = allUsers.findIndex(x => String(x.user_id) === String(archivingId));
         if (idx > -1) {
             const u = { ...allUsers[idx], is_archived: true, prev_status: allUsers[idx].status, archived_at: new Date().toISOString() };
@@ -1003,7 +997,6 @@ $('restore-confirm-btn').onclick = async () => {
         toast('User restored successfully.', 'success');
         await loadUsers();
     } catch {
-        // Demo: move back to active
         const idx = archivedUsers.findIndex(x => String(x.user_id) === String(restoringId));
         if (idx > -1) {
             const u = { ...archivedUsers[idx], is_archived: false, status: archivedUsers[idx].prev_status || 'active' };
@@ -1022,7 +1015,7 @@ $('restore-confirm-btn').onclick = async () => {
     }
 };
 
-// ─── PERMANENT DELETE (from archive only) ────────────────────────────────────
+// ─── PERMANENT DELETE ────────────────────────────────────────────────────────
 function openDelete(id, fromArchive = false) {
     const pool = fromArchive ? archivedUsers : allUsers;
     const u = pool.find(x => String(x.user_id) === String(id));
@@ -1046,11 +1039,8 @@ $('delete-confirm-btn').onclick = async () => {
         toast('User permanently deleted.', 'error');
         await loadUsers();
     } catch {
-        if (fromArchive) {
-            archivedUsers = archivedUsers.filter(u => String(u.user_id) !== String(id));
-        } else {
-            allUsers = allUsers.filter(u => String(u.user_id) !== String(id));
-        }
+        if (fromArchive) archivedUsers = archivedUsers.filter(u => String(u.user_id) !== String(id));
+        else allUsers = allUsers.filter(u => String(u.user_id) !== String(id));
         updateStats(); applyFilter(); renderArchiveTable();
         $('delete-modal').classList.remove('open');
         toast('User permanently deleted (demo).', 'error');
@@ -1067,7 +1057,7 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
     el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
 
-// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+// ─── SIDEBAR COLLAPSE ────────────────────────────────────────────────────────
 $('collapse-btn').addEventListener('click', () => {
     $('sidebar').classList.toggle('collapsed');
     $('main').classList.toggle('collapsed');
