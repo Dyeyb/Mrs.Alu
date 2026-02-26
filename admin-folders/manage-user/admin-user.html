@@ -1,1080 +1,733 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mrs.Alu - User Management</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAL ELITE — User Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Rajdhani:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold:#c9a020;--gold-bright:#f0c040;--gold-dim:rgba(201,160,32,0.12);
+  --gold-border:rgba(201,160,32,0.22);--gold-glow:rgba(201,160,32,0.18);
+  --obsidian:#060606;--onyx:#0d0d0d;--graphite:#141414;--charcoal:#1c1c1c;
+  --steel:#252525;--iron:#2e2e2e;
+  --platinum:#f0f0f0;--silver:#c8c8c8;--ash:rgba(200,200,200,0.55);--dim:rgba(200,200,200,0.28);
+  --green:#22c55e;--red:#ef4444;--amber:#f59e0b;--blue:#3b82f6;
+  --t:all 0.32s cubic-bezier(0.4,0,0.2,1);
+  --sidebar-w:290px;--sidebar-col:70px;--r:3px;
+}
+::-webkit-scrollbar{width:3px;} ::-webkit-scrollbar-track{background:var(--onyx);}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--gold-bright));border-radius:2px;}
 
-        :root {
-            --primary-dark: #1a1a1a;
-            --primary-accent: #c9a561;
-            --brown: #6b4226;
-            --brown-dark: #4a2e18;
-            --brown-light: #8b5a38;
-            --text-primary: #2d2d2d;
-            --hover-bg: #f8f5f0;
-            --border-color: #e5e0d8;
-            --shadow-subtle: 0 4px 20px rgba(0,0,0,0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --sidebar-w: 260px;
-            --sidebar-collapsed: 72px;
-        }
+body{font-family:'Rajdhani',sans-serif;background:var(--obsidian);color:var(--silver);display:flex;min-height:100vh;overflow-x:hidden;}
 
-        body { font-family: 'Outfit', sans-serif; background: #f5f2ee; min-height: 100vh; color: var(--text-primary); display: flex; }
+/* grain */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px;}
 
-        /* ═══════ SIDEBAR ═══════ */
-        .sidebar { width: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; transition: width 0.3s cubic-bezier(0.4,0,0.2,1); overflow: hidden; }
-        .sidebar.collapsed { width: var(--sidebar-collapsed); }
-        .sidebar-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=85&fit=crop&crop=center'); background-size: cover; background-position: center 60%; filter: brightness(0.6) saturate(0.65) sepia(0.3); transition: transform 0.8s cubic-bezier(0.4,0,0.2,1), filter 0.4s ease; }
-        .sidebar:hover .sidebar-bg { transform: scale(1.04); filter: brightness(0.7) saturate(0.75) sepia(0.2); }
-        .sidebar-overlay { position: absolute; inset: 0; background: linear-gradient(180deg,rgba(36,18,6,0.93) 0%,rgba(74,46,24,0.72) 28%,rgba(107,66,38,0.40) 52%,rgba(74,46,24,0.68) 78%,rgba(28,14,4,0.95) 100%); pointer-events: none; }
-        .sidebar-overlay::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(201,165,97,0.07) 0%,transparent 70%); }
-        .sidebar > *:not(.sidebar-bg):not(.sidebar-overlay) { position: relative; z-index: 1; }
-        .sidebar-logo { height: 70px; padding: 0 22px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(201,165,97,0.18); flex-shrink: 0; text-decoration: none; }
-        .logo-icon { width: 42px; height: 42px; flex-shrink: 0; background: linear-gradient(135deg,rgba(74,46,24,0.85) 0%,var(--primary-accent) 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond',serif; font-size: 24px; font-weight: 700; color: #fff; box-shadow: 0 4px 18px rgba(201,165,97,0.45); transition: var(--transition); border: 1px solid rgba(201,165,97,0.4); }
-        .sidebar-logo:hover .logo-icon { transform: scale(1.06); }
-        .logo-text-wrap { overflow: hidden; white-space: nowrap; transition: var(--transition); }
-        .logo-name { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: #fff; line-height: 1; }
-        .logo-name span { color: var(--primary-accent); font-style: italic; }
-        .logo-sub { font-size: 11px; color: rgba(255,255,255,0.42); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
-        .sidebar.collapsed .logo-text-wrap { opacity: 0; width: 0; }
-        .sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; overflow-x: hidden; }
-        .sidebar-nav::-webkit-scrollbar { width: 3px; }
-        .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(201,165,97,0.25); border-radius: 3px; }
-        .nav-section-label { font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(201,165,97,0.5); padding: 16px 22px 8px; white-space: nowrap; overflow: hidden; transition: var(--transition); }
-        .sidebar.collapsed .nav-section-label { opacity: 0; height: 0; padding: 0; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 22px; text-decoration: none; color: rgba(255,255,255,0.62); font-size: 14px; font-weight: 500; position: relative; cursor: pointer; transition: var(--transition); white-space: nowrap; border-left: 3px solid transparent; }
-        .nav-item:hover { color: rgba(255,255,255,0.96); background: rgba(201,165,97,0.1); border-left-color: rgba(201,165,97,0.45); }
-        .nav-item.active { color: var(--primary-accent); background: rgba(201,165,97,0.14); border-left-color: var(--primary-accent); }
-        .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
-        .nav-item-label { transition: var(--transition); }
-        .sidebar.collapsed .nav-item-label { opacity: 0; width: 0; overflow: hidden; }
-        .nav-badge { margin-left: auto; background: var(--primary-accent); color: #1a1a1a; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 50px; flex-shrink: 0; }
-        .sidebar.collapsed .nav-badge { opacity: 0; width: 0; overflow: hidden; padding: 0; }
-        .sidebar.collapsed .nav-item { justify-content: center; padding: 13px 0; }
-        .sidebar.collapsed .nav-item:hover::after { content: attr(data-label); position: absolute; left: calc(var(--sidebar-collapsed) + 8px); background: var(--brown-dark); color: #fff; font-size: 13px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; border: 1px solid rgba(201,165,97,0.2); z-index: 200; }
-        .sidebar-bottom { padding: 16px; border-top: 1px solid rgba(201,165,97,0.15); flex-shrink: 0; }
-        .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; transition: var(--transition); cursor: pointer; border: 1px solid rgba(201,165,97,0.18); background: rgba(0,0,0,0.25); }
-        .sidebar-user:hover { background: rgba(201,165,97,0.12); border-color: rgba(201,165,97,0.35); }
-        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,var(--brown-dark),var(--primary-accent)); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; border: 1.5px solid rgba(201,165,97,0.45); }
-        .user-info { overflow: hidden; transition: var(--transition); }
-        .user-name { font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap; }
-        .user-role { font-size: 11px; color: rgba(255,255,255,0.4); white-space: nowrap; }
-        .sidebar.collapsed .user-info { opacity: 0; width: 0; }
-        .sidebar.collapsed .sidebar-user { justify-content: center; }
-        .collapse-btn { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,0.32); font-size: 12px; font-family: 'Outfit',sans-serif; padding: 10px 0 0; transition: var(--transition); }
-        .collapse-btn:hover { color: var(--primary-accent); }
-        .collapse-btn svg { width: 16px; height: 16px; transition: transform 0.3s; }
-        .sidebar.collapsed .collapse-btn svg { transform: rotate(180deg); }
-        .sidebar.collapsed .collapse-btn span { display: none; }
+.ambient{position:fixed;pointer-events:none;border-radius:50%;filter:blur(120px);z-index:0;}
+.amb1{width:700px;height:400px;top:-150px;left:-200px;background:radial-gradient(ellipse,rgba(201,160,32,0.055),transparent 70%);}
+.amb2{width:500px;height:500px;bottom:-100px;right:-150px;background:radial-gradient(ellipse,rgba(201,160,32,0.04),transparent 70%);}
 
-        /* ═══════ MAIN ═══════ */
-        .main { margin-left: var(--sidebar-w); flex: 1; transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1); min-height: 100vh; display: flex; flex-direction: column; }
-        .main.collapsed { margin-left: var(--sidebar-collapsed); }
-        .topbar { position: sticky; top: 0; z-index: 50; height: 70px; padding: 0 36px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(201,165,97,0.2); box-shadow: 0 4px 28px rgba(28,14,4,0.45); overflow: hidden; }
-        .topbar::before { content: ''; position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=85&fit=crop&crop=top'); background-size: cover; background-position: center 20%; filter: brightness(0.55) saturate(0.65) sepia(0.35); pointer-events: none; z-index: 0; }
-        .topbar::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg,rgba(28,14,4,0.95) 0%,rgba(74,46,24,0.82) 30%,rgba(107,66,38,0.60) 60%,rgba(74,46,24,0.80) 82%,rgba(28,14,4,0.94) 100%); pointer-events: none; z-index: 1; }
-        .topbar-left { display: flex; align-items: center; gap: 16px; position: relative; z-index: 2; }
-        .topbar-title { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: #fff; }
-        .topbar-title span { color: var(--primary-accent); font-style: italic; }
-        .breadcrumb-bar { display: flex; align-items: center; gap: 6px; font-size: 13px; color: rgba(255,255,255,0.5); }
-        .breadcrumb-bar span { color: rgba(201,165,97,0.85); font-weight: 500; }
-        .breadcrumb-bar .sep { color: rgba(255,255,255,0.25); }
-        .topbar-right { display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
-        .topbar-btn { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); position: relative; color: rgba(255,255,255,0.8); }
-        .topbar-btn:hover { background: rgba(255,255,255,0.18); border-color: var(--primary-accent); color: var(--primary-accent); }
-        .topbar-btn svg { width: 18px; height: 18px; }
-        .notif-dot { position: absolute; top: 7px; right: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--primary-accent); border: 2px solid var(--brown); }
-        .topbar-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,var(--brown-dark),var(--primary-accent)); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; transition: var(--transition); border: 2px solid rgba(201,165,97,0.4); }
-        .topbar-avatar:hover { border-color: var(--primary-accent); transform: scale(1.05); }
+/* ═══════ SIDEBAR ═══════ */
+.sidebar{width:var(--sidebar-w);min-height:100vh;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;transition:width 0.4s cubic-bezier(0.4,0,0.2,1);overflow:hidden;}
+.sidebar.collapsed{width:var(--sidebar-col);}
+.sb-bg{position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0,transparent 3px,rgba(255,255,255,0.008) 3px,rgba(255,255,255,0.008) 6px),repeating-linear-gradient(45deg,transparent 0,transparent 3px,rgba(255,255,255,0.008) 3px,rgba(255,255,255,0.008) 6px),linear-gradient(180deg,#0a0a0a 0%,#080808 100%);background-size:6px 6px,6px 6px,100% 100%;}
+.sidebar::before{content:'';position:absolute;top:0;right:0;bottom:0;width:1px;z-index:10;background:linear-gradient(180deg,transparent 0%,var(--gold) 15%,var(--gold-bright) 50%,var(--gold) 85%,transparent 100%);}
+.sidebar>*:not(.sb-bg){position:relative;z-index:2;}
 
-        /* ═══════ PAGE ═══════ */
-        .page-body { padding: 32px 36px; flex: 1; }
-        .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: #fff; border: 1px solid var(--border-color); border-radius: 14px; padding: 20px 22px 16px; transition: var(--transition); position: relative; overflow: hidden; box-shadow: var(--shadow-subtle); }
-        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
-        .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,var(--brown),var(--primary-accent)); }
-        .stat-card.green::after  { background: linear-gradient(90deg,#2d6a4f,#52b788); }
-        .stat-card.blue::after   { background: linear-gradient(90deg,#1a4a8a,#4a90d9); }
-        .stat-card.orange::after { background: linear-gradient(90deg,#7a3a00,#e67e22); }
-        .stat-num { font-family: 'Cormorant Garamond',serif; font-size: 32px; font-weight: 700; color: var(--primary-dark); line-height: 1; }
-        .stat-label { font-size: 12px; color: #aaa; margin-top: 4px; }
-        .stat-icon-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .stat-chip { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
-        .stat-chip.up      { background: rgba(45,158,107,0.12); color: #2d9e6b; }
-        .stat-chip.neutral { background: rgba(201,165,97,0.12); color: #b8833c; }
-        .stat-chip.warn    { background: rgba(230,126,34,0.12); color: #c0732a; }
+/* Logo area */
+.sidebar-logo{height:auto;padding:28px 22px 22px;display:flex;flex-direction:column;align-items:center;gap:0;text-decoration:none;flex-shrink:0;border-bottom:1px solid var(--gold-border);position:relative;overflow:hidden;transition:var(--t);}
+.sidebar-logo::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-bright),transparent);opacity:0;transition:opacity 0.4s;}
+.sidebar-logo:hover::after{opacity:0.6;}
 
-        /* ═══════ TOOLBAR ═══════ */
-        .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .toolbar-left  { display: flex; align-items: center; gap: 10px; flex: 1; flex-wrap: wrap; }
-        .toolbar-right { display: flex; align-items: center; gap: 10px; }
-        .search-wrap { position: relative; flex: 1; max-width: 260px; }
-        .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #aaa; pointer-events: none; }
-        .search-input { width: 100%; padding: 9px 12px 9px 38px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; font-family: 'Outfit',sans-serif; background: #fff; color: var(--text-primary); outline: none; transition: var(--transition); }
-        .search-input:focus { border-color: var(--primary-accent); box-shadow: 0 0 0 3px rgba(201,165,97,0.12); }
-        .filter-select { padding: 9px 14px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px; font-family: 'Outfit',sans-serif; background: #fff; color: var(--text-primary); cursor: pointer; outline: none; transition: var(--transition); appearance: none; padding-right: 32px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23aaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; background-size: 16px; }
-        .filter-select:focus { border-color: var(--primary-accent); }
-        .add-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 8px; background: linear-gradient(135deg,var(--brown) 0%,var(--brown-light) 100%); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: 'Outfit',sans-serif; transition: var(--transition); text-decoration: none; box-shadow: 0 4px 14px rgba(107,66,38,0.25); white-space: nowrap; }
-        .add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(107,66,38,0.4); }
-        .add-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .add-btn svg { width: 15px; height: 15px; }
-        .archive-toggle-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 8px; background: #fff; color: #7a5a2a; font-size: 13px; font-weight: 600; cursor: pointer; border: 1.5px solid rgba(201,165,97,0.5); font-family: 'Outfit',sans-serif; transition: var(--transition); white-space: nowrap; }
-        .archive-toggle-btn:hover { background: rgba(201,165,97,0.1); border-color: var(--primary-accent); transform: translateY(-2px); }
-        .archive-toggle-btn svg { width: 15px; height: 15px; }
-        .archive-toggle-btn .arch-count { background: rgba(201,165,97,0.25); color: #7a4a1a; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 20px; }
+/* BIG TRANSPARENT LOGO */
+.logo-img-wrap{width:100%;display:flex;justify-content:center;align-items:center;transition:var(--t);}
+.logo-img-wrap img{width:100%;max-width:190px;height:auto;object-fit:contain;display:block;filter:drop-shadow(0 0 14px rgba(201,160,32,0.4)) brightness(1.1);transition:var(--t);margin-bottom: -80px;}
+.sidebar-logo:hover .logo-img-wrap img{filter:drop-shadow(0 0 24px rgba(240,192,64,0.55)) brightness(1.18);transform:scale(1.04);}
+.logo-fallback-big{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;font-style:italic;color:var(--gold-bright);line-height:1;text-shadow:0 0 30px rgba(201,160,32,0.4);display:none;}
 
-        /* ═══════ TABLE ═══════ */
-        .table-card { background: #fff; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-subtle); }
-        .table-header-row { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--border-color); }
-        .table-title { font-family: 'Cormorant Garamond',serif; font-size: 20px; font-weight: 600; color: var(--primary-dark); }
-        .table-title span { color: var(--primary-accent); font-style: italic; }
-        .table-count { font-size: 13px; color: #aaa; }
-        table { width: 100%; border-collapse: collapse; }
-        thead th { padding: 12px 20px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #aaa; background: #faf8f5; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
-        tbody tr { border-bottom: 1px solid #f0ece6; transition: background 0.15s; }
-        tbody tr:last-child { border-bottom: none; }
-        tbody tr:hover { background: #faf8f5; }
-        tbody td { padding: 14px 20px; font-size: 13.5px; color: var(--text-primary); vertical-align: middle; }
-        .archive-table thead th { background: #fdf8f0; }
-        .archive-table tbody tr:hover { background: #fdf8f0; }
+/* brand */
+.logo-text-block{text-align:center;margin-top:12px;transition:var(--t);overflow:hidden;white-space:nowrap;}
+.logo-brand-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--platinum);line-height:1;}
+.logo-brand-name em{color:var(--gold-bright);font-style:normal;}
+.logo-brand-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.logo-brand-sub::before,.logo-brand-sub::after{content:'';display:inline-block;width:18px;height:1px;background:var(--gold);opacity:0.5;}
+.sidebar.collapsed .logo-text-block{opacity:0;height:0;margin:0;}
+.sidebar.collapsed .sidebar-logo{padding:14px 12px;}
+.sidebar.collapsed .logo-img-wrap img{max-width:44px;}
+.sidebar.collapsed .logo-fallback-big{font-size:30px;}
 
-        .user-cell { display: flex; align-items: center; gap: 12px; }
-        .user-ava { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; border: 2px solid rgba(201,165,97,0.25); }
-        .user-full-name { font-weight: 600; color: var(--primary-dark); font-size: 14px; line-height: 1.2; }
-        .user-email-small { font-size: 12px; color: #aaa; }
-        .archived-ava { filter: grayscale(0.5); opacity: 0.85; }
+/* Nav */
+.sidebar-nav{flex:1;padding:10px 0;overflow-y:auto;overflow-x:hidden;}
+.nav-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);padding:18px 22px 8px;white-space:nowrap;overflow:hidden;transition:var(--t);display:flex;align-items:center;gap:10px;opacity:0.5;}
+.nav-section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-border),transparent);}
+.sidebar.collapsed .nav-section-label{opacity:0;height:0;padding:0;}
 
-        /* ─── STATUS BADGES ─── */
-        .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-        .badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-        .badge-active    { background: rgba(82,183,136,0.12);  color: #2d9e6b;  border: 1px solid rgba(82,183,136,0.25); }
-        .badge-active .badge-dot    { background: #52b788; }
-        .badge-inactive  { background: rgba(224,85,85,0.10);   color: #c0392b;  border: 1px solid rgba(224,85,85,0.20); }
-        .badge-inactive .badge-dot  { background: #e05555; }
-        .badge-suspended { background: rgba(230,126,34,0.10);  color: #c0732a;  border: 1px solid rgba(230,126,34,0.20); }
-        .badge-suspended .badge-dot { background: #e67e22; }
-        .badge-archived  { background: rgba(149,165,166,0.15); color: #5a6a6a;  border: 1px solid rgba(149,165,166,0.30); }
-        .badge-archived .badge-dot  { background: #95a5a6; }
+.nav-item{display:flex;align-items:center;gap:14px;padding:11px 22px;text-decoration:none;color:var(--ash);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;position:relative;cursor:pointer;transition:var(--t);white-space:nowrap;border-left:2px solid transparent;overflow:hidden;}
+.nav-item::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(201,160,32,0.07),transparent 70%);opacity:0;transition:opacity 0.3s;}
+.nav-item:hover{color:var(--platinum);border-left-color:rgba(201,160,32,0.45);}
+.nav-item:hover::before{opacity:1;}
+.nav-item.active{color:var(--gold-bright);border-left-color:var(--gold);}
+.nav-item.active::before{opacity:1;}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;}
+.nav-item-label{transition:var(--t);}
+.sidebar.collapsed .nav-item-label{opacity:0;width:0;overflow:hidden;}
+.nav-badge{margin-left:auto;background:var(--gold);color:var(--obsidian);font-family:'DM Mono',monospace;font-size:9px;padding:1px 6px;border-radius:2px;flex-shrink:0;}
+.sidebar.collapsed .nav-badge{opacity:0;width:0;overflow:hidden;padding:0;}
+.sidebar.collapsed .nav-item{justify-content:center;padding:13px 0;}
+.sidebar.collapsed .nav-item:hover::after{content:attr(data-label);position:absolute;left:calc(var(--sidebar-col)+10px);background:var(--charcoal);color:var(--platinum);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:var(--r);white-space:nowrap;border:1px solid var(--gold-border);z-index:400;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
 
-        /* ─── TYPE BADGES — Admin & User only ─── */
-        .type-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
-        .type-admin { background: rgba(201,165,97,0.15); color: #7a4a1a; border: 1px solid rgba(201,165,97,0.30); }
-        .type-user  { background: rgba(74,144,217,0.10); color: #2a6aaa; border: 1px solid rgba(74,144,217,0.25); }
+.sidebar-bottom{padding:16px;border-top:1px solid var(--gold-border);flex-shrink:0;}
+.sidebar-user{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r);border:1px solid var(--gold-border);background:rgba(201,160,32,0.04);cursor:pointer;transition:var(--t);position:relative;overflow:hidden;}
+.sidebar-user::before{content:'';position:absolute;top:0;left:-100%;width:200%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-bright),transparent);transition:left 0.6s;}
+.sidebar-user:hover::before{left:100%;}
+.sidebar-user:hover{border-color:rgba(201,160,32,0.45);background:rgba(201,160,32,0.08);}
+.user-avatar{width:36px;height:36px;border-radius:var(--r);background:linear-gradient(135deg,var(--graphite),var(--steel));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0;border:1px solid var(--gold-border);}
+.user-info{overflow:hidden;transition:var(--t);}
+.user-name{font-size:12px;font-weight:700;color:var(--platinum);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;}
+.user-role{font-family:'DM Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:2px;white-space:nowrap;margin-top:3px;}
+.sidebar.collapsed .user-info{opacity:0;width:0;}
+.sidebar.collapsed .sidebar-user{justify-content:center;}
+.collapse-btn{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--dim);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;padding:12px 0 0;transition:var(--t);}
+.collapse-btn:hover{color:var(--gold);}
+.collapse-btn svg{width:14px;height:14px;transition:transform 0.35s;}
+.sidebar.collapsed .collapse-btn svg{transform:rotate(180deg);}
+.sidebar.collapsed .collapse-btn span{display:none;}
 
-        /* ─── ACTION BUTTONS ─── */
-        .action-btns { display: flex; align-items: center; gap: 6px; }
-        .action-btn { width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--border-color); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); color: #888; }
-        .action-btn.edit:hover    { background: rgba(74,144,217,0.08);  border-color: rgba(74,144,217,0.35);  color: #2a7ad5; }
-        .action-btn.view:hover    { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
-        .action-btn.archive:hover { background: rgba(201,165,97,0.12);  border-color: rgba(201,165,97,0.45);  color: #7a4a1a; }
-        .action-btn.restore:hover { background: rgba(82,183,136,0.08);  border-color: rgba(82,183,136,0.35);  color: #2d9e6b; }
-        .action-btn.delete:hover  { background: rgba(224,85,85,0.08);   border-color: rgba(224,85,85,0.35);   color: #e05555; }
-        .action-btn svg { width: 14px; height: 14px; }
-        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* ═══════ MAIN ═══════ */
+.main{margin-left:var(--sidebar-w);flex:1;transition:margin-left 0.4s cubic-bezier(0.4,0,0.2,1);min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1;}
+.main.collapsed{margin-left:var(--sidebar-col);}
 
-        /* ─── PAGINATION ─── */
-        .pagination { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-top: 1px solid var(--border-color); }
-        .page-info { font-size: 13px; color: #aaa; }
-        .page-btns { display: flex; gap: 6px; }
-        .page-btn { width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--border-color); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; font-weight: 500; transition: var(--transition); color: var(--text-primary); font-family: 'Outfit',sans-serif; }
-        .page-btn:hover { border-color: var(--primary-accent); color: var(--brown); }
-        .page-btn.active { background: linear-gradient(135deg,var(--brown),var(--brown-light)); border-color: transparent; color: #fff; }
-        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:100;height:72px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,6,0.92);backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid var(--gold-border);}
+.topbar::after{content:'';position:absolute;bottom:-1px;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;}
+.topbar-left{display:flex;align-items:center;gap:24px;}
+.topbar-code{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--gold);opacity:0.5;text-transform:uppercase;border-left:2px solid var(--gold);padding-left:12px;line-height:1.7;}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--platinum);line-height:1;}
+.topbar-title em{color:var(--gold-bright);font-style:italic;}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:flex;align-items:center;gap:8px;}
+.breadcrumb b{color:var(--gold);font-weight:400;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-btn{width:38px;height:38px;border-radius:var(--r);background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--t);color:var(--dim);position:relative;}
+.topbar-btn:hover{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-bright);box-shadow:0 0 16px var(--gold-glow);}
+.topbar-btn svg{width:16px;height:16px;}
+.notif-dot{position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--gold-bright);border:1.5px solid var(--obsidian);animation:gpulse 2.5s infinite;}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 0 rgba(240,192,64,0.5);}60%{box-shadow:0 0 0 5px transparent;}}
+.topbar-avatar{width:38px;height:38px;border-radius:var(--r);background:linear-gradient(135deg,var(--graphite),var(--steel));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold);cursor:pointer;transition:var(--t);border:1px solid var(--gold-border);}
+.topbar-avatar:hover{border-color:var(--gold-bright);box-shadow:0 0 16px var(--gold-glow);transform:scale(1.05);}
 
-        /* ─── ARCHIVE SECTION ─── */
-        .archive-section { margin-top: 32px; }
-        .archive-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .archive-section-title { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: var(--primary-dark); }
-        .archive-section-title span { color: #c0732a; font-style: italic; }
-        .archive-divider { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-color), transparent); }
-        .archive-badge-count { background: rgba(201,165,97,0.2); color: #7a4a1a; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(201,165,97,0.3); }
+/* Page body */
+.page-body{padding:36px 40px;flex:1;}
 
-        /* Skeleton */
-        .skeleton-row td { padding: 14px 20px; }
-        .skeleton-block { height: 16px; background: linear-gradient(90deg,#f0ece6 25%,#e8e2da 50%,#f0ece6 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
-        .skeleton-circle { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(90deg,#f0ece6 25%,#e8e2da 50%,#f0ece6 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; flex-shrink: 0; }
-        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+/* Section header */
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:28px;opacity:0;animation:fadeUp 0.6s 0.05s forwards;}
+.sec-head-line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-border),transparent);}
+.sec-head-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.sec-head-label::before{content:'◆';font-size:6px;color:var(--gold-bright);animation:rot 8s linear infinite;display:inline-block;}
+@keyframes rot{to{transform:rotate(360deg);}}
 
-        /* ═══════ MODAL ═══════ */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15,8,3,0.65); backdrop-filter: blur(5px); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-overlay.open { display: flex; }
-        .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 520px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.25); animation: modalIn 0.3s cubic-bezier(0.4,0,0.2,1); }
-        @keyframes modalIn { from{opacity:0;transform:scale(0.92) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
-        .modal-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg,#faf8f5 0%,#fff 100%); }
-        .modal-title { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: var(--primary-dark); }
-        .modal-title span { color: var(--primary-accent); font-style: italic; }
-        .modal-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #aaa; transition: var(--transition); }
-        .modal-close:hover { background: rgba(224,85,85,0.08); border-color: rgba(224,85,85,0.35); color: #e05555; }
-        .modal-close svg { width: 16px; height: 16px; }
-        .modal-body { padding: 24px 28px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group.full { grid-column: 1 / -1; }
-        .form-label { font-size: 12px; font-weight: 600; color: #666; letter-spacing: 0.5px; text-transform: uppercase; }
-        .form-label .req { color: #e05555; }
-        .form-input, .form-select {
-            padding: 10px 14px; border: 1.5px solid var(--border-color); border-radius: 8px;
-            font-size: 13.5px; font-family: 'Outfit',sans-serif; color: var(--text-primary);
-            outline: none; transition: var(--transition); background: #faf8f5; width: 100%;
-        }
-        .form-select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 34px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23aaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; }
-        .form-input:focus, .form-select:focus { border-color: var(--primary-accent); background: #fff; box-shadow: 0 0 0 3px rgba(201,165,97,0.1); }
-        .form-input.error, .form-select.error { border-color: #e05555; }
-        .modal-footer { padding: 16px 28px 24px; display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-        .btn-cancel { padding: 10px 20px; border-radius: 8px; border: 1.5px solid var(--border-color); background: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #888; transition: var(--transition); }
-        .btn-cancel:hover { border-color: #ccc; color: #555; }
-        .btn-save { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,var(--brown),var(--brown-light)); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(107,66,38,0.25); display: flex; align-items: center; gap: 8px; }
-        .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(107,66,38,0.4); }
-        .btn-save:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--graphite);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);padding:22px 24px 18px;transition:var(--t);position:relative;overflow:hidden;opacity:0;animation:fadeUp 0.6s forwards;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:14px;height:14px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);opacity:0.35;}
+.stat-br{position:absolute;bottom:0;right:0;width:14px;height:14px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);opacity:0.35;}
+.stat-card:hover{border-color:var(--gold-border);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px var(--gold-glow);}
+.stat-stripe{position:absolute;top:0;left:0;right:0;height:2px;}
+.s-gold{background:linear-gradient(90deg,var(--gold),var(--gold-bright));}
+.s-green{background:linear-gradient(90deg,#15803d,var(--green));}
+.s-blue{background:linear-gradient(90deg,#1d4ed8,var(--blue));}
+.s-amber{background:linear-gradient(90deg,#b45309,var(--amber));}
+.d1{animation-delay:0.1s;}.d2{animation-delay:0.18s;}.d3{animation-delay:0.26s;}.d4{animation-delay:0.34s;}
+.stat-icon-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.stat-icon{width:34px;height:34px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);font-size:16px;}
+.stat-chip{font-family:'DM Mono',monospace;font-size:8px;padding:3px 8px;border-radius:2px;letter-spacing:1px;text-transform:uppercase;}
+.c-gold{background:rgba(201,160,32,0.1);color:var(--gold);border:1px solid rgba(201,160,32,0.2);}
+.c-green{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+.c-blue{background:rgba(59,130,246,0.1);color:var(--blue);border:1px solid rgba(59,130,246,0.2);}
+.c-amber{background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--platinum);line-height:1;letter-spacing:-0.02em;}
+.stat-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
 
-        /* View modal */
-        .view-user-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: #faf8f5; border-radius: 10px; border: 1px solid var(--border-color); }
-        .view-ava { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: #fff; border: 3px solid rgba(201,165,97,0.3); flex-shrink: 0; }
-        .view-name  { font-family: 'Cormorant Garamond',serif; font-size: 20px; font-weight: 600; color: var(--primary-dark); }
-        .view-email { font-size: 13px; color: #aaa; }
-        .view-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .view-detail-item { padding: 12px; background: #faf8f5; border-radius: 8px; border: 1px solid var(--border-color); }
-        .view-detail-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #bbb; margin-bottom: 6px; }
-        .view-detail-val   { font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+/* Toolbar */
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.6s 0.4s forwards;}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;}
+.toolbar-right{display:flex;align-items:center;gap:10px;}
+.search-wrap{position:relative;flex:1;max-width:280px;}
+.search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--gold);opacity:0.5;pointer-events:none;}
+.search-input{width:100%;padding:10px 14px 10px 40px;border:1px solid rgba(255,255,255,0.06);border-radius:var(--r);font-size:12px;font-family:'Rajdhani',sans-serif;font-weight:500;letter-spacing:1px;background:var(--graphite);color:var(--platinum);outline:none;transition:var(--t);}
+.search-input:focus{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(201,160,32,0.08);}
+.search-input::placeholder{color:var(--dim);}
+.filter-select{padding:10px 32px 10px 14px;border:1px solid rgba(255,255,255,0.06);border-radius:var(--r);font-size:11px;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;background:var(--graphite);color:var(--ash);cursor:pointer;outline:none;transition:var(--t);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23c9a020' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:14px;background-color:var(--graphite);}
+.filter-select:focus{border-color:var(--gold-border);}
+.add-btn{display:inline-flex;align-items:center;gap:9px;padding:10px 22px;border-radius:var(--r);background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%);color:var(--obsidian);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:var(--t);box-shadow:0 4px 20px rgba(201,160,32,0.3);white-space:nowrap;position:relative;overflow:hidden;}
+.add-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);transition:left 0.5s;}
+.add-btn:hover::before{left:100%;}
+.add-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,160,32,0.45);}
+.add-btn svg{width:14px;height:14px;}
+.archive-toggle-btn{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border-radius:var(--r);background:transparent;color:var(--ash);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:var(--t);white-space:nowrap;}
+.archive-toggle-btn:hover{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-bright);box-shadow:0 0 20px var(--gold-glow);}
+.archive-toggle-btn svg{width:14px;height:14px;}
+.arch-count{background:rgba(201,160,32,0.15);color:var(--gold);font-family:'DM Mono',monospace;font-size:9px;padding:1px 7px;border-radius:2px;border:1px solid rgba(201,160,32,0.25);}
 
-        /* Archive / Restore / Delete confirm modals */
-        .archive-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(201,165,97,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-        .archive-icon svg { width: 28px; height: 28px; color: #c9a561; }
-        .delete-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(224,85,85,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-        .delete-icon svg { width: 28px; height: 28px; color: #e05555; }
-        .modal-center-text { text-align: center; }
-        .modal-center-text h3 { font-family: 'Cormorant Garamond',serif; font-size: 22px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
-        .modal-center-text p  { font-size: 13.5px; color: #888; line-height: 1.6; }
-        .modal-center-text .user-highlight { font-weight: 700; color: var(--primary-dark); }
-        .btn-archive-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#a07820,var(--primary-accent)); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(201,165,97,0.3); display: flex; align-items: center; gap: 8px; }
-        .btn-archive-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,165,97,0.45); }
-        .btn-archive-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-delete-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#c0392b,#e05555); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(224,85,85,0.25); display: flex; align-items: center; gap: 8px; }
-        .btn-delete-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(224,85,85,0.4); }
-        .btn-delete-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        .btn-restore-confirm { padding: 10px 24px; border-radius: 8px; background: linear-gradient(135deg,#2d6a4f,#52b788); border: none; font-size: 13px; font-weight: 600; font-family: 'Outfit',sans-serif; cursor: pointer; color: #fff; transition: var(--transition); box-shadow: 0 4px 14px rgba(82,183,136,0.3); display: flex; align-items: center; gap: 8px; }
-        .btn-restore-confirm:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(82,183,136,0.4); }
-        .btn-restore-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+/* Table card */
+.table-card{background:var(--graphite);border:1px solid rgba(255,255,255,0.05);border-radius:var(--r);overflow:hidden;position:relative;opacity:0;animation:fadeUp 0.6s 0.5s forwards;}
+.table-card::before{content:'';position:absolute;top:0;left:0;width:20px;height:20px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);opacity:0.3;pointer-events:none;z-index:1;}
+.table-card::after{content:'';position:absolute;bottom:0;right:0;width:20px;height:20px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);opacity:0.3;pointer-events:none;z-index:1;}
+.table-header-row{display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(0,0,0,0.2);}
+.table-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--platinum);}
+.table-title em{color:var(--gold-bright);font-style:italic;}
+.table-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:2px;background:var(--gold-dim);padding:4px 12px;border-radius:2px;border:1px solid var(--gold-border);}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:12px 24px;text-align:left;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);opacity:0.6;background:rgba(0,0,0,0.15);border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap;}
+tbody tr{border-bottom:1px solid rgba(255,255,255,0.03);transition:background 0.2s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:rgba(201,160,32,0.04);}
+tbody td{padding:15px 24px;font-size:13px;font-weight:500;color:var(--silver);vertical-align:middle;}
+.user-cell{display:flex;align-items:center;gap:14px;}
+.user-ava{width:38px;height:38px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+.user-full-name{font-weight:700;color:var(--platinum);font-size:13px;letter-spacing:0.5px;line-height:1.2;}
+.user-email-small{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);margin-top:2px;}
+.archived-ava{filter:grayscale(0.7);opacity:0.7;}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;white-space:nowrap;letter-spacing:1px;text-transform:uppercase;}
+.badge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.badge-active{background:rgba(34,197,94,0.08);color:var(--green);border:1px solid rgba(34,197,94,0.2);}
+.badge-active .badge-dot{background:var(--green);box-shadow:0 0 6px var(--green);}
+.badge-inactive{background:rgba(239,68,68,0.08);color:var(--red);border:1px solid rgba(239,68,68,0.2);}
+.badge-inactive .badge-dot{background:var(--red);}
+.badge-suspended{background:rgba(245,158,11,0.08);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
+.badge-suspended .badge-dot{background:var(--amber);}
+.badge-archived{background:rgba(100,100,100,0.1);color:#666;border:1px solid rgba(100,100,100,0.2);}
+.badge-archived .badge-dot{background:#555;}
+.type-badge{display:inline-block;padding:4px 10px;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;white-space:nowrap;letter-spacing:1px;text-transform:uppercase;}
+.type-admin{background:rgba(201,160,32,0.1);color:var(--gold-bright);border:1px solid var(--gold-border);}
+.type-user{background:rgba(255,255,255,0.04);color:var(--ash);border:1px solid rgba(255,255,255,0.07);}
+.action-btns{display:flex;align-items:center;gap:6px;}
+.action-btn{width:32px;height:32px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--t);color:var(--dim);}
+.action-btn.view:hover{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:var(--green);}
+.action-btn.edit:hover{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-bright);box-shadow:0 0 12px var(--gold-glow);}
+.action-btn.archive:hover{background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:var(--amber);}
+.action-btn.restore:hover{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:var(--green);}
+.action-btn.delete:hover{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:var(--red);}
+.action-btn svg{width:13px;height:13px;}
+.action-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:16px 26px;border-top:1px solid rgba(255,255,255,0.04);}
+.page-info{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;}
+.page-btns{display:flex;gap:5px;}
+.page-btn{width:32px;height:32px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;transition:var(--t);color:var(--ash);}
+.page-btn:hover{border-color:var(--gold-border);color:var(--gold-bright);}
+.page-btn.active{background:var(--gold);border-color:var(--gold);color:var(--obsidian);font-weight:700;box-shadow:0 0 16px rgba(201,160,32,0.3);}
+.page-btn:disabled{opacity:0.3;cursor:not-allowed;}
 
-        /* Toast */
-        .toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
-        .toast { background: #1a1a1a; color: #fff; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1); min-width: 220px; border-left: 4px solid var(--primary-accent); }
-        .toast.success { border-left-color: #2d9e6b; }
-        .toast.error   { border-left-color: #e05555; }
-        .toast.warn    { border-left-color: #e67e22; }
-        @keyframes toastIn  { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
-        @keyframes toastOut { from{opacity:1;transform:translateX(0)}   to{opacity:0;transform:translateX(30px)} }
-        .toast-out { animation: toastOut 0.3s forwards; }
-        .toast svg { width: 16px; height: 16px; flex-shrink: 0; }
+/* Archive section */
+.archive-section{margin-top:36px;opacity:0;animation:fadeUp 0.6s 0.6s forwards;}
+.archive-section-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.archive-section-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--platinum);white-space:nowrap;}
+.archive-section-title em{color:var(--gold-bright);font-style:italic;}
+.archive-divider{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-border),transparent);}
+.archive-badge-count{background:var(--gold-dim);color:var(--gold);font-family:'DM Mono',monospace;font-size:9px;padding:4px 12px;border-radius:2px;border:1px solid var(--gold-border);white-space:nowrap;letter-spacing:1px;}
 
-        .empty-state { padding: 48px 24px; text-align: center; color: #aaa; }
-        .empty-state svg { width: 48px; height: 48px; margin: 0 auto 12px; opacity: 0.4; display: block; }
-        .empty-state p { font-size: 14px; }
+/* skeleton */
+.skeleton-row td{padding:15px 24px;}
+.skeleton-block{height:14px;border-radius:2px;background:linear-gradient(90deg,var(--charcoal) 25%,var(--steel) 50%,var(--charcoal) 75%);background-size:200% 100%;animation:shimmer 1.6s infinite;}
+.skeleton-circle{width:38px;height:38px;border-radius:var(--r);background:linear-gradient(90deg,var(--charcoal) 25%,var(--steel) 50%,var(--charcoal) 75%);background-size:200% 100%;animation:shimmer 1.6s infinite;flex-shrink:0;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        .fade-in { animation: fadeUp 0.5s ease-out forwards; }
-        .delay-1{animation-delay:0.05s} .delay-2{animation-delay:0.1s} .delay-3{animation-delay:0.15s} .delay-4{animation-delay:0.2s}
+/* Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--graphite);border-radius:var(--r);width:100%;max-width:520px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.8),0 0 0 1px var(--gold-border),0 0 60px rgba(201,160,32,0.07);animation:modalIn 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-bright),var(--gold),transparent);}
+.modal::after{content:'';position:absolute;top:0;left:0;width:16px;height:16px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);opacity:0.5;}
+@keyframes modalIn{from{opacity:0;transform:scale(0.94) translateY(20px)}to{opacity:1;transform:none}}
+.modal-header{padding:24px 28px 20px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.2);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--platinum);}
+.modal-title em{color:var(--gold-bright);font-style:italic;}
+.modal-close{width:32px;height:32px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.06);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--dim);transition:var(--t);}
+.modal-close:hover{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:var(--red);}
+.modal-close svg{width:14px;height:14px;}
+.modal-body{padding:24px 28px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.form-label .req{color:var(--red);}
+.form-input,.form-select{padding:10px 14px;border:1px solid rgba(255,255,255,0.07);border-radius:var(--r);font-size:13px;font-weight:500;font-family:'Rajdhani',sans-serif;letter-spacing:0.5px;color:var(--platinum);outline:none;transition:var(--t);background:var(--charcoal);width:100%;}
+.form-select{appearance:none;cursor:pointer;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23c9a020' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:14px;background-color:var(--charcoal);}
+.form-input:focus,.form-select:focus{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(201,160,32,0.08);background:var(--steel);}
+.form-input::placeholder{color:var(--dim);}
+.form-input.error,.form-select.error{border-color:rgba(239,68,68,0.5);}
+.modal-footer{padding:16px 28px 24px;display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+.btn-cancel{padding:10px 20px;border-radius:var(--r);border:1px solid rgba(255,255,255,0.07);background:none;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--dim);transition:var(--t);}
+.btn-cancel:hover{border-color:rgba(255,255,255,0.15);color:var(--silver);}
+.btn-save{padding:10px 24px;border-radius:var(--r);background:linear-gradient(135deg,var(--gold),var(--gold-bright));border:none;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--obsidian);transition:var(--t);box-shadow:0 4px 16px rgba(201,160,32,0.3);display:flex;align-items:center;gap:8px;position:relative;overflow:hidden;}
+.btn-save::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);transition:left 0.4s;}
+.btn-save:hover::before{left:100%;}
+.btn-save:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,160,32,0.45);}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.spinner{width:13px;height:13px;border:2px solid rgba(0,0,0,0.2);border-top-color:var(--obsidian);border-radius:50%;animation:sp 0.6s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
 
-        @media (max-width:768px) {
-            .sidebar{width:var(--sidebar-collapsed)} .main{margin-left:var(--sidebar-collapsed)}
-            .page-body{padding:20px} .topbar{padding:0 20px}
-            .stats-row{grid-template-columns:1fr 1fr} .form-grid{grid-template-columns:1fr}
-            .toolbar{flex-direction:column;align-items:stretch}
-        }
-        @media (max-width:480px){.stats-row{grid-template-columns:1fr}}
-    </style>
+/* view */
+.view-user-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px;background:rgba(0,0,0,0.2);border-radius:var(--r);border:1px solid rgba(255,255,255,0.04);}
+.view-ava{width:56px;height:56px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;flex-shrink:0;}
+.view-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--platinum);}
+.view-email{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);margin-top:4px;letter-spacing:1px;}
+.view-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.view-detail-item{padding:12px;background:rgba(0,0,0,0.15);border-radius:var(--r);border:1px solid rgba(255,255,255,0.04);}
+.view-detail-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:7px;}
+.view-detail-val{font-size:13px;font-weight:600;color:var(--platinum);}
+
+/* confirm icons */
+.modal-icon{width:56px;height:56px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+.icon-gold{background:rgba(201,160,32,0.1);border:1px solid var(--gold-border);}
+.icon-gold svg{width:26px;height:26px;color:var(--gold-bright);}
+.icon-green{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);}
+.icon-green svg{width:26px;height:26px;color:var(--green);}
+.icon-red{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);}
+.icon-red svg{width:26px;height:26px;color:var(--red);}
+.modal-center{text-align:center;}
+.modal-center h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--platinum);margin-bottom:10px;}
+.modal-center p{font-size:13px;color:var(--ash);line-height:1.7;}
+.modal-center .uh{font-weight:700;color:var(--platinum);}
+.btn-gold{padding:10px 24px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--obsidian);font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--t);display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(201,160,32,0.3);}
+.btn-gold:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,160,32,0.45);}
+.btn-green{padding:10px 24px;border-radius:var(--r);border:none;background:linear-gradient(135deg,#15803d,var(--green));color:#fff;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--t);display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(34,197,94,0.25);}
+.btn-green:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,197,94,0.4);}
+.btn-red{padding:10px 24px;border-radius:var(--r);border:none;background:linear-gradient(135deg,#991b1b,var(--red));color:#fff;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:var(--t);display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(239,68,68,0.25);}
+.btn-red:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(239,68,68,0.4);}
+.btn-gold:disabled,.btn-green:disabled,.btn-red:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+/* toast */
+.toast-wrap{position:fixed;bottom:28px;right:28px;z-index:1000;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--charcoal);color:var(--platinum);padding:13px 18px;border-radius:var(--r);font-size:13px;font-weight:500;display:flex;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.06);animation:toastIn 0.3s cubic-bezier(0.4,0,0.2,1);min-width:240px;border-left:3px solid var(--gold);}
+.toast.success{border-left-color:var(--green);}
+.toast.error{border-left-color:var(--red);}
+.toast.warn{border-left-color:var(--amber);}
+.toast svg{width:15px;height:15px;flex-shrink:0;}
+@keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(30px)}}
+.toast-out{animation:toastOut 0.3s forwards;}
+
+.empty-state{padding:52px 24px;text-align:center;color:var(--dim);}
+.empty-state svg{width:44px;height:44px;margin:0 auto 14px;opacity:0.2;display:block;color:var(--gold);}
+.empty-state p{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+@media(max-width:768px){
+  .sidebar{width:var(--sidebar-col)}.main{margin-left:var(--sidebar-col)}
+  .page-body{padding:20px}.topbar{padding:0 20px}
+  .stats-row{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}
+  .toolbar{flex-direction:column;align-items:stretch}
+}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+<div class="ambient amb1"></div>
+<div class="ambient amb2"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar" id="sidebar">
-    <div class="sidebar-bg"></div>
-    <div class="sidebar-overlay"></div>
-    <a href="#" class="sidebar-logo">
-        <div class="logo-icon">M</div>
-        <div class="logo-text-wrap">
-            <div class="logo-name">Mrs.<span>Alu</span></div>
-            <div class="logo-sub">Admin Panel</div>
-        </div>
-    </a>
-    <nav class="sidebar-nav">
-        <div class="nav-section-label">Main</div>
-        <a class="nav-item" href="#" data-label="Dashboard">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
-            <span class="nav-item-label">Dashboard</span>
-        </a>
-        <div class="nav-section-label">Content</div>
-        <a class="nav-item" href="#" data-label="Products">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-            <span class="nav-item-label">Products</span><span class="nav-badge">12</span>
-        </a>
-        <a class="nav-item" href="#" data-label="Case Studies">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <span class="nav-item-label">Case Studies</span><span class="nav-badge">8</span>
-        </a>
-        <a class="nav-item" href="#" data-label="News">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-            <span class="nav-item-label">News</span><span class="nav-badge">3</span>
-        </a>
-        <div class="nav-section-label">Management</div>
-        <a class="nav-item" href="#" data-label="Emails">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-            <span class="nav-item-label">Emails</span><span class="nav-badge">5</span>
-        </a>
-        <a class="nav-item" href="#" data-label="Media">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-            <span class="nav-item-label">Media Library</span>
-        </a>
-        <a class="nav-item active" href="#" data-label="Users">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            <span class="nav-item-label">Users</span>
-        </a>
-        <div class="nav-section-label">System</div>
-        <a class="nav-item" href="#" data-label="Settings">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
-            <span class="nav-item-label">Settings</span>
-        </a>
-    </nav>
-    <div class="sidebar-bottom">
-        <div class="sidebar-user">
-            <div class="user-avatar">A</div>
-            <div class="user-info">
-                <div class="user-name">Admin</div>
-                <div class="user-role">Super Administrator</div>
-            </div>
-        </div>
-        <button class="collapse-btn" id="collapse-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            <span>Collapse</span>
-        </button>
+  <div class="sb-bg"></div>
+
+  <a href="#" class="sidebar-logo">
+    <div class="logo-img-wrap">
+      <img src="/IMAGES/logo.jpg" alt="CAL ELITE"
+        onerror="this.style.display='none';document.getElementById('logofb').style.display='block'">
+      <span class="logo-fallback-big" id="logofb">CE</span>
     </div>
+    <div class="logo-text-block">
+      <div class="logo-brand-name">CAL <em>ELITE</em></div>
+      <div class="logo-brand-sub">Builders and Cal Electrical</div>
+    </div>
+  </a>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a class="nav-item" href="#" data-label="Dashboard">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="1.5"/></svg>
+      <span class="nav-item-label">Dashboard</span>
+    </a>
+    <div class="nav-section-label">Content</div>
+    <a class="nav-item" href="#" data-label="Projects">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      <span class="nav-item-label">Projects</span><span class="nav-badge">12</span>
+    </a>
+    <a class="nav-item" href="#" data-label="Case Studies">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <span class="nav-item-label">Case Studies</span><span class="nav-badge">8</span>
+    </a>
+    <a class="nav-item" href="#" data-label="Publications">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+      <span class="nav-item-label">Publications</span><span class="nav-badge">3</span>
+    </a>
+    <div class="nav-section-label">Management</div>
+    <a class="nav-item" href="#" data-label="Messages">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+      <span class="nav-item-label">Messages</span><span class="nav-badge">5</span>
+    </a>
+    <a class="nav-item" href="#" data-label="Media Vault">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+      <span class="nav-item-label">Media Vault</span>
+    </a>
+    <a class="nav-item active" href="#" data-label="Users">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      <span class="nav-item-label">Users</span>
+    </a>
+    <div class="nav-section-label">System</div>
+    <a class="nav-item" href="#" data-label="Settings">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="1.5"/></svg>
+      <span class="nav-item-label">Settings</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="sidebar-user">
+      <div class="user-avatar">A</div>
+      <div class="user-info">
+        <div class="user-name">Admin</div>
+        <div class="user-role">Super Administrator</div>
+      </div>
+    </div>
+    <button class="collapse-btn" id="collapse-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+      <span>Collapse Panel</span>
+    </button>
+  </div>
 </aside>
 
-<!-- MAIN -->
+<!-- ═══════════ MAIN ═══════════ -->
 <div class="main" id="main">
-    <header class="topbar">
-        <div class="topbar-left">
-            <div>
-                <div class="topbar-title">User <span>Management</span></div>
-                <div class="breadcrumb-bar">Admin <span class="sep">›</span> <span>Users</span></div>
-            </div>
-        </div>
-        <div class="topbar-right">
-            <button class="topbar-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
-            <button class="topbar-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="notif-dot"></div></button>
-            <div class="topbar-avatar">A</div>
-        </div>
-    </header>
-
-    <div class="page-body">
-
-        <!-- ── STATS ── -->
-        <div class="stats-row">
-            <div class="stat-card fade-in delay-1">
-                <div class="stat-icon-row"><span style="font-size:20px">👥</span><span class="stat-chip up">Total</span></div>
-                <div class="stat-num" id="stat-total">—</div>
-                <div class="stat-label">Total Users</div>
-            </div>
-            <div class="stat-card green fade-in delay-2">
-                <div class="stat-icon-row"><span style="font-size:20px">✅</span><span class="stat-chip up">Live</span></div>
-                <div class="stat-num" id="stat-active">—</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            <div class="stat-card blue fade-in delay-3">
-                <div class="stat-icon-row"><span style="font-size:20px">🛡️</span><span class="stat-chip neutral">Role</span></div>
-                <div class="stat-num" id="stat-admins">—</div>
-                <div class="stat-label">Admins</div>
-            </div>
-            <div class="stat-card orange fade-in delay-4">
-                <div class="stat-icon-row"><span style="font-size:20px">🗄️</span><span class="stat-chip warn">Archived</span></div>
-                <div class="stat-num" id="stat-archived">—</div>
-                <div class="stat-label">Archived Users</div>
-            </div>
-        </div>
-
-        <!-- ── TOOLBAR ── -->
-        <div class="toolbar fade-in">
-            <div class="toolbar-left">
-                <div class="search-wrap">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input class="search-input" type="text" placeholder="Search name or email…" id="search-input">
-                </div>
-                <select class="filter-select" id="filter-status">
-                    <option value="">All Statuses</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                    <option value="suspended">Suspended</option>
-                </select>
-                <!-- ── User Type Filter: Admin & User only ── -->
-                <select class="filter-select" id="filter-type">
-                    <option value="">All Types</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                </select>
-            </div>
-            <div class="toolbar-right">
-                <button class="archive-toggle-btn" id="archive-toggle-btn" onclick="scrollToArchive()">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-                    Archive
-                    <span class="arch-count" id="arch-count-badge">0</span>
-                </button>
-                <button class="add-btn" id="add-user-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                    Add User
-                </button>
-            </div>
-        </div>
-
-        <!-- ── ACTIVE USERS TABLE ── -->
-        <div class="table-card fade-in">
-            <div class="table-header-row">
-                <div class="table-title">All <span>Users</span></div>
-                <div class="table-count" id="table-count">Loading…</div>
-            </div>
-            <div style="overflow-x:auto">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Phone</th>
-                            <th>User Type</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th>Last Updated</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="user-table-body">
-                        <tr class="skeleton-row"><td><div style="display:flex;gap:12px;align-items:center"><div class="skeleton-circle"></div><div><div class="skeleton-block" style="width:120px;margin-bottom:6px"></div><div class="skeleton-block" style="width:160px"></div></div></div></td><td><div class="skeleton-block" style="width:100px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:90px"></div></td><td><div class="skeleton-block" style="width:90px"></div></td><td><div class="skeleton-block" style="width:80px"></div></td></tr>
-                        <tr class="skeleton-row"><td><div style="display:flex;gap:12px;align-items:center"><div class="skeleton-circle"></div><div><div class="skeleton-block" style="width:140px;margin-bottom:6px"></div><div class="skeleton-block" style="width:180px"></div></div></div></td><td><div class="skeleton-block" style="width:110px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:90px"></div></td><td><div class="skeleton-block" style="width:90px"></div></td><td><div class="skeleton-block" style="width:80px"></div></td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                <div class="page-info" id="page-info"></div>
-                <div class="page-btns" id="page-btns"></div>
-            </div>
-        </div>
-
-        <!-- ── ARCHIVED USERS SECTION ── -->
-        <div class="archive-section fade-in" id="archive-section">
-            <div class="archive-section-header">
-                <div class="archive-section-title">Archived <span>Users</span></div>
-                <span class="archive-badge-count" id="arch-section-count">0 records</span>
-                <div class="archive-divider"></div>
-            </div>
-            <div class="table-card">
-                <div class="table-header-row">
-                    <div class="table-title" style="font-size:17px">🗄️ <span>Archive</span> List</div>
-                    <div class="table-count" id="archive-table-count">—</div>
-                </div>
-                <div style="overflow-x:auto">
-                    <table class="archive-table">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Phone</th>
-                                <th>User Type</th>
-                                <th>Previous Status</th>
-                                <th>Archived On</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="archive-table-body">
-                            <tr><td colspan="6"><div class="empty-state">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-                                <p>No archived users yet.</p>
-                            </div></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /page-body -->
-</div><!-- /main -->
-
-<!-- ══ ADD / EDIT MODAL ══ -->
-<div class="modal-overlay" id="user-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <div class="modal-title" id="modal-title">Add <span>User</span></div>
-            <button class="modal-close" id="modal-close-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-        </div>
-        <div class="modal-body">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">First Name <span class="req">*</span></label>
-                    <input class="form-input" type="text" id="form-fname" placeholder="e.g. Maria">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Last Name <span class="req">*</span></label>
-                    <input class="form-input" type="text" id="form-lname" placeholder="e.g. Santos">
-                </div>
-                <div class="form-group full">
-                    <label class="form-label">Email Address <span class="req">*</span></label>
-                    <input class="form-input" type="email" id="form-email" placeholder="user@mrsalu.com">
-                </div>
-                <div class="form-group full">
-                    <label class="form-label">Password <span id="pw-hint" style="font-size:11px;color:#bbb;font-weight:400;text-transform:none;letter-spacing:0">(leave blank to keep existing)</span></label>
-                    <input class="form-input" type="password" id="form-password" placeholder="Min. 6 characters">
-                </div>
-                <div class="form-group full">
-                    <label class="form-label">Phone</label>
-                    <input class="form-input" type="text" id="form-phone" placeholder="+63 912 345 6789">
-                </div>
-                <!-- ── User Type: Admin & User only ── -->
-                <div class="form-group">
-                    <label class="form-label">User Type <span class="req">*</span></label>
-                    <select class="form-select" id="form-type">
-                        <option value="" disabled selected>Select type…</option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Status <span class="req">*</span></label>
-                    <select class="form-select" id="form-status">
-                        <option value="" disabled selected>Select status…</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                        <option value="suspended">Suspended</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
-            <button class="btn-save" id="modal-save-btn"><span id="save-btn-text">Add User</span></button>
-        </div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-code">SYS·MGR<br>V2.4.1</div>
+      <div>
+        <div class="topbar-title">User <em>Management</em></div>
+        <div class="breadcrumb">CAL ELITE <span style="color:var(--gold-border)">／</span> Admin <span style="color:var(--gold-border)">／</span> <b>Users</b></div>
+      </div>
     </div>
+    <div class="topbar-right">
+      <button class="topbar-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+      <button class="topbar-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="notif-dot"></div></button>
+      <div class="topbar-avatar">A</div>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <div class="sec-head">
+      <div class="sec-head-line" style="max-width:36px;background:linear-gradient(90deg,transparent,var(--gold-border));"></div>
+      <div class="sec-head-label">Personnel Registry</div>
+      <div class="sec-head-line"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card d1">
+        <div class="stat-stripe s-gold"></div>
+        <div class="stat-br"></div>
+        <div class="stat-icon-row"><div class="stat-icon">👥</div><span class="stat-chip c-gold">Total</span></div>
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label">Registered Users</div>
+      </div>
+      <div class="stat-card d2">
+        <div class="stat-stripe s-green"></div>
+        <div class="stat-br"></div>
+        <div class="stat-icon-row"><div class="stat-icon">⚡</div><span class="stat-chip c-green">Online</span></div>
+        <div class="stat-num" id="stat-active">—</div>
+        <div class="stat-label">Active Personnel</div>
+      </div>
+      <div class="stat-card d3">
+        <div class="stat-stripe s-blue"></div>
+        <div class="stat-br"></div>
+        <div class="stat-icon-row"><div class="stat-icon">🛡</div><span class="stat-chip c-blue">Elevated</span></div>
+        <div class="stat-num" id="stat-admins">—</div>
+        <div class="stat-label">Administrators</div>
+      </div>
+      <div class="stat-card d4">
+        <div class="stat-stripe s-amber"></div>
+        <div class="stat-br"></div>
+        <div class="stat-icon-row"><div class="stat-icon">🗃</div><span class="stat-chip c-amber">Stored</span></div>
+        <div class="stat-num" id="stat-archived">—</div>
+        <div class="stat-label">Archived Records</div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrap">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input class="search-input" type="text" placeholder="Search personnel…" id="search-input">
+        </div>
+        <select class="filter-select" id="filter-status">
+          <option value="">All Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+          <option value="suspended">Suspended</option>
+        </select>
+        <select class="filter-select" id="filter-type">
+          <option value="">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+      </div>
+      <div class="toolbar-right">
+        <button class="archive-toggle-btn" onclick="scrollToArchive()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          Archive<span class="arch-count" id="arch-count-badge">0</span>
+        </button>
+        <button class="add-btn" id="add-user-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Add Personnel
+        </button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+      <div class="table-header-row">
+        <div class="table-title">Personnel <em>Registry</em></div>
+        <div class="table-count" id="table-count">LOADING…</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Personnel</th><th>Contact</th><th>Role</th><th>Status</th><th>Registered</th><th>Updated</th><th>Actions</th></tr></thead>
+          <tbody id="user-table-body">
+            <tr class="skeleton-row"><td><div style="display:flex;gap:14px;align-items:center"><div class="skeleton-circle"></div><div><div class="skeleton-block" style="width:130px;margin-bottom:7px"></div><div class="skeleton-block" style="width:170px"></div></div></div></td><td><div class="skeleton-block" style="width:100px"></div></td><td><div class="skeleton-block" style="width:60px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:85px"></div></td><td><div class="skeleton-block" style="width:85px"></div></td><td><div class="skeleton-block" style="width:80px"></div></td></tr>
+            <tr class="skeleton-row"><td><div style="display:flex;gap:14px;align-items:center"><div class="skeleton-circle"></div><div><div class="skeleton-block" style="width:150px;margin-bottom:7px"></div><div class="skeleton-block" style="width:190px"></div></div></div></td><td><div class="skeleton-block" style="width:110px"></div></td><td><div class="skeleton-block" style="width:60px"></div></td><td><div class="skeleton-block" style="width:65px"></div></td><td><div class="skeleton-block" style="width:85px"></div></td><td><div class="skeleton-block" style="width:85px"></div></td><td><div class="skeleton-block" style="width:80px"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <div class="page-info" id="page-info"></div>
+        <div class="page-btns" id="page-btns"></div>
+      </div>
+    </div>
+
+    <!-- ARCHIVE -->
+    <div class="archive-section" id="archive-section">
+      <div class="archive-section-header">
+        <div class="archive-section-title">Archived <em>Records</em></div>
+        <span class="archive-badge-count" id="arch-section-count">0 records</span>
+        <div class="archive-divider"></div>
+      </div>
+      <div class="table-card" style="animation-delay:0.65s">
+        <div class="table-header-row">
+          <div class="table-title">Archive <em>Vault</em></div>
+          <div class="table-count" id="archive-table-count">—</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table><thead><tr><th>Personnel</th><th>Contact</th><th>Role</th><th>Prev. Status</th><th>Archived</th><th>Actions</th></tr></thead>
+          <tbody id="archive-table-body">
+            <tr><td colspan="6"><div class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg><p>Archive vault empty</p></div></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="user-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add <em>Personnel</em></div>
+      <button class="modal-close" id="modal-close-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">First Name <span class="req">*</span></label><input class="form-input" type="text" id="form-fname" placeholder="First name"></div>
+        <div class="form-group"><label class="form-label">Last Name <span class="req">*</span></label><input class="form-input" type="text" id="form-lname" placeholder="Last name"></div>
+        <div class="form-group full"><label class="form-label">Email <span class="req">*</span></label><input class="form-input" type="email" id="form-email" placeholder="user@calelite.com"></div>
+        <div class="form-group full"><label class="form-label">Password <span id="pw-hint" style="font-size:8px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(leave blank to keep)</span></label><input class="form-input" type="password" id="form-password" placeholder="Min. 6 characters"></div>
+        <div class="form-group full"><label class="form-label">Phone</label><input class="form-input" type="text" id="form-phone" placeholder="+63 912 345 6789"></div>
+        <div class="form-group"><label class="form-label">Role <span class="req">*</span></label><select class="form-select" id="form-type"><option value="" disabled selected>Select role…</option><option value="admin">Admin</option><option value="user">User</option></select></div>
+        <div class="form-group"><label class="form-label">Status <span class="req">*</span></label><select class="form-select" id="form-status"><option value="" disabled selected>Select status…</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="suspended">Suspended</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+      <button class="btn-save" id="modal-save-btn"><span id="save-btn-text">Add Personnel</span></button>
+    </div>
+  </div>
 </div>
 
 <!-- VIEW MODAL -->
 <div class="modal-overlay" id="view-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <div class="modal-title">User <span>Details</span></div>
-            <button class="modal-close" id="view-close-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-        </div>
-        <div class="modal-body" id="view-modal-body"></div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="view-cancel-btn">Close</button>
-            <button class="btn-save" id="view-edit-btn">Edit User</button>
-        </div>
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Personnel <em>Profile</em></div>
+      <button class="modal-close" id="view-close-btn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
     </div>
+    <div class="modal-body" id="view-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="view-cancel-btn">Close</button>
+      <button class="btn-save" id="view-edit-btn">Edit Profile</button>
+    </div>
+  </div>
 </div>
 
-<!-- ARCHIVE CONFIRM MODAL -->
+<!-- ARCHIVE MODAL -->
 <div class="modal-overlay" id="archive-modal">
-    <div class="modal" style="max-width:400px">
-        <div class="modal-body" style="padding:32px 28px 16px">
-            <div class="archive-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg></div>
-            <div class="modal-center-text">
-                <h3>Archive User</h3>
-                <p>Move <span class="user-highlight" id="archive-user-name"></span> to the archive? They won't be deleted — you can restore them anytime.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="archive-cancel-btn">Cancel</button>
-            <button class="btn-archive-confirm" id="archive-confirm-btn"><span id="arch-btn-text">Move to Archive</span></button>
-        </div>
+  <div class="modal" style="max-width:400px">
+    <div class="modal-body" style="padding:32px 28px 16px">
+      <div class="modal-icon icon-gold"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg></div>
+      <div class="modal-center"><h3>Archive Record</h3><p>Move <span class="uh" id="archive-user-name"></span> to the archive vault? Record is preserved and restorable.</p></div>
     </div>
+    <div class="modal-footer"><button class="btn-cancel" id="archive-cancel-btn">Cancel</button><button class="btn-gold" id="archive-confirm-btn"><span id="arch-btn-text">Move to Archive</span></button></div>
+  </div>
 </div>
 
-<!-- RESTORE CONFIRM MODAL -->
+<!-- RESTORE MODAL -->
 <div class="modal-overlay" id="restore-modal">
-    <div class="modal" style="max-width:400px">
-        <div class="modal-body" style="padding:32px 28px 16px">
-            <div class="archive-icon" style="background:rgba(82,183,136,0.1)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#52b788"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
-            <div class="modal-center-text">
-                <h3>Restore User</h3>
-                <p>Restore <span class="user-highlight" id="restore-user-name"></span> back to the active users list?</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="restore-cancel-btn">Cancel</button>
-            <button class="btn-restore-confirm" id="restore-confirm-btn"><span id="restore-btn-text">Restore User</span></button>
-        </div>
+  <div class="modal" style="max-width:400px">
+    <div class="modal-body" style="padding:32px 28px 16px">
+      <div class="modal-icon icon-green"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
+      <div class="modal-center"><h3>Restore Personnel</h3><p>Reinstate <span class="uh" id="restore-user-name"></span> to the active registry?</p></div>
     </div>
+    <div class="modal-footer"><button class="btn-cancel" id="restore-cancel-btn">Cancel</button><button class="btn-green" id="restore-confirm-btn"><span id="restore-btn-text">Restore Record</span></button></div>
+  </div>
 </div>
 
-<!-- PERMANENT DELETE MODAL -->
+<!-- DELETE MODAL -->
 <div class="modal-overlay" id="delete-modal">
-    <div class="modal" style="max-width:400px">
-        <div class="modal-body" style="padding:32px 28px 16px">
-            <div class="delete-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></div>
-            <div class="modal-center-text">
-                <h3>Permanently Delete</h3>
-                <p>Permanently delete <span class="user-highlight" id="delete-user-name"></span>? This <strong>cannot be undone</strong> and will remove all data.</p>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="delete-cancel-btn">Cancel</button>
-            <button class="btn-delete-confirm" id="delete-confirm-btn"><span id="del-btn-text">Yes, Delete Forever</span></button>
-        </div>
+  <div class="modal" style="max-width:400px">
+    <div class="modal-body" style="padding:32px 28px 16px">
+      <div class="modal-icon icon-red"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></div>
+      <div class="modal-center"><h3>Permanent Deletion</h3><p>Permanently purge <span class="uh" id="delete-user-name"></span>? This action is <strong>irreversible</strong>.</p></div>
     </div>
+    <div class="modal-footer"><button class="btn-cancel" id="delete-cancel-btn">Cancel</button><button class="btn-red" id="delete-confirm-btn"><span id="del-btn-text">Purge Record</span></button></div>
+  </div>
 </div>
 
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-const API_BASE = './api/users.php';
+const API_BASE='./api/users.php';
+let allUsers=[],archivedUsers=[],filtered=[],currentPage=1;
+const PER_PAGE=8,AVAS=[['#c9a020','#120e00'],['#22c55e','#021508'],['#3b82f6','#020b18'],['#f59e0b','#120a00'],['#8b5cf6','#0a0518'],['#06b6d4','#020c10'],['#f43f5e','#120208'],['#10b981','#021510']];
+let editingId=null,archivingId=null,restoringId=null,deletingId=null,viewingId=null;
+const $=id=>document.getElementById(id);
+const ga=id=>AVAS[Math.abs(parseInt(id))%AVAS.length];
+const ini=u=>((u.first_name||'?')[0]+(u.last_name||'?')[0]).toUpperCase();
+const fd=d=>d?new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-let allUsers      = [];
-let archivedUsers = [];
-let filtered      = [];
-let currentPage   = 1;
-const PER_PAGE    = 8;
-let editingId     = null;
-let archivingId   = null;
-let restoringId   = null;
-let deletingId    = null;
-let viewingId     = null;
+function sBadge(s){const m={active:['badge-active','Active'],inactive:['badge-inactive','Inactive'],suspended:['badge-suspended','Suspended'],archived:['badge-archived','Archived']};const[c,l]=m[s]||['badge-inactive',s||'—'];return`<span class="badge ${c}"><span class="badge-dot"></span>${l}</span>`;}
+function tBadge(t){const m={admin:'type-admin',user:'type-user'};return`<span class="type-badge ${m[t]||'type-user'}">${t?(t[0].toUpperCase()+t.slice(1)):'—'}</span>`;}
 
-const COLORS = ['#c9a561','#4a90d9','#52b788','#9b59b6','#e05555','#e67e22','#1abc9c','#16a085'];
-const $ = id => document.getElementById(id);
-function getColor(id) { return COLORS[Math.abs(parseInt(id)) % COLORS.length]; }
-function initials(u)  { return ((u.first_name||'?')[0] + (u.last_name||'?')[0]).toUpperCase(); }
-function fmtDate(d)   { if (!d) return '—'; return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
-function esc(s)       { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-function statusBadge(s) {
-    const map = {
-        active:    ['badge-active','Active'],
-        inactive:  ['badge-inactive','Inactive'],
-        suspended: ['badge-suspended','Suspended'],
-        archived:  ['badge-archived','Archived']
-    };
-    const [cls, label] = map[s] || ['badge-inactive', s||'—'];
-    return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`;
+function toast(msg,type='success'){
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  const ic={success:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>',error:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>',warn:'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>'};
+  t.innerHTML=(ic[type]||ic.success)+msg;$('toast-wrap').appendChild(t);
+  setTimeout(()=>{t.classList.add('toast-out');setTimeout(()=>t.remove(),300);},3500);
 }
 
-/* ── Only Admin & User types ── */
-function typeBadge(t) {
-    const map = { admin:'type-admin', user:'type-user' };
-    const cls = map[t] || 'type-user';
-    const label = t ? (t.charAt(0).toUpperCase() + t.slice(1)) : '—';
-    return `<span class="type-badge ${cls}">${label}</span>`;
+async function api(method,params='',body=null){
+  const url=API_BASE+(params?'?'+params:'');
+  const o={method,headers:{'Content-Type':'application/json'}};
+  if(body)o.body=JSON.stringify(body);
+  return (await fetch(url,o)).json();
 }
 
-// ─── TOAST ──────────────────────────────────────────────────────────────────
-function toast(msg, type = 'success') {
-    const t = document.createElement('div');
-    t.className = `toast ${type}`;
-    const icons = {
-        success: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>',
-        error:   '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>',
-        warn:    '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>'
-    };
-    t.innerHTML = (icons[type]||icons.success) + msg;
-    $('toast-wrap').appendChild(t);
-    setTimeout(() => { t.classList.add('toast-out'); setTimeout(() => t.remove(), 300); }, 3500);
+async function loadUsers(){
+  try{
+    const d=await api('GET');if(!d.success)throw 0;
+    const all=d.data||[];allUsers=all.filter(u=>!u.is_archived);archivedUsers=all.filter(u=>u.is_archived);
+  }catch{
+    allUsers=[
+      {user_id:6,first_name:'John',last_name:'Mitra',email:'johnbernardmitra25@gmail.com',phone:'09477188719',user_type:'user',status:'active',is_archived:false,created_at:'2026-02-23T08:06:34+00:00',updated_at:'2026-02-23T08:07:42+00:00'},
+      {user_id:7,first_name:'Abo',last_name:'Gerrald',email:'geraldabo@gmail.com',phone:'12312313',user_type:'user',status:'active',is_archived:false,created_at:'2026-02-23T08:13:35+00:00',updated_at:'2026-02-23T08:13:35+00:00'},
+      {user_id:1,first_name:'Maria',last_name:'Santos',email:'maria@calelite.com',phone:'09171234567',user_type:'admin',status:'active',is_archived:false,created_at:'2026-01-10T09:00:00+00:00',updated_at:'2026-01-10T09:00:00+00:00'},
+    ];archivedUsers=[];toast('Demo mode — connect XAMPP for live data.','warn');
+  }
+  updateStats();applyFilter();renderArchive();
 }
 
-// ─── API ────────────────────────────────────────────────────────────────────
-async function apiCall(method, params = '', body = null) {
-    const url  = API_BASE + (params ? '?' + params : '');
-    const opts = { method, headers: { 'Content-Type': 'application/json' } };
-    if (body) opts.body = JSON.stringify(body);
-    const res = await fetch(url, opts);
-    return res.json();
+function updateStats(){
+  $('stat-total').textContent=allUsers.length;
+  $('stat-active').textContent=allUsers.filter(u=>u.status==='active').length;
+  $('stat-admins').textContent=allUsers.filter(u=>u.user_type==='admin').length;
+  $('stat-archived').textContent=archivedUsers.length;
+  $('arch-count-badge').textContent=archivedUsers.length;
+  $('arch-section-count').textContent=`${archivedUsers.length} record${archivedUsers.length!==1?'s':''}`;
+}
+function applyFilter(){
+  const q=$('search-input').value.toLowerCase(),fs=$('filter-status').value,ft=$('filter-type').value;
+  filtered=allUsers.filter(u=>{const n=`${u.first_name} ${u.last_name} ${u.email}`.toLowerCase();return(!q||n.includes(q))&&(!fs||u.status===fs)&&(!ft||u.user_type===ft);});
+  currentPage=1;renderTable();
+}
+function renderTable(){
+  const tbody=$('user-table-body'),total=filtered.length,pages=Math.max(1,Math.ceil(total/PER_PAGE));
+  currentPage=Math.min(currentPage,pages);
+  const sl=filtered.slice((currentPage-1)*PER_PAGE,currentPage*PER_PAGE);
+  $('table-count').textContent=`${total} RECORD${total!==1?'S':''}`;
+  if(!sl.length){tbody.innerHTML=`<tr><td colspan="7"><div class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><p>No personnel found</p></div></td></tr>`;}
+  else tbody.innerHTML=sl.map(u=>{const[fg,bg]=ga(u.user_id);return`<tr><td><div class="user-cell"><div class="user-ava" style="background:${bg};color:${fg};border:1px solid ${fg}44">${ini(u)}</div><div><div class="user-full-name">${esc(u.first_name)} ${esc(u.last_name)}</div><div class="user-email-small">${esc(u.email)}</div></div></div></td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ash)">${u.phone?esc(u.phone):'<span style="color:var(--dim)">—</span>'}</td><td>${tBadge(u.user_type)}</td><td>${sBadge(u.status)}</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)">${fd(u.created_at)}</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)">${fd(u.updated_at)}</td><td><div class="action-btns"><button class="action-btn view" onclick="openView('${u.user_id}')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button><button class="action-btn edit" onclick="openEdit('${u.user_id}')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button><button class="action-btn archive" onclick="openArchive('${u.user_id}')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg></button></div></td></tr>`;}).join('');
+  $('page-info').textContent=`PAGE ${currentPage} OF ${pages}`;
+  let h=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>`;
+  for(let i=1;i<=pages;i++)h+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>`;
+  $('page-btns').innerHTML=h;
+}
+function goPage(p){currentPage=p;renderTable();}
+function renderArchive(){
+  const tbody=$('archive-table-body');
+  $('archive-table-count').textContent=`${archivedUsers.length} ARCHIVED`;
+  if(!archivedUsers.length){tbody.innerHTML=`<tr><td colspan="6"><div class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg><p>Archive vault empty</p></div></td></tr>`;return;}
+  tbody.innerHTML=archivedUsers.map(u=>{const[fg,bg]=ga(u.user_id);return`<tr><td><div class="user-cell"><div class="user-ava archived-ava" style="background:${bg};color:${fg};border:1px solid ${fg}22">${ini(u)}</div><div><div class="user-full-name" style="color:var(--dim)">${esc(u.first_name)} ${esc(u.last_name)}</div><div class="user-email-small">${esc(u.email)}</div></div></div></td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--dim)">${u.phone?esc(u.phone):'—'}</td><td>${tBadge(u.user_type)}</td><td>${sBadge(u.prev_status||u.status||'inactive')}</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)">${fd(u.archived_at||u.updated_at)}</td><td><div class="action-btns"><button class="action-btn restore" onclick="openRestore('${u.user_id}')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button><button class="action-btn delete" onclick="openDelete('${u.user_id}',true)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></div></td></tr>`;}).join('');
+}
+function scrollToArchive(){$('archive-section').scrollIntoView({behavior:'smooth',block:'start'});}
+
+function openAdd(){editingId=null;$('modal-title').innerHTML='Add <em>Personnel</em>';$('save-btn-text').textContent='Add Personnel';$('pw-hint').textContent='(required)';['form-fname','form-lname','form-email','form-password','form-phone'].forEach(i=>$(i).value='');$('form-type').value='';$('form-status').value='';['form-fname','form-lname','form-email','form-type','form-status'].forEach(i=>$(i).classList.remove('error'));$('user-modal').classList.add('open');$('form-fname').focus();}
+function openEdit(id){const u=allUsers.find(x=>String(x.user_id)===String(id));if(!u)return;editingId=id;$('modal-title').innerHTML='Edit <em>Personnel</em>';$('save-btn-text').textContent='Save Changes';$('pw-hint').textContent='(leave blank to keep)';$('form-fname').value=u.first_name||'';$('form-lname').value=u.last_name||'';$('form-email').value=u.email||'';$('form-password').value='';$('form-phone').value=u.phone||'';$('form-type').value=['admin','user'].includes(u.user_type)?u.user_type:'user';$('form-status').value=u.status||'';['form-fname','form-lname','form-email','form-type','form-status'].forEach(i=>$(i).classList.remove('error'));$('user-modal').classList.add('open');$('form-fname').focus();}
+function closeModal(){$('user-modal').classList.remove('open');}
+
+async function saveUser(){
+  const fn=$('form-fname').value.trim(),ln=$('form-lname').value.trim(),em=$('form-email').value.trim(),pw=$('form-password').value,ph=$('form-phone').value.trim(),ty=$('form-type').value,st=$('form-status').value;
+  let v=true;const se=(id,e)=>{$(id).classList[e?'add':'remove']('error');if(e)v=false;};
+  se('form-fname',!fn);se('form-lname',!ln);se('form-email',!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em));se('form-type',!ty);se('form-status',!st);
+  if(!editingId&&!pw){toast('Password required.','error');return;}if(pw&&pw.length<6){toast('Password must be 6+ chars.','error');return;}if(!v){toast('Complete required fields.','error');return;}
+  const sb=$('modal-save-btn');sb.disabled=true;$('save-btn-text').textContent=editingId?'Saving…':'Adding…';sb.insertAdjacentHTML('afterbegin','<span class="spinner" id="ss"></span>');
+  try{const b={first_name:fn,last_name:ln,email:em,phone:ph,user_type:ty,status:st};if(pw)b.password=pw;const d=editingId?await api('PUT','id='+encodeURIComponent(editingId),b):await api('POST','',b);if(!d.success)throw 0;closeModal();toast(editingId?'Record updated.':'Personnel added.','success');await loadUsers();}
+  catch{if(editingId){const i=allUsers.findIndex(x=>String(x.user_id)===String(editingId));if(i>-1)allUsers[i]={...allUsers[i],first_name:fn,last_name:ln,email:em,phone:ph,user_type:ty,status:st,updated_at:new Date().toISOString()};}else allUsers.unshift({user_id:Date.now(),first_name:fn,last_name:ln,email:em,phone:ph,user_type:ty,status:st,is_archived:false,created_at:new Date().toISOString(),updated_at:new Date().toISOString()});updateStats();applyFilter();closeModal();toast(editingId?'Record updated.':'Personnel added.','success');}
+  finally{sb.disabled=false;$('save-btn-text').textContent=editingId?'Save Changes':'Add Personnel';const sp=document.getElementById('ss');if(sp)sp.remove();}
 }
 
-// ─── LOAD ───────────────────────────────────────────────────────────────────
-async function loadUsers() {
-    try {
-        const data = await apiCall('GET');
-        if (!data.success) throw new Error(data.message);
-        const all = data.data || [];
-        allUsers      = all.filter(u => !u.is_archived);
-        archivedUsers = all.filter(u =>  u.is_archived);
-    } catch {
-        allUsers = [
-            { user_id:6, first_name:'John',  last_name:'Mitra',   email:'johnbernardmitra25@gmail.com', phone:'09477188719', user_type:'user',  status:'active', is_archived:false, created_at:'2026-02-23T08:06:34+00:00', updated_at:'2026-02-23T08:07:42+00:00' },
-            { user_id:7, first_name:'Abo',   last_name:'Gerrald', email:'geraldabo@gmail.com',           phone:'12312313',    user_type:'user',  status:'active', is_archived:false, created_at:'2026-02-23T08:13:35+00:00', updated_at:'2026-02-23T08:13:35+00:00' },
-            { user_id:1, first_name:'Maria', last_name:'Santos',  email:'maria@mrsalu.com',              phone:'09171234567', user_type:'admin', status:'active', is_archived:false, created_at:'2026-01-10T09:00:00+00:00', updated_at:'2026-01-10T09:00:00+00:00' },
-        ];
-        archivedUsers = [];
-        toast('Demo mode — connect XAMPP for live data.', 'warn');
-    }
-    updateStats();
-    applyFilter();
-    renderArchiveTable();
-}
+function openView(id){const u=allUsers.find(x=>String(x.user_id)===String(id));if(!u)return;viewingId=id;const[fg,bg]=ga(u.user_id);$('view-modal-body').innerHTML=`<div class="view-user-header"><div class="view-ava" style="background:${bg};color:${fg};border:1px solid ${fg}44">${ini(u)}</div><div><div class="view-name">${esc(u.first_name)} ${esc(u.last_name)}</div><div class="view-email">${esc(u.email)}</div></div></div><div class="view-details"><div class="view-detail-item"><div class="view-detail-label">User ID</div><div class="view-detail-val">#${esc(u.user_id)}</div></div><div class="view-detail-item"><div class="view-detail-label">Phone</div><div class="view-detail-val">${u.phone?esc(u.phone):'—'}</div></div><div class="view-detail-item"><div class="view-detail-label">Role</div><div class="view-detail-val" style="margin-top:4px">${tBadge(u.user_type)}</div></div><div class="view-detail-item"><div class="view-detail-label">Status</div><div class="view-detail-val" style="margin-top:4px">${sBadge(u.status)}</div></div><div class="view-detail-item"><div class="view-detail-label">Registered</div><div class="view-detail-val">${fd(u.created_at)}</div></div><div class="view-detail-item"><div class="view-detail-label">Last Updated</div><div class="view-detail-val">${fd(u.updated_at)}</div></div></div>`;$('view-modal').classList.add('open');}
+$('view-close-btn').onclick=()=>$('view-modal').classList.remove('open');
+$('view-cancel-btn').onclick=()=>$('view-modal').classList.remove('open');
+$('view-edit-btn').onclick=()=>{$('view-modal').classList.remove('open');openEdit(viewingId);};
 
-// ─── STATS ──────────────────────────────────────────────────────────────────
-function updateStats() {
-    $('stat-total').textContent    = allUsers.length;
-    $('stat-active').textContent   = allUsers.filter(u => u.status === 'active').length;
-    $('stat-admins').textContent   = allUsers.filter(u => u.user_type === 'admin').length;
-    $('stat-archived').textContent = archivedUsers.length;
-    $('arch-count-badge').textContent   = archivedUsers.length;
-    $('arch-section-count').textContent = `${archivedUsers.length} record${archivedUsers.length !== 1 ? 's' : ''}`;
-}
+function openArchive(id){const u=allUsers.find(x=>String(x.user_id)===String(id));if(!u)return;archivingId=id;$('archive-user-name').textContent=`${u.first_name} ${u.last_name}`;$('archive-modal').classList.add('open');}
+$('archive-cancel-btn').onclick=()=>$('archive-modal').classList.remove('open');
+$('archive-confirm-btn').onclick=async()=>{const b=$('archive-confirm-btn');b.disabled=true;$('arch-btn-text').textContent='Archiving…';b.insertAdjacentHTML('afterbegin','<span class="spinner" id="as"></span>');try{const d=await api('PUT','id='+encodeURIComponent(archivingId),{is_archived:true,status:'archived'});if(!d.success)throw 0;$('archive-modal').classList.remove('open');toast('Record archived.','warn');await loadUsers();}catch{const i=allUsers.findIndex(x=>String(x.user_id)===String(archivingId));if(i>-1){const u={...allUsers[i],is_archived:true,prev_status:allUsers[i].status,archived_at:new Date().toISOString()};archivedUsers.unshift(u);allUsers.splice(i,1);}updateStats();applyFilter();renderArchive();$('archive-modal').classList.remove('open');toast('Record archived.','warn');}finally{b.disabled=false;$('arch-btn-text').textContent='Move to Archive';const s=document.getElementById('as');if(s)s.remove();}};
 
-// ─── FILTER ─────────────────────────────────────────────────────────────────
-function applyFilter() {
-    const q  = $('search-input').value.toLowerCase();
-    const fs = $('filter-status').value;
-    const ft = $('filter-type').value;
-    filtered = allUsers.filter(u => {
-        const name = `${u.first_name} ${u.last_name} ${u.email}`.toLowerCase();
-        return (!q || name.includes(q)) && (!fs || u.status === fs) && (!ft || u.user_type === ft);
-    });
-    currentPage = 1;
-    renderTable();
-}
+function openRestore(id){const u=archivedUsers.find(x=>String(x.user_id)===String(id));if(!u)return;restoringId=id;$('restore-user-name').textContent=`${u.first_name} ${u.last_name}`;$('restore-modal').classList.add('open');}
+$('restore-cancel-btn').onclick=()=>$('restore-modal').classList.remove('open');
+$('restore-confirm-btn').onclick=async()=>{const b=$('restore-confirm-btn');b.disabled=true;$('restore-btn-text').textContent='Restoring…';b.insertAdjacentHTML('afterbegin','<span class="spinner" id="rs"></span>');try{const u=archivedUsers.find(x=>String(x.user_id)===String(restoringId));const d=await api('PUT','id='+encodeURIComponent(restoringId),{is_archived:false,status:u?.prev_status||'active'});if(!d.success)throw 0;$('restore-modal').classList.remove('open');toast('Personnel restored.','success');await loadUsers();}catch{const i=archivedUsers.findIndex(x=>String(x.user_id)===String(restoringId));if(i>-1){const u={...archivedUsers[i],is_archived:false,status:archivedUsers[i].prev_status||'active'};delete u.prev_status;delete u.archived_at;allUsers.unshift(u);archivedUsers.splice(i,1);}updateStats();applyFilter();renderArchive();$('restore-modal').classList.remove('open');toast('Personnel restored.','success');}finally{b.disabled=false;$('restore-btn-text').textContent='Restore Record';const s=document.getElementById('rs');if(s)s.remove();}};
 
-// ─── RENDER ACTIVE TABLE ─────────────────────────────────────────────────────
-function renderTable() {
-    const tbody = $('user-table-body');
-    const total = filtered.length;
-    const pages = Math.max(1, Math.ceil(total / PER_PAGE));
-    currentPage = Math.min(currentPage, pages);
-    const slice = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+function openDelete(id,fa=false){const p=fa?archivedUsers:allUsers,u=p.find(x=>String(x.user_id)===String(id));if(!u)return;deletingId={id,fa};$('delete-user-name').textContent=`${u.first_name} ${u.last_name}`;$('delete-modal').classList.add('open');}
+$('delete-cancel-btn').onclick=()=>$('delete-modal').classList.remove('open');
+$('delete-confirm-btn').onclick=async()=>{const b=$('delete-confirm-btn');b.disabled=true;$('del-btn-text').textContent='Purging…';b.insertAdjacentHTML('afterbegin','<span class="spinner" id="ds"></span>');const{id,fa}=deletingId;try{const d=await api('DELETE','id='+encodeURIComponent(id));if(!d.success)throw 0;$('delete-modal').classList.remove('open');toast('Record purged.','error');await loadUsers();}catch{if(fa)archivedUsers=archivedUsers.filter(u=>String(u.user_id)!==String(id));else allUsers=allUsers.filter(u=>String(u.user_id)!==String(id));updateStats();applyFilter();renderArchive();$('delete-modal').classList.remove('open');toast('Record purged.','error');}finally{b.disabled=false;$('del-btn-text').textContent='Purge Record';const s=document.getElementById('ds');if(s)s.remove();}};
 
-    $('table-count').textContent = `Showing ${total} user${total!==1?'s':''}`;
-
-    if (!slice.length) {
-        tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            <p>No users found.</p></div></td></tr>`;
-    } else {
-        tbody.innerHTML = slice.map(u => `
-            <tr>
-                <td><div class="user-cell">
-                    <div class="user-ava" style="background:${getColor(u.user_id)}">${initials(u)}</div>
-                    <div><div class="user-full-name">${esc(u.first_name)} ${esc(u.last_name)}</div>
-                    <div class="user-email-small">${esc(u.email)}</div></div>
-                </div></td>
-                <td style="color:#888">${u.phone ? esc(u.phone) : '<span style="color:#ccc">—</span>'}</td>
-                <td>${typeBadge(u.user_type)}</td>
-                <td>${statusBadge(u.status)}</td>
-                <td style="color:#888">${fmtDate(u.created_at)}</td>
-                <td style="color:#888">${fmtDate(u.updated_at)}</td>
-                <td><div class="action-btns">
-                    <button class="action-btn view" title="View" onclick="openView('${u.user_id}')">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                    </button>
-                    <button class="action-btn edit" title="Edit" onclick="openEdit('${u.user_id}')">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                    </button>
-                    <button class="action-btn archive" title="Archive" onclick="openArchive('${u.user_id}')">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-                    </button>
-                </div></td>
-            </tr>`).join('');
-    }
-
-    $('page-info').textContent = `Page ${currentPage} of ${pages}`;
-    let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>`;
-    for (let i=1; i<=pages; i++) html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
-    html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>`;
-    $('page-btns').innerHTML = html;
-}
-function goPage(p) { currentPage = p; renderTable(); }
-
-// ─── RENDER ARCHIVE TABLE ────────────────────────────────────────────────────
-function renderArchiveTable() {
-    const tbody = $('archive-table-body');
-    $('archive-table-count').textContent = `${archivedUsers.length} archived`;
-    if (!archivedUsers.length) {
-        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-            <p>No archived users yet.</p></div></td></tr>`;
-        return;
-    }
-    tbody.innerHTML = archivedUsers.map(u => `
-        <tr>
-            <td><div class="user-cell">
-                <div class="user-ava archived-ava" style="background:${getColor(u.user_id)}">${initials(u)}</div>
-                <div><div class="user-full-name" style="color:#777">${esc(u.first_name)} ${esc(u.last_name)}</div>
-                <div class="user-email-small">${esc(u.email)}</div></div>
-            </div></td>
-            <td style="color:#aaa">${u.phone ? esc(u.phone) : '<span style="color:#ccc">—</span>'}</td>
-            <td>${typeBadge(u.user_type)}</td>
-            <td>${statusBadge(u.prev_status || u.status || 'inactive')}</td>
-            <td style="color:#aaa">${fmtDate(u.archived_at || u.updated_at)}</td>
-            <td><div class="action-btns">
-                <button class="action-btn restore" title="Restore" onclick="openRestore('${u.user_id}')">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                </button>
-                <button class="action-btn delete" title="Delete Permanently" onclick="openDelete('${u.user_id}', true)">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>
-            </div></td>
-        </tr>`).join('');
-}
-
-function scrollToArchive() {
-    $('archive-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ─── ADD MODAL ───────────────────────────────────────────────────────────────
-function openAdd() {
-    editingId = null;
-    $('modal-title').innerHTML = 'Add <span>User</span>';
-    $('save-btn-text').textContent = 'Add User';
-    $('pw-hint').textContent = '(required)';
-    ['form-fname','form-lname','form-email','form-password','form-phone'].forEach(id => $(id).value = '');
-    $('form-type').value = ''; $('form-status').value = '';
-    ['form-fname','form-lname','form-email','form-type','form-status'].forEach(id => $(id).classList.remove('error'));
-    $('user-modal').classList.add('open');
-    $('form-fname').focus();
-}
-
-// ─── EDIT MODAL ──────────────────────────────────────────────────────────────
-function openEdit(id) {
-    const u = allUsers.find(x => String(x.user_id) === String(id));
-    if (!u) return;
-    editingId = id;
-    $('modal-title').innerHTML = 'Edit <span>User</span>';
-    $('save-btn-text').textContent = 'Save Changes';
-    $('pw-hint').textContent = '(leave blank to keep existing)';
-    $('form-fname').value    = u.first_name || '';
-    $('form-lname').value    = u.last_name  || '';
-    $('form-email').value    = u.email      || '';
-    $('form-password').value = '';
-    $('form-phone').value    = u.phone      || '';
-    // Normalize legacy types (editor/moderator/viewer → user)
-    const type = ['admin','user'].includes(u.user_type) ? u.user_type : 'user';
-    $('form-type').value   = type;
-    $('form-status').value = u.status || '';
-    ['form-fname','form-lname','form-email','form-type','form-status'].forEach(id => $(id).classList.remove('error'));
-    $('user-modal').classList.add('open');
-    $('form-fname').focus();
-}
-function closeUserModal() { $('user-modal').classList.remove('open'); }
-
-// ─── SAVE ────────────────────────────────────────────────────────────────────
-async function saveUser() {
-    const fname    = $('form-fname').value.trim();
-    const lname    = $('form-lname').value.trim();
-    const email    = $('form-email').value.trim();
-    const password = $('form-password').value;
-    const phone    = $('form-phone').value.trim();
-    const type     = $('form-type').value;
-    const status   = $('form-status').value;
-
-    let valid = true;
-    const setErr = (id, hasErr) => { $(id).classList[hasErr?'add':'remove']('error'); if (hasErr) valid = false; };
-    setErr('form-fname',  !fname);
-    setErr('form-lname',  !lname);
-    setErr('form-email',  !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    setErr('form-type',   !type);
-    setErr('form-status', !status);
-    if (!editingId && !password) { toast('Password is required for new users.', 'error'); return; }
-    if (password && password.length < 6) { toast('Password must be at least 6 characters.', 'error'); return; }
-    if (!valid) { toast('Please fill in all required fields.', 'error'); return; }
-
-    const saveBtn = $('modal-save-btn');
-    saveBtn.disabled = true;
-    $('save-btn-text').textContent = editingId ? 'Saving…' : 'Adding…';
-    saveBtn.insertAdjacentHTML('afterbegin', '<span class="spinner" id="save-spinner"></span>');
-
-    try {
-        const body = { first_name:fname, last_name:lname, email, phone, user_type:type, status };
-        if (password) body.password = password;
-        const data = editingId
-            ? await apiCall('PUT', 'id='+encodeURIComponent(editingId), body)
-            : await apiCall('POST', '', body);
-        if (!data.success) throw new Error(data.message);
-        closeUserModal();
-        toast(editingId ? 'User updated successfully.' : 'User added successfully.', 'success');
-        await loadUsers();
-    } catch {
-        if (editingId) {
-            const idx = allUsers.findIndex(x => String(x.user_id) === String(editingId));
-            if (idx > -1) allUsers[idx] = { ...allUsers[idx], first_name:fname, last_name:lname, email, phone, user_type:type, status, updated_at:new Date().toISOString() };
-        } else {
-            allUsers.unshift({ user_id:Date.now(), first_name:fname, last_name:lname, email, phone, user_type:type, status, is_archived:false, created_at:new Date().toISOString(), updated_at:new Date().toISOString() });
-        }
-        updateStats(); applyFilter();
-        closeUserModal();
-        toast(editingId ? 'User updated.' : 'User added.', 'success');
-    } finally {
-        saveBtn.disabled = false;
-        $('save-btn-text').textContent = editingId ? 'Save Changes' : 'Add User';
-        const sp = document.getElementById('save-spinner');
-        if (sp) sp.remove();
-    }
-}
-
-// ─── VIEW MODAL ──────────────────────────────────────────────────────────────
-function openView(id) {
-    const u = allUsers.find(x => String(x.user_id) === String(id));
-    if (!u) return;
-    viewingId = id;
-    $('view-modal-body').innerHTML = `
-        <div class="view-user-header">
-            <div class="view-ava" style="background:${getColor(u.user_id)}">${initials(u)}</div>
-            <div><div class="view-name">${esc(u.first_name)} ${esc(u.last_name)}</div>
-            <div class="view-email">${esc(u.email)}</div></div>
-        </div>
-        <div class="view-details">
-            <div class="view-detail-item"><div class="view-detail-label">User ID</div><div class="view-detail-val">#${esc(u.user_id)}</div></div>
-            <div class="view-detail-item"><div class="view-detail-label">Phone</div><div class="view-detail-val">${u.phone ? esc(u.phone) : '—'}</div></div>
-            <div class="view-detail-item"><div class="view-detail-label">User Type</div><div class="view-detail-val" style="margin-top:4px">${typeBadge(u.user_type)}</div></div>
-            <div class="view-detail-item"><div class="view-detail-label">Status</div><div class="view-detail-val" style="margin-top:4px">${statusBadge(u.status)}</div></div>
-            <div class="view-detail-item"><div class="view-detail-label">Created</div><div class="view-detail-val">${fmtDate(u.created_at)}</div></div>
-            <div class="view-detail-item"><div class="view-detail-label">Last Updated</div><div class="view-detail-val">${fmtDate(u.updated_at)}</div></div>
-        </div>`;
-    $('view-modal').classList.add('open');
-}
-$('view-close-btn').onclick  = () => $('view-modal').classList.remove('open');
-$('view-cancel-btn').onclick = () => $('view-modal').classList.remove('open');
-$('view-edit-btn').onclick   = () => { $('view-modal').classList.remove('open'); openEdit(viewingId); };
-
-// ─── ARCHIVE ─────────────────────────────────────────────────────────────────
-function openArchive(id) {
-    const u = allUsers.find(x => String(x.user_id) === String(id));
-    if (!u) return;
-    archivingId = id;
-    $('archive-user-name').textContent = `${u.first_name} ${u.last_name}`;
-    $('archive-modal').classList.add('open');
-}
-$('archive-cancel-btn').onclick = () => $('archive-modal').classList.remove('open');
-
-$('archive-confirm-btn').onclick = async () => {
-    const btn = $('archive-confirm-btn');
-    btn.disabled = true;
-    $('arch-btn-text').textContent = 'Archiving…';
-    btn.insertAdjacentHTML('afterbegin','<span class="spinner" id="arch-spinner"></span>');
-    try {
-        const data = await apiCall('PUT', 'id='+encodeURIComponent(archivingId), { is_archived: true, status: 'archived' });
-        if (!data.success) throw new Error(data.message);
-        $('archive-modal').classList.remove('open');
-        toast('User moved to archive.', 'warn');
-        await loadUsers();
-    } catch {
-        const idx = allUsers.findIndex(x => String(x.user_id) === String(archivingId));
-        if (idx > -1) {
-            const u = { ...allUsers[idx], is_archived: true, prev_status: allUsers[idx].status, archived_at: new Date().toISOString() };
-            archivedUsers.unshift(u);
-            allUsers.splice(idx, 1);
-        }
-        updateStats(); applyFilter(); renderArchiveTable();
-        $('archive-modal').classList.remove('open');
-        toast('User moved to archive.', 'warn');
-    } finally {
-        btn.disabled = false;
-        $('arch-btn-text').textContent = 'Move to Archive';
-        const sp = document.getElementById('arch-spinner');
-        if (sp) sp.remove();
-    }
-};
-
-// ─── RESTORE ─────────────────────────────────────────────────────────────────
-function openRestore(id) {
-    const u = archivedUsers.find(x => String(x.user_id) === String(id));
-    if (!u) return;
-    restoringId = id;
-    $('restore-user-name').textContent = `${u.first_name} ${u.last_name}`;
-    $('restore-modal').classList.add('open');
-}
-$('restore-cancel-btn').onclick = () => $('restore-modal').classList.remove('open');
-
-$('restore-confirm-btn').onclick = async () => {
-    const btn = $('restore-confirm-btn');
-    btn.disabled = true;
-    $('restore-btn-text').textContent = 'Restoring…';
-    btn.insertAdjacentHTML('afterbegin','<span class="spinner" id="res-spinner"></span>');
-    try {
-        const u = archivedUsers.find(x => String(x.user_id) === String(restoringId));
-        const restoreStatus = u?.prev_status || 'active';
-        const data = await apiCall('PUT', 'id='+encodeURIComponent(restoringId), { is_archived: false, status: restoreStatus });
-        if (!data.success) throw new Error(data.message);
-        $('restore-modal').classList.remove('open');
-        toast('User restored successfully.', 'success');
-        await loadUsers();
-    } catch {
-        const idx = archivedUsers.findIndex(x => String(x.user_id) === String(restoringId));
-        if (idx > -1) {
-            const u = { ...archivedUsers[idx], is_archived: false, status: archivedUsers[idx].prev_status || 'active' };
-            delete u.prev_status; delete u.archived_at;
-            allUsers.unshift(u);
-            archivedUsers.splice(idx, 1);
-        }
-        updateStats(); applyFilter(); renderArchiveTable();
-        $('restore-modal').classList.remove('open');
-        toast('User restored.', 'success');
-    } finally {
-        btn.disabled = false;
-        $('restore-btn-text').textContent = 'Restore User';
-        const sp = document.getElementById('res-spinner');
-        if (sp) sp.remove();
-    }
-};
-
-// ─── PERMANENT DELETE ────────────────────────────────────────────────────────
-function openDelete(id, fromArchive = false) {
-    const pool = fromArchive ? archivedUsers : allUsers;
-    const u = pool.find(x => String(x.user_id) === String(id));
-    if (!u) return;
-    deletingId = { id, fromArchive };
-    $('delete-user-name').textContent = `${u.first_name} ${u.last_name}`;
-    $('delete-modal').classList.add('open');
-}
-$('delete-cancel-btn').onclick = () => $('delete-modal').classList.remove('open');
-
-$('delete-confirm-btn').onclick = async () => {
-    const btn = $('delete-confirm-btn');
-    btn.disabled = true;
-    $('del-btn-text').textContent = 'Deleting…';
-    btn.insertAdjacentHTML('afterbegin','<span class="spinner" id="del-spinner"></span>');
-    const { id, fromArchive } = deletingId;
-    try {
-        const data = await apiCall('DELETE', 'id='+encodeURIComponent(id));
-        if (!data.success) throw new Error(data.message);
-        $('delete-modal').classList.remove('open');
-        toast('User permanently deleted.', 'error');
-        await loadUsers();
-    } catch {
-        if (fromArchive) archivedUsers = archivedUsers.filter(u => String(u.user_id) !== String(id));
-        else allUsers = allUsers.filter(u => String(u.user_id) !== String(id));
-        updateStats(); applyFilter(); renderArchiveTable();
-        $('delete-modal').classList.remove('open');
-        toast('User permanently deleted.', 'error');
-    } finally {
-        btn.disabled = false;
-        $('del-btn-text').textContent = 'Yes, Delete Forever';
-        const sp = document.getElementById('del-spinner');
-        if (sp) sp.remove();
-    }
-};
-
-// ─── OVERLAY CLOSE ───────────────────────────────────────────────────────────
-document.querySelectorAll('.modal-overlay').forEach(el => {
-    el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
-});
-
-// ─── SIDEBAR COLLAPSE ────────────────────────────────────────────────────────
-$('collapse-btn').addEventListener('click', () => {
-    $('sidebar').classList.toggle('collapsed');
-    $('main').classList.toggle('collapsed');
-});
-
-// ─── EVENTS ──────────────────────────────────────────────────────────────────
-$('add-user-btn').onclick     = openAdd;
-$('modal-close-btn').onclick  = closeUserModal;
-$('modal-cancel-btn').onclick = closeUserModal;
-$('modal-save-btn').onclick   = saveUser;
-$('search-input').addEventListener('input', applyFilter);
-$('filter-status').addEventListener('change', applyFilter);
-$('filter-type').addEventListener('change', applyFilter);
-['form-fname','form-lname','form-email','form-password','form-phone'].forEach(id => {
-    $(id).addEventListener('keydown', e => { if (e.key === 'Enter') saveUser(); });
-});
-
+document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');}));
+$('collapse-btn').addEventListener('click',()=>{$('sidebar').classList.toggle('collapsed');$('main').classList.toggle('collapsed');});
+$('add-user-btn').onclick=openAdd;
+$('modal-close-btn').onclick=closeModal;
+$('modal-cancel-btn').onclick=closeModal;
+$('modal-save-btn').onclick=saveUser;
+$('search-input').addEventListener('input',applyFilter);
+$('filter-status').addEventListener('change',applyFilter);
+$('filter-type').addEventListener('change',applyFilter);
+['form-fname','form-lname','form-email','form-password','form-phone'].forEach(id=>{$(id).addEventListener('keydown',e=>{if(e.key==='Enter')saveUser();});});
 loadUsers();
 </script>
 </body>
