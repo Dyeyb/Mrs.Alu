@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -197,13 +198,8 @@
       padding-bottom: 1px; transition: border-color 0.2s;
     }
     .resend-row button:hover { border-color: var(--gold); }
-    .resend-row button:disabled { opacity: 0.4; cursor: not-allowed; border-color: transparent; }
+       .resend-row button:disabled { opacity: 0.4; cursor: not-allowed; border-color: transparent; }
 
-<<<<<<< HEAD
-if ($user['status'] === 'suspended') {  
-    out(false, 'Your account has been suspended. Please contact support.', null, 403);
-}
-=======
     .back-row {
       text-align: center; font-size: 0.78rem; color: var(--muted);
     }
@@ -213,7 +209,6 @@ if ($user['status'] === 'suspended') {
       transition: color 0.2s; cursor: pointer;
     }
     .back-row a:hover { color: var(--text); }
->>>>>>> 0bbb6053bd18e028f65a332da93dc30db426a13d
 
     /* ── SUCCESS STATE ── */
     .success-state {
