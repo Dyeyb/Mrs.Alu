@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <!-- FCKING SHET-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login – Aluminum Lady</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
@@ -58,12 +58,28 @@
             transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
         }
 
-        .overlay-panel:nth-child(1) { transition-delay: 0s;    background: #1a1a18; }
-        .overlay-panel:nth-child(2) { transition-delay: 0.06s; background: #1e1c16; }
-        .overlay-panel:nth-child(3) { transition-delay: 0.12s; background: #161614; }
+        .overlay-panel:nth-child(1) {
+            transition-delay: 0s;
+            background: #1a1a18;
+        }
 
-        .transition-overlay.active { pointer-events: all; }
-        .transition-overlay.active .overlay-panel { transform: translateX(0); }
+        .overlay-panel:nth-child(2) {
+            transition-delay: 0.06s;
+            background: #1e1c16;
+        }
+
+        .overlay-panel:nth-child(3) {
+            transition-delay: 0.12s;
+            background: #161614;
+        }
+
+        .transition-overlay.active {
+            pointer-events: all;
+        }
+
+        .transition-overlay.active .overlay-panel {
+            transform: translateX(0);
+        }
 
         /* ── SPLIT LAYOUT ── */
         .split {
@@ -73,7 +89,7 @@
             transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease;
         }
 
-        .transition-overlay.active ~ .split {
+        .transition-overlay.active~.split {
             transform: translateX(50px);
             opacity: 0;
         }
@@ -87,8 +103,15 @@
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to   { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .left-bg {
@@ -101,14 +124,16 @@
             transition: transform 14s ease;
         }
 
-        .left-panel:hover .left-bg { transform: scale(1.05); }
+        .left-panel:hover .left-bg {
+            transform: scale(1.05);
+        }
 
         .left-overlay {
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(180deg, rgba(36,18,6,0.88) 0%, rgba(74,46,24,0.52) 35%, rgba(107,66,38,0.22) 55%, rgba(74,46,24,0.52) 80%, rgba(28,14,4,0.95) 100%),
-                linear-gradient(90deg, rgba(201,165,97,0.06) 0%, transparent 70%);
+                linear-gradient(180deg, rgba(36, 18, 6, 0.88) 0%, rgba(74, 46, 24, 0.52) 35%, rgba(107, 66, 38, 0.22) 55%, rgba(74, 46, 24, 0.52) 80%, rgba(28, 14, 4, 0.95) 100%),
+                linear-gradient(90deg, rgba(201, 165, 97, 0.06) 0%, transparent 70%);
         }
 
         .left-content {
@@ -121,272 +146,664 @@
             padding: 3rem 3.5rem;
         }
 
-        .left-logo { display: flex; align-items: center; gap: 0.75rem; }
+        .left-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
         .logo-mark {
-            width: 42px; height: 42px;
-            background: linear-gradient(135deg, rgba(74,46,24,0.9), var(--gold));
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, rgba(74, 46, 24, 0.9), var(--gold));
             border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 22px; font-weight: 700; color: #fff;
-            box-shadow: 0 4px 18px rgba(201,165,97,0.4);
-            border: 1px solid rgba(201,165,97,0.35);
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(201, 165, 97, 0.4);
+            border: 1px solid rgba(201, 165, 97, 0.35);
         }
 
         .logo-text .logo-name {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem; font-weight: 600; color: #fff; line-height: 1.1;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.1;
         }
-        .logo-text .logo-name span { color: var(--gold); font-style: italic; }
+
+        .logo-text .logo-name span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
         .logo-text .logo-sub {
-            font-size: 0.6rem; color: rgba(255,255,255,0.35);
-            letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
         .left-divider {
-            width: 52px; height: 1px;
+            width: 52px;
+            height: 1px;
             background: linear-gradient(90deg, var(--gold), transparent);
-            margin-bottom: 1.4rem; opacity: 0.55;
+            margin-bottom: 1.4rem;
+            opacity: 0.55;
         }
 
         .left-quote {
             font-family: 'Cormorant Garamond', serif;
             font-size: clamp(1.5rem, 2.6vw, 2.2rem);
-            font-weight: 300; font-style: italic; line-height: 1.4;
-            color: rgba(232,228,220,0.9); margin-bottom: 1.5rem; max-width: 400px;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.4;
+            color: rgba(232, 228, 220, 0.9);
+            margin-bottom: 1.5rem;
+            max-width: 400px;
         }
+
         .left-quote::before {
-            content: '\201C'; color: var(--gold);
-            font-size: 3.5rem; line-height: 0;
-            vertical-align: -1.1rem; margin-right: 0.15rem; opacity: 0.65;
+            content: '\201C';
+            color: var(--gold);
+            font-size: 3.5rem;
+            line-height: 0;
+            vertical-align: -1.1rem;
+            margin-right: 0.15rem;
+            opacity: 0.65;
         }
 
         .left-meta {
-            font-size: 0.67rem; letter-spacing: 0.2em;
-            text-transform: uppercase; color: rgba(201,165,97,0.6);
+            font-size: 0.67rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(201, 165, 97, 0.6);
         }
 
         /* ── GOLD DIVIDER LINE ── */
         .split-divider {
-            width: 1px; flex-shrink: 0;
+            width: 1px;
+            flex-shrink: 0;
             background: linear-gradient(to bottom,
-                transparent 0%, rgba(201,165,97,0.35) 15%,
-                rgba(201,165,97,0.55) 50%, rgba(201,165,97,0.35) 85%, transparent 100%);
-            position: relative; z-index: 3;
+                    transparent 0%, rgba(201, 165, 97, 0.35) 15%,
+                    rgba(201, 165, 97, 0.55) 50%, rgba(201, 165, 97, 0.35) 85%, transparent 100%);
+            position: relative;
+            z-index: 3;
         }
 
         /* ── RIGHT PANEL ── */
         .right-panel {
-            flex: 1; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; background: #111110;
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: #111110;
             animation: slideInRight 0.9s cubic-bezier(0.76, 0, 0.24, 1) both;
         }
 
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to   { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .right-scroll {
-            position: relative; z-index: 2;
-            width: 100%; height: 100%; overflow-y: auto;
-            display: flex; align-items: center; justify-content: center;
-            padding: 3rem 4rem; scrollbar-width: none;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 4rem;
+            scrollbar-width: none;
         }
-        .right-scroll::-webkit-scrollbar { display: none; }
+
+        .right-scroll::-webkit-scrollbar {
+            display: none;
+        }
 
         /* ── FORM ── */
         .form-card {
-            width: 100%; max-width: 400px;
+            width: 100%;
+            max-width: 400px;
             animation: fadeUp 0.6s 0.25s ease both;
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .form-header { margin-bottom: 2.5rem; text-align: center; }
+        .form-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
 
         .form-header .brand-row {
-            display: flex; align-items: center; justify-content: center;
-            gap: 0.6rem; margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
         }
+
         .form-header .brand-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
         }
+
         .form-header .brand-name {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.85rem; font-weight: 600;
-            letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
         }
+
         .form-header .tag {
-            display: block; font-size: 0.68rem; letter-spacing: 0.18em;
-            text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem;
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.6rem;
         }
+
         .form-header h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.4rem; font-weight: 400; color: var(--text);
-            line-height: 1.15; letter-spacing: -0.01em;
-        }
-        .form-header .subtitle {
-            font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; font-weight: 300;
+            font-size: 2.4rem;
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
         }
 
-        .field { margin-bottom: 1.25rem; }
+        .form-header .subtitle {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+
+        .field {
+            margin-bottom: 1.25rem;
+        }
 
         .field label {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em;
-            text-transform: uppercase; color: rgba(232,228,220,0.55); margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(232, 228, 220, 0.55);
+            margin-bottom: 0.5rem;
         }
 
         .field input {
-            width: 100%; background: #1c1c1a;
-            border: 1px solid rgba(255,255,255,0.07);
-            border-bottom-color: rgba(184,147,90,0.25);
-            color: var(--text); font-family: 'DM Sans', sans-serif;
-            font-size: 0.92rem; font-weight: 300; padding: 0.85rem 1rem;
-            outline: none; border-radius: 4px;
+            width: 100%;
+            background: #1c1c1a;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom-color: rgba(184, 147, 90, 0.25);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 300;
+            padding: 0.85rem 1rem;
+            outline: none;
+            border-radius: 4px;
             transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
             appearance: none;
         }
-        .field input::placeholder { color: rgba(136,136,128,0.35); }
-        .field input:focus {
-            border-color: var(--gold); border-bottom-color: var(--gold);
-            background: #202018; box-shadow: 0 0 0 3px rgba(184,147,90,0.08);
-        }
-        .field input.input-error {
-            border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+
+        .field input::placeholder {
+            color: rgba(136, 136, 128, 0.35);
         }
 
-        .field.has-icon .input-wrap { position: relative; }
-        .field.has-icon input { padding-right: 2.8rem; }
+        .field input:focus {
+            border-color: var(--gold);
+            border-bottom-color: var(--gold);
+            background: #202018;
+            box-shadow: 0 0 0 3px rgba(184, 147, 90, 0.08);
+        }
+
+        .field input.input-error {
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+        }
+
+        .field.has-icon .input-wrap {
+            position: relative;
+        }
+
+        .field.has-icon input {
+            padding-right: 2.8rem;
+        }
 
         .toggle-pw {
-            position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%);
-            background: none; border: none; cursor: pointer;
-            color: rgba(136,136,128,0.5); padding: 0;
-            display: flex; align-items: center; transition: color 0.2s;
+            position: absolute;
+            right: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(136, 136, 128, 0.5);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
         }
-        .toggle-pw:hover { color: var(--gold); }
+
+        .toggle-pw:hover {
+            color: var(--gold);
+        }
 
         .field-error {
-            font-size: 0.72rem; color: #e05454;
-            margin-top: 0.4rem; display: flex; align-items: center; gap: 0.3rem;
+            font-size: 0.72rem;
+            color: #e05454;
+            margin-top: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         .options-row {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
         }
 
-        .checkbox-row { display: flex; align-items: center; gap: 0.55rem; }
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
         .checkbox-row input[type="checkbox"] {
-            appearance: none; width: 15px; height: 15px; min-width: 15px;
-            border: 1px solid rgba(255,255,255,0.12); background: #1c1c1a;
-            border-radius: 3px; cursor: pointer; position: relative; transition: all 0.2s;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            min-width: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #1c1c1a;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
         }
+
         .checkbox-row input[type="checkbox"]:checked {
-            background: var(--gold); border-color: var(--gold);
+            background: var(--gold);
+            border-color: var(--gold);
         }
+
         .checkbox-row input[type="checkbox"]:checked::after {
-            content: ''; position: absolute;
-            left: 4px; top: 1px; width: 5px; height: 9px;
-            border: 2px solid #111110; border-top: none; border-left: none;
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 1px;
+            width: 5px;
+            height: 9px;
+            border: 2px solid #111110;
+            border-top: none;
+            border-left: none;
             transform: rotate(45deg);
         }
+
         .checkbox-row label {
-            font-size: 0.78rem; color: var(--muted); cursor: pointer; user-select: none;
+            font-size: 0.78rem;
+            color: var(--muted);
+            cursor: pointer;
+            user-select: none;
         }
 
         .forgot-link {
-            font-size: 0.78rem; color: var(--gold); text-decoration: none;
-            font-weight: 400; transition: opacity 0.2s;
+            font-size: 0.78rem;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 400;
+            transition: opacity 0.2s;
         }
-        .forgot-link:hover { opacity: 0.75; }
+
+        .forgot-link:hover {
+            opacity: 0.75;
+        }
 
         .btn-submit {
-            width: 100%; padding: 0.95rem 1.5rem;
-            background: var(--gold); color: #0e0e0c; border: none; border-radius: 4px;
-            font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
-            letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            background: var(--gold);
+            color: #0e0e0c;
+            border: none;
+            border-radius: 4px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
             transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-            margin-bottom: 1.5rem; position: relative; overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
+
         .btn-submit::after {
-            content: ''; position: absolute; inset: 0;
-            background: rgba(255,255,255,0.08); opacity: 0; transition: opacity 0.2s;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.08);
+            opacity: 0;
+            transition: opacity 0.2s;
         }
+
         .btn-submit:hover {
-            background: var(--gold-light); box-shadow: 0 4px 20px rgba(184,147,90,0.35);
+            background: var(--gold-light);
+            box-shadow: 0 4px 20px rgba(184, 147, 90, 0.35);
         }
-        .btn-submit:hover::after { opacity: 1; }
-        .btn-submit:active { transform: scale(0.995); }
-        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-submit:hover::after {
+            opacity: 1;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.995);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
         .divider {
-            display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
-        .divider::before, .divider::after {
-            content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
         }
+
         .divider span {
-            font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase;
-            color: rgba(136,136,128,0.5); white-space: nowrap;
+            font-size: 0.66rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(136, 136, 128, 0.5);
+            white-space: nowrap;
         }
 
-        .social-btns { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
-
-        .btn-social {
-            width: 100%; padding: 0.82rem 1rem; background: #1c1c1a;
-            border: 1px solid rgba(255,255,255,0.08); color: var(--text);
-            font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 400;
-            cursor: pointer; border-radius: 4px;
-            transition: border-color 0.2s, background 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 0.7rem;
-            text-decoration: none;
+        /* ── Google button wrapper ── */
+        .google-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1.75rem;
         }
-        .btn-social:hover { border-color: rgba(184,147,90,0.4); background: #222220; }
+
+        .google-btn-wrapper>div,
+        .google-btn-wrapper iframe {
+            width: 100% !important;
+        }
 
         .signup-row {
-            text-align: center; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.6rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 0.6rem;
         }
+
         .signup-row a {
-            color: var(--gold); text-decoration: none; font-weight: 500;
-            border-bottom: 1px solid rgba(184,147,90,0.3); padding-bottom: 1px;
-            transition: border-color 0.2s; cursor: pointer;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(184, 147, 90, 0.3);
+            padding-bottom: 1px;
+            transition: border-color 0.2s;
+            cursor: pointer;
         }
-        .signup-row a:hover { border-color: var(--gold); }
+
+        .signup-row a:hover {
+            border-color: var(--gold);
+        }
 
         .terms {
-            text-align: center; font-size: 0.69rem;
-            color: rgba(136,136,128,0.55); margin-top: 0.5rem; line-height: 1.7;
+            text-align: center;
+            font-size: 0.69rem;
+            color: rgba(136, 136, 128, 0.55);
+            margin-top: 0.5rem;
+            line-height: 1.7;
         }
-        .terms a { color: rgba(184,147,90,0.7); text-decoration: none; }
-        .terms a:hover { color: var(--gold); }
+
+        .terms a {
+            color: rgba(184, 147, 90, 0.7);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            color: var(--gold);
+        }
+
+        /* ── No-account modal ── */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: #1c1c1a;
+            border: 1px solid rgba(184, 147, 90, 0.25);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(24px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-backdrop.show .modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(184, 147, 90, 0.1);
+            border: 1px solid rgba(184, 147, 90, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
+
+        .modal-icon svg {
+            color: var(--gold);
+        }
+
+        .modal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.65rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .modal p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+        }
+
+        .modal p .modal-email {
+            display: block;
+            margin-top: 0.3rem;
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .modal-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .btn-modal-primary {
+            width: 100%;
+            padding: 0.88rem;
+            background: var(--gold);
+            color: #0e0e0c;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-modal-primary:hover {
+            background: var(--gold-light);
+            box-shadow: 0 4px 20px rgba(184, 147, 90, 0.3);
+        }
+
+        .btn-modal-secondary {
+            width: 100%;
+            padding: 0.88rem;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 400;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-modal-secondary:hover {
+            border-color: rgba(184, 147, 90, 0.3);
+            color: var(--text);
+        }
 
         .toast {
-            position: fixed; bottom: 2rem; right: 2rem;
-            background: rgba(34,34,32,0.88); backdrop-filter: blur(16px);
-            border-left: 3px solid var(--gold); padding: 1rem 1.4rem;
-            font-size: 0.82rem; color: var(--text);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            transform: translateX(20px); opacity: 0;
-            transition: all 0.35s ease; pointer-events: none; z-index: 99;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(34, 34, 32, 0.88);
+            backdrop-filter: blur(16px);
+            border-left: 3px solid var(--gold);
+            padding: 1rem 1.4rem;
+            font-size: 0.82rem;
+            color: var(--text);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            transform: translateX(20px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            pointer-events: none;
+            z-index: 99;
         }
-        .toast.show { transform: translateX(0); opacity: 1; }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
 
         @media (max-width: 768px) {
-            .left-panel, .split-divider { display: none; }
-            .right-panel { width: 100%; min-width: 0; }
+
+            .left-panel,
+            .split-divider {
+                display: none;
+            }
+
+            .right-panel {
+                width: 100%;
+                min-width: 0;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- ── No-account modal ─────────────────────────────────────────────────── -->
+    <div class="modal-backdrop" id="noAccountModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+            </div>
+            <h3>No Account Found</h3>
+            <p>
+                We couldn't find an account linked to
+                <span class="modal-email" id="modalEmail"></span>
+                You need to create an account first before you can sign in with Google.
+            </p>
+            <div class="modal-btns">
+                <button class="btn-modal-primary" id="modalCreateBtn">Create an Account</button>
+                <button class="btn-modal-secondary" id="modalCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <div class="transition-overlay" id="transitionOverlay">
         <div class="overlay-panel"></div>
@@ -466,16 +883,9 @@
 
                     <div class="divider"><span>or continue with</span></div>
 
-                    <div class="social-btns">
-                        <a href="#" class="btn-social" id="googleBtn">
-                            <svg width="17" height="17" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
-                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                            </svg>
-                            Continue with Google
-                        </a>
+                    <!-- Google renders its button here -->
+                    <div class="google-btn-wrapper">
+                        <div id="googleBtnMount"></div>
                     </div>
 
                     <div class="signup-row">
@@ -505,7 +915,7 @@
 
         // ── Eye toggle ────────────────────────────────────────────────────────
         let pwVisible = false;
-        const eyeOpen   = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>';
+        const eyeOpen = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>';
         const eyeClosed = '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
         document.getElementById('togglePw').addEventListener('click', function () {
             pwVisible = !pwVisible;
@@ -540,19 +950,47 @@
         document.getElementById('email').addEventListener('input', () => clearFieldError('email', 'emailError'));
         document.getElementById('password').addEventListener('input', () => clearFieldError('password', 'passwordError'));
 
+        // ── No-account modal ──────────────────────────────────────────────────
+        let pendingGoogleData = null;
+
+        function showNoAccountModal(data) {
+            pendingGoogleData = data;
+            document.getElementById('modalEmail').textContent = data.email || '';
+            document.getElementById('noAccountModal').classList.add('show');
+        }
+
+        function hideNoAccountModal() {
+            document.getElementById('noAccountModal').classList.remove('show');
+            pendingGoogleData = null;
+        }
+
+        // "Create an Account" → save Google info and go to signup
+        document.getElementById('modalCreateBtn').addEventListener('click', function () {
+            if (pendingGoogleData) {
+                sessionStorage.setItem('google_prefill', JSON.stringify(pendingGoogleData));
+            }
+            transitionTo('createngaccount.html');
+        });
+
+        // "Cancel" → just close the modal
+        document.getElementById('modalCancelBtn').addEventListener('click', hideNoAccountModal);
+
+        // Click outside modal to close
+        document.getElementById('noAccountModal').addEventListener('click', function (e) {
+            if (e.target === this) hideNoAccountModal();
+        });
+
         // ── Login form — calls login.php ──────────────────────────────────────
         document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            const email    = document.getElementById('email').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const btn      = document.getElementById('submitBtn');
+            const btn = document.getElementById('submitBtn');
 
-            // Clear previous errors
             clearFieldError('email', 'emailError');
             clearFieldError('password', 'passwordError');
 
-            // Front-end validation
             let hasError = false;
             if (!email) {
                 showFieldError('email', 'emailError', 'Please enter your email address.');
@@ -564,24 +1002,21 @@
             }
             if (hasError) return;
 
-            // Disable button while waiting
             btn.disabled = true;
             btn.textContent = 'Signing in...';
             showToast('Signing in...');
 
             try {
-                const res  = await fetch('login.php', {
-                    method:  'POST',
+                const res = await fetch('login.php', {
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body:    JSON.stringify({ email, password }),
+                    body: JSON.stringify({ email, password }),
                 });
 
                 const json = await res.json();
 
                 if (!json.success) {
-                    // Map server message to the right field error
                     const msg = json.message || 'Login failed. Please try again.';
-
                     if (msg.toLowerCase().includes('email') || msg.toLowerCase().includes('account')) {
                         showFieldError('email', 'emailError', msg);
                     } else if (msg.toLowerCase().includes('password') || msg.toLowerCase().includes('incorrect')) {
@@ -589,31 +1024,82 @@
                     } else {
                         showToast(msg, true);
                     }
-
-                    btn.disabled    = false;
+                    btn.disabled = false;
                     btn.textContent = 'Login';
                     return;
                 }
 
-                // ── Success ───────────────────────────────────────────────────
-                // Store user data in sessionStorage for the destination page to use
                 sessionStorage.setItem('user', JSON.stringify(json.data));
-
                 showToast('Welcome back, ' + json.data.first_name + '!');
                 setTimeout(() => transitionTo(json.data.redirect), 900);
 
             } catch (err) {
                 showToast('Network error. Please try again.', true);
-                btn.disabled    = false;
+                btn.disabled = false;
                 btn.textContent = 'Login';
             }
         });
 
-        // ── Google OAuth (placeholder — wire up your own OAuth flow) ─────────
-        document.getElementById('googleBtn').addEventListener('click', function (e) {
-            e.preventDefault();
-            showToast('Google login coming soon.', false);
-        });
+        // ── Google Sign-In callback ───────────────────────────────────────────
+        async function handleGoogleSignIn(response) {
+            showToast('Signing in with Google...');
+
+            try {
+                const res = await fetch('google-login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_token: response.credential }),
+                });
+
+                const json = await res.json();
+
+                // ── No account found → show modal instead of redirecting ───────
+                if (!json.success && json.message === 'no_account') {
+                    showNoAccountModal(json.data);
+                    return;
+                }
+
+                if (!json.success) {
+                    showToast(json.message || 'Google login failed.', true);
+                    return;
+                }
+
+                // ── Success ───────────────────────────────────────────────────
+                sessionStorage.setItem('user', JSON.stringify(json.data));
+                showToast('Welcome, ' + json.data.first_name + '!');
+                setTimeout(() => transitionTo(json.data.redirect), 900);
+
+            } catch (err) {
+                showToast('Network error. Please try again.', true);
+            }
+        }
+
+        // ── Render Google button once GSI script is ready ─────────────────────
+        function initGoogleButton() {
+            if (typeof google === 'undefined' || !google.accounts) {
+                setTimeout(initGoogleButton, 150);
+                return;
+            }
+
+            google.accounts.id.initialize({
+                client_id: '941556744306-38tjae02q06kgjktslh5hts3lkuvjg1t.apps.googleusercontent.com',
+                callback: handleGoogleSignIn,
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById('googleBtnMount'),
+                {
+                    theme: 'filled_black',
+                    size: 'large',
+                    width: 400,
+                    text: 'continue_with',
+                    shape: 'rectangular',
+                    logo_alignment: 'left',
+                }
+            );
+        }
+
+        initGoogleButton();
     </script>
 </body>
 
