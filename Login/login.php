@@ -88,7 +88,7 @@ if ($user['status'] === 'inactive') {
     out(false, 'Your account is inactive. Please contact support.', null, 403);
 }
 
-if ($user['status'] === 'suspended') {
+if ($user['status'] === 'suspended') {  
     out(false, 'Your account has been suspended. Please contact support.', null, 403);
 }
 

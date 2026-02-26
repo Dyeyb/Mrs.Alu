@@ -353,6 +353,31 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
   .pillars-grid{grid-template-columns:1fr;}
   .sig-quote{font-size:18px;}
 }
+/* ── Light Mode Theme ── */
+body.light-mode {
+  --obsidian:#f5f3ef;--onyx:#ece9e3;--graphite:#e4e0d8;--charcoal:#d8d3c8;
+  --steel:#ccc7bb;--iron:#bfb9ab;
+  --platinum:#1a1a14;--silver:#2e2c24;--ash:rgba(30,28,20,0.65);--dim:rgba(30,28,20,0.38);
+  --gold:#8a6a00;--gold-bright:#a07800;--gold-dim:rgba(138,106,0,0.1);
+  --gold-border:rgba(138,106,0,0.25);--gold-glow:rgba(138,106,0,0.2);
+}
+body.light-mode .navbar{background:rgba(245,243,239,0.94);}
+body.light-mode .hero-video{filter:brightness(0.55) saturate(0.5);}
+body.light-mode .hero-overlay{background:linear-gradient(110deg,rgba(245,243,239,0.97) 0%,rgba(245,243,239,0.82) 50%,rgba(245,243,239,0.65) 100%);}
+
+/* ── Reduced Animations ── */
+body.no-animations *,
+body.no-animations *::before,
+body.no-animations *::after {
+  animation-duration:0.001ms !important;
+  transition-duration:0.001ms !important;
+}
+
+/* ── Compact Navbar ── */
+body.compact-nav .navbar{height:54px;}
+body.compact-nav .nav-container{height:54px;}
+body.compact-nav .logo-icon{width:34px;height:34px;font-size:17px;}
+body.compact-nav .hero{padding-top:54px;}
 </style>
 </head>
 <body>
@@ -769,23 +794,40 @@ document.getElementById('quote-submit-btn').addEventListener('click', () => {
   document.getElementById('quoteConcern').value = '';
 });
 
-// ── User Data (replace with real auth) ──
-let currentUser = JSON.parse(localStorage.getItem('calEliteUser')) || {
-  name: "John Dela Cruz",
-  email: "john@calelite.com",
-  phone: "+63 912 345 6789",
-  role: "Site Manager"
+// ── Load user from sessionStorage (set by login.php on successful login) ──
+const _raw = sessionStorage.getItem('user');
+if (!_raw) {
+  // Not logged in — redirect back to login page (adjust path if needed)
+  window.location.href = '../Login-folder/login.html';
+}
+
+const _stored = JSON.parse(_raw);
+
+let currentUser = {
+  id:         _stored.user_id    || '',
+  name:       ((_stored.first_name || '') + ' ' + (_stored.last_name || '')).trim() || 'User',
+  first_name: _stored.first_name || '',
+  last_name:  _stored.last_name  || '',
+  email:      _stored.email      || '',
+  phone:      _stored.phone      || '',
+  role:       _stored.user_type  || 'Member',
 };
 
-function saveUser() { localStorage.setItem('calEliteUser', JSON.stringify(currentUser)); }
+function saveUser() {
+  const existing = JSON.parse(sessionStorage.getItem('user')) || {};
+  existing.first_name = currentUser.first_name;
+  existing.last_name  = currentUser.last_name;
+  existing.phone      = currentUser.phone;
+  sessionStorage.setItem('user', JSON.stringify(existing));
+}
 
 function loadUserInfo() {
   const initial = currentUser.name.charAt(0).toUpperCase();
-  document.getElementById("nav-avatar-initial").textContent = initial;
+  document.getElementById("nav-avatar-initial").textContent  = initial;
   document.getElementById("nav-username-display").textContent = currentUser.name;
-  document.getElementById("pd-avatar-initial").textContent = initial;
-  document.getElementById("pd-name-display").textContent = currentUser.name;
-  document.getElementById("pd-email-display").textContent = currentUser.email;
+  document.getElementById("pd-avatar-initial").textContent   = initial;
+  document.getElementById("pd-name-display").textContent     = currentUser.name;
+  document.getElementById("pd-email-display").textContent    = currentUser.email;
 }
 loadUserInfo();
 
@@ -802,10 +844,10 @@ document.getElementById("logout-btn").addEventListener("click", e => {
   e.preventDefault();
   profileWrap.classList.remove("open");
   showConfirm("Are you sure you want to log out?", () => {
+    sessionStorage.removeItem('user');
     showToast("Logged out successfully.", "success");
     setTimeout(() => {
-      document.getElementById("nav-username-display").textContent = "Guest";
-      document.getElementById("nav-avatar-initial").textContent = "G";
+      window.location.href = '../Login/login.html'; // adjust path if needed
     }, 1200);
   });
 });
@@ -935,7 +977,14 @@ document.getElementById('search-overlay-input').addEventListener('input', e => {
 // SETTINGS MODAL
 // ══════════════════════════════════════════
 let settings = JSON.parse(localStorage.getItem('calEliteSettings')) || {
-  notifications: true, emailUpdates: false, darkMode: true, language: 'en', fontSize: 'medium'
+  notifications:    true,
+  emailUpdates:     false,
+  quoteAlerts:      true,
+  darkMode:         true,
+  reduceAnimations: false,
+  compactNav:       false,
+  language:         'en',
+  fontSize:         'medium'
 };
 
 const settingsModal = document.createElement('div');
@@ -953,9 +1002,14 @@ settingsModal.innerHTML = `
         <button class="stab" data-tab="notifications">Notifications</button>
         <button class="stab" data-tab="appearance">Appearance</button>
       </div>
+
+      <!-- GENERAL TAB -->
       <div class="settings-panel" id="stab-general">
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Language</div><div class="setting-sub">Display language for the interface</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Language</div>
+            <div class="setting-sub">Display language for the interface</div>
+          </div>
           <select class="setting-select" id="s-language">
             <option value="en">English</option>
             <option value="zh">中文</option>
@@ -963,7 +1017,10 @@ settingsModal.innerHTML = `
           </select>
         </div>
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Font Size</div><div class="setting-sub">Adjust text size across the site</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Font Size</div>
+            <div class="setting-sub">Adjust text size across the site</div>
+          </div>
           <select class="setting-select" id="s-fontsize">
             <option value="small">Small</option>
             <option value="medium">Medium</option>
@@ -971,54 +1028,161 @@ settingsModal.innerHTML = `
           </select>
         </div>
       </div>
+
+      <!-- NOTIFICATIONS TAB -->
       <div class="settings-panel hidden" id="stab-notifications">
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Push Notifications</div><div class="setting-sub">Receive in-app notifications</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Push Notifications</div>
+            <div class="setting-sub">Show toast alerts for key actions</div>
+          </div>
           <label class="toggle"><input type="checkbox" id="s-notif"><span class="toggle-slider"></span></label>
         </div>
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Email Updates</div><div class="setting-sub">Receive product & company news via email</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Email Updates</div>
+            <div class="setting-sub">Receive product &amp; company news via email</div>
+          </div>
           <label class="toggle"><input type="checkbox" id="s-email"><span class="toggle-slider"></span></label>
         </div>
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Quote Alerts</div><div class="setting-sub">Get notified when quote status changes</div></div>
-          <label class="toggle"><input type="checkbox" id="s-quotes" checked><span class="toggle-slider"></span></label>
+          <div class="setting-info">
+            <div class="setting-label">Quote Alerts</div>
+            <div class="setting-sub">Get notified when quote status changes</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="s-quotes"><span class="toggle-slider"></span></label>
+        </div>
+        <div id="notif-preview" style="margin:12px 24px 4px;padding:12px 16px;border-radius:3px;font-size:12px;
+          background:rgba(201,160,32,0.08);border:1px solid var(--gold-border);color:var(--ash);
+          display:flex;align-items:center;gap:10px;transition:all 0.3s;">
+          <span style="font-size:16px;">🔔</span>
+          <span id="notif-preview-text">Notifications are currently <strong style="color:var(--gold-bright)">ON</strong></span>
         </div>
       </div>
+
+      <!-- APPEARANCE TAB -->
       <div class="settings-panel hidden" id="stab-appearance">
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Dark Mode</div><div class="setting-sub">Keep the premium dark aesthetic</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Dark Mode</div>
+            <div class="setting-sub">Toggle between dark and light theme</div>
+          </div>
           <label class="toggle"><input type="checkbox" id="s-dark"><span class="toggle-slider"></span></label>
         </div>
         <div class="setting-row">
-          <div class="setting-info"><div class="setting-label">Reduce Animations</div><div class="setting-sub">Turn off scroll and hover animations</div></div>
+          <div class="setting-info">
+            <div class="setting-label">Reduce Animations</div>
+            <div class="setting-sub">Turn off scroll and hover animations</div>
+          </div>
           <label class="toggle"><input type="checkbox" id="s-anim"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Compact Navbar</div>
+            <div class="setting-sub">Reduce navbar height to save screen space</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="s-compact"><span class="toggle-slider"></span></label>
+        </div>
+        <div style="margin:14px 24px 8px;">
+          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;
+            color:var(--gold);opacity:0.6;margin-bottom:8px;">Theme Preview</div>
+          <div style="display:flex;gap:6px;">
+            <div style="flex:1;height:32px;border-radius:3px;background:var(--graphite);
+              border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;
+              font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--gold);">DARK</div>
+            <div id="light-preview-swatch" style="flex:1;height:32px;border-radius:3px;background:#f5f3ef;
+              border:1px solid #d4c89a;display:flex;align-items:center;justify-content:center;
+              font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:#7a6520;opacity:0.4;">LIGHT</div>
+          </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" id="settings-cancel">Cancel</button>
-      <button class="btn-primary" id="settings-save" style="padding:9px 22px">Save Settings</button>
+      <button class="btn-primary" id="settings-save" style="padding:9px 22px">Save &amp; Apply</button>
     </div>
   </div>
 `;
 document.body.appendChild(settingsModal);
 
+// ── Apply all settings to the DOM ──────────────────────────────────────
+function applySettings(s) {
+  const sizes = { small: '13px', medium: '15px', large: '17px' };
+  document.body.style.fontSize = sizes[s.fontSize] || '15px';
+  document.body.classList.toggle('light-mode',    !s.darkMode);
+  document.body.classList.toggle('no-animations',  s.reduceAnimations);
+  document.body.classList.toggle('compact-nav',    s.compactNav);
+}
+
+// Apply saved settings immediately on page load
+applySettings(settings);
+
+// ── Live preview helpers ────────────────────────────────────────────────
+function syncNotifPreview() {
+  const on  = document.getElementById('s-notif').checked;
+  const el  = document.getElementById('notif-preview-text');
+  if (el) el.innerHTML = `Notifications are currently <strong style="color:var(--gold-bright)">${on ? 'ON' : 'OFF'}</strong>`;
+}
+
+function syncThemePreview() {
+  const dark   = document.getElementById('s-dark').checked;
+  const swatch = document.getElementById('light-preview-swatch');
+  if (swatch) swatch.style.opacity = dark ? '0.4' : '1';
+}
+
+// ── Open modal and populate all fields ─────────────────────────────────
 function openSettingsModal() {
-  // Populate current settings
-  document.getElementById('s-language').value = settings.language;
-  document.getElementById('s-fontsize').value = settings.fontSize;
-  document.getElementById('s-notif').checked = settings.notifications;
-  document.getElementById('s-email').checked = settings.emailUpdates;
-  document.getElementById('s-dark').checked = settings.darkMode;
+  document.getElementById('s-language').value  = settings.language;
+  document.getElementById('s-fontsize').value  = settings.fontSize;
+  document.getElementById('s-notif').checked   = settings.notifications;
+  document.getElementById('s-email').checked   = settings.emailUpdates;
+  document.getElementById('s-quotes').checked  = settings.quoteAlerts;
+  document.getElementById('s-dark').checked    = settings.darkMode;
+  document.getElementById('s-anim').checked    = settings.reduceAnimations;
+  document.getElementById('s-compact').checked = settings.compactNav;
+  syncNotifPreview();
+  syncThemePreview();
   settingsModal.classList.add('open');
 }
 
-document.getElementById('settings-close').addEventListener('click', () => settingsModal.classList.remove('open'));
-document.getElementById('settings-cancel').addEventListener('click', () => settingsModal.classList.remove('open'));
-settingsModal.addEventListener('click', e => { if (e.target === settingsModal) settingsModal.classList.remove('open'); });
+// ── Live toggle feedback (instant visual change while modal is open) ────
+settingsModal.addEventListener('change', e => {
+  if (e.target.id === 's-notif') {
+    syncNotifPreview();
+  }
+  if (e.target.id === 's-dark') {
+    document.body.classList.toggle('light-mode', !e.target.checked);
+    syncThemePreview();
+  }
+  if (e.target.id === 's-anim') {
+    document.body.classList.toggle('no-animations', e.target.checked);
+  }
+  if (e.target.id === 's-compact') {
+    document.body.classList.toggle('compact-nav', e.target.checked);
+  }
+  if (e.target.id === 's-fontsize') {
+    const sizes = { small: '13px', medium: '15px', large: '17px' };
+    document.body.style.fontSize = sizes[e.target.value] || '15px';
+  }
+});
 
-// Settings tabs
+// ── Close / Cancel — revert any unsaved live previews ──────────────────
+document.getElementById('settings-close').addEventListener('click', () => {
+  applySettings(settings);
+  settingsModal.classList.remove('open');
+});
+document.getElementById('settings-cancel').addEventListener('click', () => {
+  applySettings(settings);
+  settingsModal.classList.remove('open');
+});
+settingsModal.addEventListener('click', e => {
+  if (e.target === settingsModal) {
+    applySettings(settings);
+    settingsModal.classList.remove('open');
+  }
+});
+
+// ── Settings tabs ───────────────────────────────────────────────────────
 document.querySelectorAll('.stab').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
@@ -1028,18 +1192,21 @@ document.querySelectorAll('.stab').forEach(btn => {
   });
 });
 
+// ── Save & Apply ────────────────────────────────────────────────────────
 document.getElementById('settings-save').addEventListener('click', () => {
-  settings.language = document.getElementById('s-language').value;
-  settings.fontSize = document.getElementById('s-fontsize').value;
-  settings.notifications = document.getElementById('s-notif').checked;
-  settings.emailUpdates = document.getElementById('s-email').checked;
-  settings.darkMode = document.getElementById('s-dark').checked;
+  settings.language         = document.getElementById('s-language').value;
+  settings.fontSize         = document.getElementById('s-fontsize').value;
+  settings.notifications    = document.getElementById('s-notif').checked;
+  settings.emailUpdates     = document.getElementById('s-email').checked;
+  settings.quoteAlerts      = document.getElementById('s-quotes').checked;
+  settings.darkMode         = document.getElementById('s-dark').checked;
+  settings.reduceAnimations = document.getElementById('s-anim').checked;
+  settings.compactNav       = document.getElementById('s-compact').checked;
+
   localStorage.setItem('calEliteSettings', JSON.stringify(settings));
-  // Apply font size
-  const sizes = { small: '13px', medium: '15px', large: '17px' };
-  document.body.style.fontSize = sizes[settings.fontSize] || '15px';
+  applySettings(settings);
   settingsModal.classList.remove('open');
-  showToast('Settings saved successfully!', 'success');
+  showToast('Settings saved & applied!', 'success');
 });
 
 // ══════════════════════════════════════════
@@ -1115,14 +1282,23 @@ document.getElementById('p-role').addEventListener('input', e => {
 });
 
 document.getElementById('profile-save').addEventListener('click', () => {
-  const name = document.getElementById('p-name').value.trim();
-  const email = document.getElementById('p-email').value.trim();
-  if (!name) { showToast('Name cannot be empty.', 'error'); return; }
+  const fullName = document.getElementById('p-name').value.trim();
+  const email    = document.getElementById('p-email').value.trim();
+  const phone    = document.getElementById('p-phone').value.trim();
+  const role     = document.getElementById('p-role').value.trim();
+
+  if (!fullName)            { showToast('Name cannot be empty.', 'error');       return; }
   if (!email.includes('@')) { showToast('Please enter a valid email.', 'error'); return; }
-  currentUser.name = name;
-  currentUser.email = email;
-  currentUser.phone = document.getElementById('p-phone').value.trim();
-  currentUser.role = document.getElementById('p-role').value.trim();
+
+  // Split full name back to first/last
+  const parts = fullName.split(' ');
+  currentUser.first_name = parts[0] || '';
+  currentUser.last_name  = parts.slice(1).join(' ') || '';
+  currentUser.name       = fullName;
+  currentUser.email      = email;
+  currentUser.phone      = phone;
+  currentUser.role       = role;
+
   saveUser();
   loadUserInfo();
   profileModal.classList.remove('open');
