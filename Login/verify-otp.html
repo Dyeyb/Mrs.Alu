@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Account – Aluminum Lady</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --gold: #b8935a;
+      --gold-light: #d4aa72;
+      --dark: #1a1a18;
+      --dark2: #111110;
+      --surface: #1c1c1a;
+      --text: #e8e4dc;
+      --muted: #888880;
+      --green: #54b066;
+      --red: #e05454;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      display: flex;
+    }
+
+    /* ══ TRANSITION OVERLAY ══ */
+    .transition-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .overlay-panel {
+      flex: 1;
+      transform: translateX(100%);
+      transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .overlay-panel:nth-child(1) {
+      background: #111110;
+      transition-delay: 0s;
+    }
+
+    .overlay-panel:nth-child(2) {
+      background: #151513;
+      transition-delay: 0.06s;
+    }
+
+    .overlay-panel:nth-child(3) {
+      background: #0e0e0c;
+      transition-delay: 0.12s;
+    }
+
+    .transition-overlay.active {
+      pointer-events: all;
+    }
+
+    .transition-overlay.active .overlay-panel {
+      transform: translateX(0);
+    }
+
+    .transition-overlay.active~.split {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+
+    /* ══ SPLIT ══ */
+    .split {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease;
+    }
+
+    /* ══ LEFT PANEL ══ */
+    .left-panel {
+      flex: 1;
+      background: var(--dark2);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      animation: slideInLeft 0.9s cubic-bezier(0.76, 0, 0.24, 1) both;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* soft glow */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184, 147, 90, 0.05) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .left-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      padding: 0 2.5rem;
+      animation: fadeUp 0.65s 0.2s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Brand ── */
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-bottom: 2rem;
+    }
+
+    .brand-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(184, 147, 90, 0.5);
+    }
+
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.2rem;
+    }
+
+    .step-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+
+    .step-circle.done {
+      background: rgba(184, 147, 90, 0.14);
+      border: 1.5px solid rgba(184, 147, 90, 0.4);
+      color: var(--gold);
+    }
+
+    .step-circle.active {
+      background: var(--gold);
+      border: 1.5px solid var(--gold);
+      color: #0e0e0c;
+      box-shadow: 0 0 14px rgba(184, 147, 90, 0.4);
+    }
+
+    .step-circle.idle {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.09);
+      color: var(--muted);
+    }
+
+    .step-label {
+      font-size: 0.59rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .step-label.done {
+      color: rgba(184, 147, 90, 0.5);
+    }
+
+    .step-label.active {
+      color: var(--gold);
+    }
+
+    .step-label.idle {
+      color: rgba(136, 136, 128, 0.35);
+    }
+
+    .step-line {
+      width: 38px;
+      height: 1px;
+      margin: 0 0.4rem;
+      margin-bottom: 1.1rem;
+      background: rgba(184, 147, 90, 0.18);
+    }
+
+    .step-line.done {
+      background: rgba(184, 147, 90, 0.42);
+    }
+
+    /* ── Envelope icon ── */
+    .icon-wrap {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .icon-ring {
+      position: absolute;
+      inset: -7px;
+      border: 1.5px solid transparent;
+      border-top-color: var(--gold);
+      border-right-color: rgba(184, 147, 90, 0.22);
+      border-radius: 50%;
+      animation: spin 3s linear infinite;
+    }
+
+    .icon-ring-2 {
+      position: absolute;
+      inset: -13px;
+      border: 1px solid transparent;
+      border-bottom-color: rgba(184, 147, 90, 0.12);
+      border-left-color: rgba(184, 147, 90, 0.07);
+      border-radius: 50%;
+      animation: spin 7s linear infinite reverse;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .icon-bg {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 38%, rgba(184, 147, 90, 0.11), rgba(184, 147, 90, 0.03));
+      border: 1.5px solid rgba(184, 147, 90, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-bg svg {
+      color: var(--gold);
+      width: 27px;
+      height: 27px;
+    }
+
+    /* ── Header ── */
+    .otp-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .otp-tag {
+      display: block;
+      font-size: 0.63rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .otp-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 0.5rem;
+    }
+
+    .otp-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    .otp-email {
+      display: inline-block;
+      color: var(--gold);
+      font-weight: 500;
+      background: rgba(184, 147, 90, 0.07);
+      border: 1px solid rgba(184, 147, 90, 0.18);
+      border-radius: 3px;
+      padding: 0.08rem 0.5rem;
+      margin-top: 0.2rem;
+      font-size: 0.81rem;
+    }
+
+    /* ══ OTP BOXES ══ */
+    .otp-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .otp-box {
+      width: 52px;
+      height: 60px;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-bottom: 2.5px solid rgba(184, 147, 90, 0.22);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.95rem;
+      font-weight: 600;
+      text-align: center;
+      outline: none;
+      transition: all 0.2s ease;
+      caret-color: transparent;
+      -webkit-appearance: none;
+    }
+
+    .otp-box:focus {
+      border-color: var(--gold);
+      border-bottom-color: var(--gold);
+      background: #1e1e1c;
+      box-shadow: 0 0 0 3px rgba(184, 147, 90, 0.1), 0 4px 14px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .otp-box.filled {
+      border-bottom-color: var(--gold);
+      background: rgba(184, 147, 90, 0.05);
+      color: var(--gold);
+    }
+
+    .otp-box.error {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 3px rgba(224, 84, 84, 0.12) !important;
+      transform: translateY(0) !important;
+      animation: shake 0.38s ease;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-5px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(5px);
+      }
+    }
+
+    .otp-sep {
+      color: rgba(184, 147, 90, 0.38);
+      font-size: 1.3rem;
+      margin: 0 0.1rem;
+      padding-bottom: 4px;
+      user-select: none;
+    }
+
+    /* ── Attempts ── */
+    .attempt-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 1.3rem;
+      min-height: 10px;
+    }
+
+    .attempt-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.09);
+      transition: background 0.3s;
+    }
+
+    .attempt-dot.used {
+      background: var(--red);
+    }
+
+    .attempt-dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 5px rgba(184, 147, 90, 0.5);
+    }
+
+    /* ── Timer bar ── */
+    .timer-wrap {
+      margin-bottom: 1.4rem;
+    }
+
+    .timer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.38rem;
+    }
+
+    .timer-label {
+      font-size: 0.69rem;
+      color: var(--muted);
+    }
+
+    .timer-value {
+      font-size: 0.77rem;
+      color: var(--gold);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-value.warn {
+      color: #e0a354;
+    }
+
+    .timer-value.dead {
+      color: var(--red);
+    }
+
+    .timer-track {
+      width: 100%;
+      height: 2.5px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .timer-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transition: width 1s linear, background 0.8s;
+    }
+
+    .timer-fill.warn {
+      background: linear-gradient(90deg, #b86e20, #e0a354);
+    }
+
+    .timer-fill.dead {
+      background: var(--red);
+    }
+
+    /* ── Buttons ── */
+    .btn-verify {
+      width: 100%;
+      padding: 0.88rem;
+      background: var(--gold);
+      color: #0e0e0c;
+      border: none;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s, opacity 0.2s;
+      margin-bottom: 0.85rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-verify::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      pointer-events: none;
+    }
+
+    .btn-verify:hover:not(:disabled) {
+      background: var(--gold-light);
+      box-shadow: 0 4px 20px rgba(184, 147, 90, 0.36);
+    }
+
+    .btn-verify:active:not(:disabled) {
+      transform: scale(0.995);
+    }
+
+    .btn-verify:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .resend-row {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .resend-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(184, 147, 90, 0.28);
+      padding-bottom: 1px;
+      transition: border-color 0.2s, opacity 0.2s;
+    }
+
+    .resend-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+    }
+
+    .resend-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .resend-cd {
+      font-size: 0.71rem;
+      color: rgba(136, 136, 128, 0.5);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .back-link {
+      text-align: center;
+      font-size: 0.75rem;
+    }
+
+    .back-link a {
+      color: rgba(136, 136, 128, 0.55);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .back-link a:hover {
+      color: var(--text);
+    }
+
+    /* ══ SUCCESS PANEL ══ */
+    .success-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .success-panel.show {
+      display: flex;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .success-ring-wrap {
+      position: relative;
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 1.6rem;
+    }
+
+    .success-ring-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 2px solid transparent;
+      border-top-color: var(--green);
+      border-right-color: rgba(84, 176, 102, 0.2);
+      border-radius: 50%;
+      animation: spin 1.3s linear infinite;
+    }
+
+    .success-circle {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(84, 176, 102, 0.09);
+      border: 1.5px solid rgba(84, 176, 102, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-circle svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 55;
+      stroke-dashoffset: 55;
+      transition: stroke-dashoffset 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+    }
+
+    .success-ring-wrap.animate .success-circle svg {
+      stroke-dashoffset: 0;
+    }
+
+    .success-tag {
+      font-size: 0.63rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+      opacity: 0.85;
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 0.55rem;
+    }
+
+    .success-title strong {
+      font-weight: 600;
+      color: var(--green);
+      font-style: italic;
+      display: block;
+    }
+
+    .success-desc {
+      font-size: 0.81rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.6rem;
+    }
+
+    .redirect-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.68rem;
+      color: rgba(136, 136, 128, 0.45);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .redirect-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1s ease infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.45;
+        transform: scale(0.65);
+      }
+    }
+
+    /* ══ DIVIDER ══ */
+    .split-divider {
+      width: 1px;
+      flex-shrink: 0;
+      z-index: 3;
+      background: linear-gradient(to bottom, transparent 0%, rgba(201, 165, 97, 0.32) 15%, rgba(201, 165, 97, 0.52) 50%, rgba(201, 165, 97, 0.32) 85%, transparent 100%);
+    }
+
+    /* ══ RIGHT PANEL ══ */
+    .right-panel {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      animation: slideInRight 0.9s cubic-bezier(0.76, 0, 0.24, 1) both;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .right-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=85&fit=crop&crop=center');
+      background-size: cover;
+      background-position: center 60%;
+      filter: brightness(0.58) saturate(0.62) sepia(0.3);
+      transition: transform 14s ease;
+    }
+
+    .right-panel:hover .right-bg {
+      transform: scale(1.04);
+    }
+
+    .right-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(36, 18, 6, 0.9) 0%, rgba(74, 46, 24, 0.5) 35%, rgba(107, 66, 38, 0.2) 55%, rgba(74, 46, 24, 0.52) 80%, rgba(28, 14, 4, 0.96) 100%),
+        linear-gradient(90deg, rgba(201, 165, 97, 0.06) 0%, transparent 70%);
+    }
+
+    .right-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem 3.5rem;
+    }
+
+    .right-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, rgba(74, 46, 24, 0.92), var(--gold));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(201, 165, 97, 0.4);
+      border: 1px solid rgba(201, 165, 97, 0.35);
+    }
+
+    .logo-text .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .logo-text .logo-name span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .logo-text .logo-sub {
+      font-size: 0.6rem;
+      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .right-divider {
+      width: 52px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 1.4rem;
+      opacity: 0.52;
+    }
+
+    .right-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.42;
+      color: rgba(232, 228, 220, 0.88);
+      margin-bottom: 1.5rem;
+      max-width: 400px;
+    }
+
+    .right-quote::before {
+      content: '\201C';
+      color: var(--gold);
+      font-size: 3.5rem;
+      line-height: 0;
+      vertical-align: -1.1rem;
+      margin-right: 0.15rem;
+      opacity: 0.6;
+    }
+
+    .right-meta {
+      font-size: 0.66rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201, 165, 97, 0.55);
+    }
+
+    /* ══ TOAST ══ */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      background: rgba(28, 28, 26, 0.94);
+      backdrop-filter: blur(18px);
+      border-left: 3px solid var(--gold);
+      padding: 0.9rem 1.35rem;
+      font-size: 0.8rem;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      transform: translateX(-22px);
+      opacity: 0;
+      transition: all 0.32s ease;
+      pointer-events: none;
+      z-index: 990;
+      border-radius: 0 4px 4px 0;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast.err {
+      border-left-color: var(--red);
+    }
+
+    @media (max-width: 768px) {
+
+      .right-panel,
+      .split-divider {
+        display: none;
+      }
+
+      .left-panel {
+        width: 100%;
+      }
+
+      .otp-box {
+        width: 44px;
+        height: 52px;
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="transition-overlay" id="transitionOverlay">
+    <div class="overlay-panel"></div>
+    <div class="overlay-panel"></div>
+    <div class="overlay-panel"></div>
+  </div>
+
+  <div class="split">
+
+    <!-- ══ LEFT PANEL ══ -->
+    <div class="left-panel">
+      <div class="left-inner">
+
+        <!-- Brand -->
+        <div class="brand-row">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Mrs. Alu</span>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-circle done">✓</div>
+            <span class="step-label done">Register</span>
+          </div>
+          <div class="step-line done"></div>
+          <div class="step-item">
+            <div class="step-circle active">2</div>
+            <span class="step-label active">Verify</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item">
+            <div class="step-circle idle">3</div>
+            <span class="step-label idle">Access</span>
+          </div>
+        </div>
+
+        <!-- ── VERIFY FORM ── -->
+        <div id="verifyForm">
+
+          <div class="icon-wrap">
+            <div class="icon-ring"></div>
+            <div class="icon-ring-2"></div>
+            <div class="icon-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2.5" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="otp-header">
+            <span class="otp-tag">Email Verification · Step 2 of 2</span>
+            <h2 class="otp-title">Enter your<br>verification code</h2>
+            <p class="otp-subtitle">
+              We sent a 6-digit code to<br>
+              <span class="otp-email" id="displayEmail">your@email.com</span>
+            </p>
+          </div>
+
+          <!-- 6 boxes with visual separator -->
+          <div class="otp-group" id="otpGroup">
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]"
+              autocomplete="one-time-code" />
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+            <span class="otp-sep">–</span>
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-box" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          </div>
+
+          <!-- Attempt indicators -->
+          <div class="attempt-dots" id="attemptDots">
+            <div class="attempt-dot active"></div>
+            <div class="attempt-dot"></div>
+            <div class="attempt-dot"></div>
+          </div>
+
+          <!-- Timer -->
+          <div class="timer-wrap">
+            <div class="timer-row">
+              <span class="timer-label">Code expires in</span>
+              <span class="timer-value" id="timerVal">10:00</span>
+            </div>
+            <div class="timer-track">
+              <div class="timer-fill" id="timerFill"></div>
+            </div>
+          </div>
+
+          <button class="btn-verify" id="verifyBtn" disabled>Verify My Account</button>
+
+          <div class="resend-row">
+            Didn't get it?&nbsp;
+            <button class="resend-btn" id="resendBtn" disabled>Resend code</button>&nbsp;
+            <span class="resend-cd" id="resendCd"></span>
+          </div>
+
+          <div class="back-link">
+            <a onclick="transitionTo('login.html'); return false;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7" />
+              </svg>
+              Back to sign in
+            </a>
+          </div>
+
+        </div><!-- /verifyForm -->
+
+        <!-- ── SUCCESS PANEL ── -->
+        <div class="success-panel" id="successPanel">
+          <div class="success-ring-wrap" id="successRing">
+            <div class="success-circle">
+              <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+          </div>
+          <div class="success-tag">✦ Verification complete</div>
+          <h2 class="success-title">Email Verified!<br><strong>Welcome aboard.</strong></h2>
+          <p class="success-desc">
+            Your account is now fully activated.<br>
+            Redirecting you to the homepage…
+          </p>
+          <div class="redirect-pill">
+            <div class="redirect-dot"></div>
+            Redirecting now
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Gold seam -->
+    <div class="split-divider"></div>
+
+    <!-- ══ RIGHT PANEL ══ -->
+    <div class="right-panel">
+      <div class="right-bg"></div>
+      <div class="right-overlay"></div>
+      <div class="right-content">
+        <div class="right-logo">
+          <div class="logo-mark">A</div>
+          <div class="logo-text">
+            <div class="logo-name">Mrs.<span>Alu</span></div>
+            <div class="logo-sub">Aluminum Lady</div>
+          </div>
+        </div>
+        <div>
+          <div class="right-divider"></div>
+          <p class="right-quote">Build with confidence. Design with purpose.</p>
+          <div class="right-meta">Est. 2024 &nbsp;&middot;&nbsp; Premium Building Materials</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── Transitions ───────────────────────────────────────────────────────────
+    function transitionTo(url) {
+      const o = document.getElementById('transitionOverlay');
+      o.classList.add('active');
+      setTimeout(() => { window.location.href = url; }, 820);
+    }
+
+    // ── Toast ─────────────────────────────────────────────────────────────────
+    function showToast(msg, isErr = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast' + (isErr ? ' err' : '');
+      void t.offsetWidth; // reflow
+      t.classList.add('show');
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), 3700);
+    }
+
+    // ── Session guard ─────────────────────────────────────────────────────────
+    const userData = JSON.parse(sessionStorage.getItem('user') || '{}');
+    const userEmail = userData.email || '';
+    const userId = userData.user_id || '';
+    if (!userEmail || !userId) transitionTo('login.html');
+
+    document.getElementById('displayEmail').textContent = userEmail;
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // OTP BOX INTERACTION
+    // ══════════════════════════════════════════════════════════════════════════
+    const boxes = Array.from(document.querySelectorAll('.otp-box'));
+    const verifyBtn = document.getElementById('verifyBtn');
+
+    boxes.forEach((box, i) => {
+      box.addEventListener('focus', () => box.select());
+
+      box.addEventListener('input', () => {
+        box.value = box.value.replace(/\D/g, '').slice(-1);
+        box.classList.toggle('filled', !!box.value);
+        box.classList.remove('error');
+        if (box.value && i < boxes.length - 1) boxes[i + 1].focus();
+        checkFull();
+      });
+
+      box.addEventListener('keydown', e => {
+        if (e.key === 'Backspace') {
+          if (!box.value && i > 0) {
+            boxes[i - 1].value = '';
+            boxes[i - 1].classList.remove('filled');
+            boxes[i - 1].focus();
+          }
+          box.classList.remove('error');
+          setTimeout(checkFull, 0);
+        }
+        if (e.key === 'ArrowLeft' && i > 0) boxes[i - 1].focus();
+        if (e.key === 'ArrowRight' && i < boxes.length - 1) boxes[i + 1].focus();
+      });
+
+      box.addEventListener('paste', e => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData)
+          .getData('text').replace(/\D/g, '').slice(0, 6);
+        pasted.split('').forEach((ch, j) => {
+          if (boxes[j]) { boxes[j].value = ch; boxes[j].classList.add('filled'); }
+        });
+        boxes[Math.min(pasted.length, boxes.length - 1)].focus();
+        checkFull();
+      });
+    });
+
+    function getCode() { return boxes.map(b => b.value).join(''); }
+    function checkFull() { verifyBtn.disabled = getCode().length < 6; }
+    function flashError() {
+      boxes.forEach(b => b.classList.add('error'));
+      setTimeout(() => boxes.forEach(b => b.classList.remove('error')), 560);
+    }
+    function clearBoxes() {
+      boxes.forEach(b => { b.value = ''; b.classList.remove('filled', 'error'); });
+      boxes[0].focus(); verifyBtn.disabled = true;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ATTEMPT TRACKING (3 max)
+    // ══════════════════════════════════════════════════════════════════════════
+    let attempts = 0;
+    const MAX_ATT = 3;
+    const dots = Array.from(document.querySelectorAll('.attempt-dot'));
+
+    function markAttempt() {
+      if (attempts < dots.length) {
+        dots[attempts].classList.remove('active');
+        dots[attempts].classList.add('used');
+        attempts++;
+        if (attempts < dots.length) dots[attempts].classList.add('active');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // COUNTDOWN TIMER
+    // ══════════════════════════════════════════════════════════════════════════
+    const TOTAL = 10 * 60;
+    let secsLeft = TOTAL;
+    let cdInterval = null;
+    const timerVal = document.getElementById('timerVal');
+    const timerFill = document.getElementById('timerFill');
+
+    function updateTimer() {
+      const m = Math.floor(secsLeft / 60);
+      const s = String(secsLeft % 60).padStart(2, '0');
+      const pct = (secsLeft / TOTAL) * 100;
+      const warn = secsLeft <= 120;
+      const dead = secsLeft <= 0;
+
+      timerVal.textContent = `${m}:${s}`;
+      timerFill.style.width = pct + '%';
+      timerVal.className = 'timer-value' + (dead ? ' dead' : warn ? ' warn' : '');
+      timerFill.className = 'timer-fill' + (dead ? ' dead' : warn ? ' warn' : '');
+    }
+
+    function startCountdown() {
+      secsLeft = TOTAL;
+      clearInterval(cdInterval);
+      updateTimer();
+      cdInterval = setInterval(() => {
+        secsLeft--;
+        updateTimer();
+        if (secsLeft <= 0) {
+          clearInterval(cdInterval);
+          verifyBtn.disabled = true;
+          showToast('⏱ Code expired — please request a new one.', true);
+        }
+      }, 1000);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // RESEND COOLDOWN (60 s)
+    // ══════════════════════════════════════════════════════════════════════════
+    let rsecs = 60, rsInterval = null;
+    const resendBtn = document.getElementById('resendBtn');
+    const resendCd = document.getElementById('resendCd');
+
+    function startResendCd() {
+      rsecs = 60; resendBtn.disabled = true;
+      clearInterval(rsInterval);
+      resendCd.textContent = `(${rsecs}s)`;
+      rsInterval = setInterval(() => {
+        rsecs--;
+        resendCd.textContent = rsecs > 0 ? `(${rsecs}s)` : '';
+        if (rsecs <= 0) { clearInterval(rsInterval); resendBtn.disabled = false; }
+      }, 1000);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // SEND OTP
+    // ══════════════════════════════════════════════════════════════════════════
+    async function sendOtp(isResend = false) {
+      try {
+        const res = await fetch('send-otp.php', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId, email: userEmail }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          showToast(isResend ? '✓ New code sent to ' + userEmail : '✓ Code sent — check your inbox');
+          startCountdown();
+          startResendCd();
+          if (isResend) { clearBoxes(); attempts = 0; dots.forEach(d => { d.classList.remove('used', 'active'); }); dots[0].classList.add('active'); }
+        } else {
+          showToast('⚠ ' + (json.message || 'Failed to send OTP.'), true);
+        }
+      } catch {
+        showToast('⚠ Network error. Please try again.', true);
+      }
+    }
+
+    resendBtn.addEventListener('click', () => sendOtp(true));
+
+    // Auto-send on load
+    sendOtp(false);
+    boxes[0].focus();
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // VERIFY OTP
+    // ══════════════════════════════════════════════════════════════════════════
+    verifyBtn.addEventListener('click', doVerify);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !verifyBtn.disabled) doVerify();
+    });
+
+    async function doVerify() {
+      const code = getCode();
+      if (code.length < 6) return;
+
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = 'Verifying…';
+
+      try {
+        const res = await fetch('verify-otp.php', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId, email: userEmail, otp: code }),
+        });
+        const json = await res.json();
+
+        if (!json.success) {
+          markAttempt();
+          flashError();
+          showToast('⚠ ' + (json.message || 'Invalid code. Try again.'), true);
+          verifyBtn.textContent = 'Verify My Account';
+
+          if (attempts >= MAX_ATT) {
+            verifyBtn.disabled = true;
+            showToast('⚠ Too many attempts. Please request a new code.', true);
+          } else {
+            verifyBtn.disabled = false;
+          }
+          return;
+        }
+
+        // ── SUCCESS ──────────────────────────────────────────────────────────
+        clearInterval(cdInterval);
+        clearInterval(rsInterval);
+        sessionStorage.setItem('user', JSON.stringify({ ...userData, is_verified: true }));
+
+        document.getElementById('verifyForm').style.display = 'none';
+        const sp = document.getElementById('successPanel');
+        sp.classList.add('show');
+        setTimeout(() => document.getElementById('successRing').classList.add('animate'), 60);
+        setTimeout(() => transitionTo('../Homepage/index.html'), 2500);
+
+      } catch {
+        showToast('⚠ Network error. Please try again.', true);
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'Verify My Account';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
