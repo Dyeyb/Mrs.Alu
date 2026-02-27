@@ -1,450 +1,1867 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cal Elite Builders — Products</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Rajdhani:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --gold:#c9a020;--gold-bright:#f0c040;--gold-dim:rgba(201,160,32,0.12);
-  --gold-border:rgba(201,160,32,0.22);--gold-glow:rgba(201,160,32,0.18);
-  --obsidian:#060606;--onyx:#0d0d0d;--graphite:#141414;--charcoal:#1c1c1c;
-  --platinum:#f0f0f0;--silver:#c8c8c8;--ash:rgba(200,200,200,0.55);--dim:rgba(200,200,200,0.28);
-  --t:all 0.32s cubic-bezier(0.4,0,0.2,1);
-}
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:var(--onyx);}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--gold-bright));border-radius:2px;}
-html,body{font-family:'Rajdhani',sans-serif;background:var(--obsidian);color:var(--silver);min-height:100vh;overflow-x:hidden;padding-top:80px;}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:256px;}
-.ambient{position:fixed;pointer-events:none;border-radius:50%;filter:blur(120px);z-index:0;}
-.amb1{width:700px;height:400px;top:-150px;left:-200px;background:radial-gradient(ellipse,rgba(201,160,32,0.055),transparent 70%);}
-.amb2{width:500px;height:500px;bottom:-100px;right:-150px;background:radial-gradient(ellipse,rgba(201,160,32,0.04),transparent 70%);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cal Elite Builders — Products</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Rajdhani:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* NAVBAR */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:80px;background:rgba(6,6,6,0.95);backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid var(--gold-border);}
-.navbar::after{content:'';position:absolute;bottom:-1px;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.35;}
-.nav-container{max-width:1380px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:80px;}
-.logo{display:flex;align-items:center;gap:14px;text-decoration:none;}
-.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,var(--graphite) 0%,var(--gold) 100%);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;font-style:italic;color:#fff;border:1px solid var(--gold-border);transition:var(--t);letter-spacing:-1px;}
-.logo:hover .logo-icon{box-shadow:0 0 20px var(--gold-glow);transform:scale(1.05);}
-.logo-text-block{display:flex;flex-direction:column;gap:2px;}
-.logo-super{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:0.65;}
-.logo-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--platinum);line-height:1.15;}
-.logo-name em{color:var(--gold-bright);font-style:normal;}
-.logo-subtitle{font-family:'DM Mono',monospace;font-size:6px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);opacity:0.55;}
-.nav-menu{display:flex;align-items:center;gap:2px;list-style:none;}
-.nav-link{padding:9px 14px;text-decoration:none;color:var(--ash);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:var(--t);border-radius:3px;position:relative;}
-.nav-link::after{content:'';position:absolute;bottom:5px;left:50%;transform:translateX(-50%) scaleX(0);width:60%;height:1px;background:var(--gold);transition:var(--t);}
-.nav-link:hover,.nav-link.active{color:var(--gold-bright);background:var(--gold-dim);}
-.nav-link:hover::after,.nav-link.active::after{transform:translateX(-50%) scaleX(1);}
-.nav-search{position:relative;display:flex;align-items:center;}
-.nav-search input{width:180px;padding:8px 36px 8px 14px;border:1px solid rgba(255,255,255,0.07);border-radius:3px;font-size:11px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;background:var(--graphite);color:var(--platinum);outline:none;transition:var(--t);}
-.nav-search input:focus{width:220px;border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(201,160,32,0.08);}
-.nav-search input::placeholder{color:var(--dim);}
-.nav-search-btn{position:absolute;right:4px;width:28px;height:28px;border:none;background:var(--gold);color:var(--obsidian);border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--t);}
-.nav-search-btn:hover{background:var(--gold-bright);}
-.nav-search-btn svg{width:12px;height:12px;}
+    :root {
+      --gold: #c9a020;
+      --gold-bright: #f0c040;
+      --gold-dim: rgba(201, 160, 32, 0.12);
+      --gold-border: rgba(201, 160, 32, 0.22);
+      --gold-glow: rgba(201, 160, 32, 0.18);
+      --obsidian: #060606;
+      --onyx: #0d0d0d;
+      --graphite: #141414;
+      --charcoal: #1c1c1c;
+      --platinum: #f0f0f0;
+      --silver: #c8c8c8;
+      --ash: rgba(200, 200, 200, 0.55);
+      --dim: rgba(200, 200, 200, 0.28);
+      --t: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* HERO */
-.page-hero{position:relative;width:100%;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--graphite);}
-.page-hero-grid{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(201,160,32,0.04) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(201,160,32,0.04) 60px);}
-.page-hero-glow{position:absolute;width:600px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(201,160,32,0.09),transparent 70%);pointer-events:none;}
-.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5;}
-.page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-border),transparent);}
-.page-hero-content{position:relative;z-index:2;text-align:center;}
-.page-hero-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:0.75;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:14px;}
-.page-hero-eyebrow::before,.page-hero-eyebrow::after{content:'';width:30px;height:1px;background:var(--gold);opacity:0.5;}
-.page-hero-title{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:var(--platinum);line-height:1.05;animation:fadeUp 0.7s 0.1s both;}
-.page-hero-title em{color:var(--gold-bright);font-style:italic;}
-.page-hero-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--ash);margin-top:14px;text-transform:uppercase;animation:fadeUp 0.7s 0.25s both;}
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
 
-/* BREADCRUMB */
-.breadcrumb-bar{background:rgba(13,13,13,0.95);border-bottom:1px solid var(--gold-border);padding:12px 0;position:relative;z-index:1;}
-.breadcrumb-inner{max-width:1380px;margin:0 auto;padding:0 40px;display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;}
-.bc-link{color:var(--dim);text-decoration:none;transition:var(--t);}
-.bc-link:hover{color:var(--gold);}
-.bc-sep{color:var(--gold);opacity:0.4;}
-.bc-current{color:var(--gold);}
+    ::-webkit-scrollbar-track {
+      background: var(--onyx);
+    }
 
-/* MAIN */
-.main-layout{max-width:1380px;margin:0 auto;padding:36px 40px 80px;display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start;position:relative;z-index:1;}
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--gold), var(--gold-bright));
+      border-radius: 2px;
+    }
 
-/* SIDEBAR */
-.sidebar-header{background:linear-gradient(135deg,var(--gold),var(--gold-bright));padding:15px 20px;}
-.sidebar-header-text{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--obsidian);font-weight:700;}
-.sidebar-menu{background:var(--graphite);border:1px solid var(--gold-border);border-top:none;}
-.sidebar-item{display:flex;align-items:center;gap:10px;padding:12px 18px;text-decoration:none;color:var(--ash);font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.04);transition:var(--t);font-family:'DM Mono',monospace;position:relative;}
-.sidebar-item:last-child{border-bottom:none;}
-.sidebar-item::before{content:'›';color:var(--gold);font-size:16px;opacity:0.4;transition:var(--t);}
-.sidebar-item:hover,.sidebar-item.active{color:var(--gold-bright);background:var(--gold-dim);}
-.sidebar-item:hover::before,.sidebar-item.active::before{opacity:1;}
-.sidebar-item.active{border-left:2px solid var(--gold);}
-.sidebar-contact{margin-top:20px;background:var(--graphite);border:1px solid var(--gold-border);padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
-.sidebar-contact::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.sc-label{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:0.65;margin-bottom:10px;}
-.sc-phone{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--platinum);margin-bottom:4px;}
-.sc-sub{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:18px;}
-.sc-btn{display:block;width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--obsidian);border:none;padding:11px 0;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;text-decoration:none;transition:var(--t);}
-.sc-btn:hover{box-shadow:0 4px 20px rgba(201,160,32,0.4);transform:translateY(-1px);}
+    /* ── Base ──────────────────────────────────────────────────── */
+    html,
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--obsidian);
+      color: var(--silver);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-top: 80px;
+    }
 
-/* FILTER BAR */
-.filter-bar{display:flex;align-items:center;justify-content:space-between;background:var(--graphite);border:1px solid var(--gold-border);padding:14px 20px;margin-bottom:18px;position:relative;}
-.filter-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.4;}
-.filter-count{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);}
-.filter-count span{color:var(--gold-bright);}
-.filter-tabs{display:flex;gap:6px;}
-.filter-tab{padding:6px 16px;border:1px solid rgba(255,255,255,0.07);background:transparent;color:var(--dim);font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:var(--t);}
-.filter-tab:hover,.filter-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold-bright));border-color:var(--gold);color:var(--obsidian);}
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+    }
 
-/* PRODUCT GRID */
-.page-section{display:none;}
-.page-section.active{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;animation:fadeUp 0.35s ease forwards;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardUp{from{opacity:0;transform:translateY(24px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.page-section.active .card-link{animation:cardUp 0.4s ease both;}
-.page-section.active .card-link:nth-child(1){animation-delay:0.02s;}
-.page-section.active .card-link:nth-child(2){animation-delay:0.07s;}
-.page-section.active .card-link:nth-child(3){animation-delay:0.12s;}
-.page-section.active .card-link:nth-child(4){animation-delay:0.17s;}
-.page-section.active .card-link:nth-child(5){animation-delay:0.22s;}
-.page-section.active .card-link:nth-child(6){animation-delay:0.27s;}
-.card-link{text-decoration:none;display:block;color:inherit;}
-.card{background:var(--graphite);border:1px solid var(--gold-border);border-radius:2px;overflow:hidden;cursor:pointer;transition:var(--t);display:flex;flex-direction:column;height:100%;position:relative;}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.3s;z-index:1;}
-.card:hover{box-shadow:0 12px 40px rgba(0,0,0,0.6);transform:translateY(-5px);border-color:rgba(201,160,32,0.45);}
-.card:hover::before{opacity:1;}
-.card-img-wrap{width:100%;aspect-ratio:4/3;background:var(--charcoal);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-.card-img-wrap::before{content:'';position:absolute;top:8px;left:8px;width:14px;height:14px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);z-index:1;opacity:0.5;transition:var(--t);}
-.card-img-wrap::after{content:'';position:absolute;bottom:8px;right:8px;width:14px;height:14px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);z-index:1;opacity:0.5;transition:var(--t);}
-.card:hover .card-img-wrap::before,.card:hover .card-img-wrap::after{opacity:1;width:18px;height:18px;}
-.card-img-wrap svg{width:65%;height:65%;transition:transform 0.4s ease;}
-.card:hover .card-img-wrap svg{transform:scale(1.08);}
-.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,0.88),transparent 60%);opacity:0;transition:var(--t);display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;}
-.card:hover .card-overlay{opacity:1;}
-.card-view-btn{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--obsidian);padding:8px 22px;font-size:9px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;}
-.card-body{padding:18px 20px 16px;display:flex;flex-direction:column;flex-grow:1;}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--platinum);margin-bottom:4px;transition:var(--t);}
-.card:hover .card-title{color:var(--gold-bright);}
-.card-date{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
-.card-desc{font-size:13px;color:var(--ash);line-height:1.7;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:44px;}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);margin-top:auto;}
-.card-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-border);padding:4px 10px;border-radius:2px;}
-.card-arrow{color:var(--dim);font-size:16px;transition:var(--t);}
-.card:hover .card-arrow{color:var(--gold-bright);transform:translateX(4px);}
+    /* ── Ambient ───────────────────────────────────────────────── */
+    .ambient {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+    }
 
-/* PAGINATION */
-.pagination-wrap{background:var(--graphite);border:1px solid var(--gold-border);padding:20px 0;display:flex;justify-content:center;margin-top:16px;position:relative;}
-.pagination-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;}
-.pagination{display:flex;align-items:center;gap:6px;}
-.page-btn{padding:7px 18px;border:1px solid rgba(255,255,255,0.08);border-radius:2px;color:var(--dim);font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;text-transform:uppercase;cursor:pointer;background:transparent;transition:var(--t);}
-.page-btn:hover,.page-btn.active{background:linear-gradient(135deg,var(--gold),var(--gold-bright));border-color:var(--gold);color:var(--obsidian);}
+    .amb1 {
+      width: 700px;
+      height: 400px;
+      top: -150px;
+      left: -200px;
+      background: radial-gradient(ellipse, rgba(201, 160, 32, 0.055), transparent 70%);
+    }
 
-/* FOOTER */
-.footer{background:rgba(4,4,4,0.97);border-top:1px solid var(--gold-border);position:relative;margin-top:60px;}
-.footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5;}
-.footer-inner{max-width:1380px;margin:0 auto;padding:60px 40px 0;}
-.footer-top{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.04);}
-.footer-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
-.footer-logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--graphite),var(--gold));border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;font-style:italic;color:#fff;border:1px solid var(--gold-border);letter-spacing:-1px;}
-.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--platinum);}
-.footer-brand-name em{color:var(--gold-bright);font-style:normal;}
-.footer-brand-sub{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2.5px;color:var(--gold);opacity:0.55;margin-top:3px;}
-.footer-tagline{font-size:13px;color:var(--dim);line-height:1.7;max-width:300px;}
-.footer-socials{display:flex;gap:8px;margin-top:20px;}
-.social-btn{width:36px;height:36px;border-radius:3px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:var(--dim);cursor:pointer;transition:var(--t);text-decoration:none;}
-.social-btn:hover{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold-bright);}
-.social-btn svg{width:15px;height:15px;}
-.footer-cols{display:grid;grid-template-columns:2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;gap:28px;padding:40px 0;}
-.footer-col-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.footer-col-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-border),transparent);}
-.footer-link{display:block;text-decoration:none;color:var(--dim);font-size:13px;margin-bottom:9px;transition:var(--t);}
-.footer-link:hover{color:var(--gold-bright);padding-left:4px;}
-.footer-contact-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:6px;}
-.footer-contact-phone{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--platinum);margin-bottom:4px;letter-spacing:1px;}
-.footer-contact-addr{font-size:13px;color:var(--dim);line-height:1.7;margin-top:8px;}
-.footer-bottom{text-align:center;padding:20px 0;border-top:1px solid rgba(255,255,255,0.04);}
-.footer-bottom-text{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.15);text-transform:uppercase;}
+    .amb2 {
+      width: 500px;
+      height: 500px;
+      bottom: -100px;
+      right: -150px;
+      background: radial-gradient(ellipse, rgba(201, 160, 32, 0.04), transparent 70%);
+    }
 
-@media(max-width:1024px){.page-section.active{grid-template-columns:repeat(2,1fr);}.footer-cols{grid-template-columns:1fr 1fr 1fr;}}
-@media(max-width:768px){body{padding-top:70px;}.nav-container{padding:0 16px;height:70px;}.nav-menu{display:none;}.main-layout{grid-template-columns:1fr;padding:20px 16px 60px;}.page-section.active{grid-template-columns:1fr;}.breadcrumb-inner{padding:0 16px;}.footer-cols{grid-template-columns:1fr 1fr;}.footer-inner{padding:40px 20px 0;}.page-hero-title{font-size:38px;}}
-</style>
+    /* ── NAVBAR ────────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: 80px;
+      background: rgba(6, 6, 6, 0.95);
+      backdrop-filter: blur(24px) saturate(1.5);
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .navbar::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 40px;
+      right: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.35;
+    }
+
+    .nav-container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, var(--graphite) 0%, var(--gold) 100%);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      border: 1px solid var(--gold-border);
+      transition: var(--t);
+      letter-spacing: -1px;
+    }
+
+    .logo:hover .logo-icon {
+      box-shadow: 0 0 20px var(--gold-glow);
+      transform: scale(1.05);
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-super {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--platinum);
+      line-height: 1.15;
+    }
+
+    .logo-name em {
+      color: var(--gold-bright);
+      font-style: normal;
+    }
+
+    .logo-subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ash);
+      opacity: 0.55;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .nav-link {
+      padding: 9px 14px;
+      text-decoration: none;
+      color: var(--ash);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: var(--t);
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60%;
+      height: 1px;
+      background: var(--gold);
+      transition: var(--t);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--gold-bright);
+      background: var(--gold-dim);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    /* Hamburger (mobile) */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      background: none;
+      border: none;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: var(--t);
+    }
+
+    .nav-search {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-search input {
+      width: 180px;
+      padding: 8px 36px 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 3px;
+      font-size: 11px;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+      background: var(--graphite);
+      color: var(--platinum);
+      outline: none;
+      transition: var(--t);
+    }
+
+    .nav-search input:focus {
+      width: 220px;
+      border-color: var(--gold-border);
+      box-shadow: 0 0 0 3px rgba(201, 160, 32, 0.08);
+    }
+
+    .nav-search input::placeholder {
+      color: var(--dim);
+    }
+
+    .nav-search-btn {
+      position: absolute;
+      right: 4px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: var(--gold);
+      color: var(--obsidian);
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--t);
+    }
+
+    .nav-search-btn:hover {
+      background: var(--gold-bright);
+    }
+
+    .nav-search-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ── PAGE HERO ─────────────────────────────────────────────── */
+    .page-hero {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--graphite);
+    }
+
+    .page-hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(201, 160, 32, 0.04) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(201, 160, 32, 0.04) 60px);
+    }
+
+    .page-hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse, rgba(201, 160, 32, 0.09), transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.5;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .page-hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.75;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .page-hero-eyebrow::before,
+    .page-hero-eyebrow::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    .page-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 60px;
+      font-weight: 300;
+      color: var(--platinum);
+      line-height: 1.05;
+      animation: fadeUp 0.7s 0.1s both;
+    }
+
+    .page-hero-title em {
+      color: var(--gold-bright);
+      font-style: italic;
+    }
+
+    .page-hero-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 3px;
+      color: var(--ash);
+      margin-top: 14px;
+      text-transform: uppercase;
+      animation: fadeUp 0.7s 0.25s both;
+    }
+
+    /* ── BREADCRUMB ────────────────────────────────────────────── */
+    .breadcrumb-bar {
+      background: rgba(13, 13, 13, 0.95);
+      border-bottom: 1px solid var(--gold-border);
+      padding: 12px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .breadcrumb-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .bc-link {
+      color: var(--dim);
+      text-decoration: none;
+      transition: var(--t);
+    }
+
+    .bc-link:hover {
+      color: var(--gold);
+    }
+
+    .bc-sep {
+      color: var(--gold);
+      opacity: 0.4;
+    }
+
+    .bc-current {
+      color: var(--gold);
+    }
+
+    /* ── MAIN LAYOUT ───────────────────────────────────────────── */
+    .main-layout {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 36px 40px 80px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 24px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SIDEBAR ───────────────────────────────────────────────── */
+    .sidebar-header {
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      padding: 15px 20px;
+    }
+
+    .sidebar-header-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--obsidian);
+      font-weight: 700;
+    }
+
+    .sidebar-menu {
+      background: var(--graphite);
+      border: 1px solid var(--gold-border);
+      border-top: none;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      text-decoration: none;
+      color: var(--ash);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: var(--t);
+      font-family: 'DM Mono', monospace;
+      position: relative;
+    }
+
+    .sidebar-item:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-item::before {
+      content: '›';
+      color: var(--gold);
+      font-size: 16px;
+      opacity: 0.4;
+      transition: var(--t);
+    }
+
+    .sidebar-item:hover,
+    .sidebar-item.active {
+      color: var(--gold-bright);
+      background: var(--gold-dim);
+    }
+
+    .sidebar-item:hover::before,
+    .sidebar-item.active::before {
+      opacity: 1;
+    }
+
+    .sidebar-item.active {
+      border-left: 2px solid var(--gold);
+    }
+
+    .sidebar-contact {
+      margin-top: 20px;
+      background: var(--graphite);
+      border: 1px solid var(--gold-border);
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .sc-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+      margin-bottom: 10px;
+    }
+
+    .sc-phone {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--platinum);
+      margin-bottom: 4px;
+    }
+
+    .sc-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 18px;
+    }
+
+    .sc-btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--obsidian);
+      border: none;
+      padding: 11px 0;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: var(--t);
+    }
+
+    .sc-btn:hover {
+      box-shadow: 0 4px 20px rgba(201, 160, 32, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ── FILTER BAR ────────────────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--graphite);
+      border: 1px solid var(--gold-border);
+      padding: 14px 20px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .filter-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    .filter-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .filter-count span {
+      color: var(--gold-bright);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .filter-tab {
+      padding: 6px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: transparent;
+      color: var(--dim);
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: var(--t);
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      border-color: var(--gold);
+      color: var(--obsidian);
+    }
+
+    /* ── PRODUCT GRID ──────────────────────────────────────────── */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      animation: fadeUp 0.35s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .page-section.active .card-link {
+      animation: cardUp 0.4s ease both;
+    }
+
+    .page-section.active .card-link:nth-child(1) {
+      animation-delay: 0.02s;
+    }
+
+    .page-section.active .card-link:nth-child(2) {
+      animation-delay: 0.07s;
+    }
+
+    .page-section.active .card-link:nth-child(3) {
+      animation-delay: 0.12s;
+    }
+
+    .page-section.active .card-link:nth-child(4) {
+      animation-delay: 0.17s;
+    }
+
+    .page-section.active .card-link:nth-child(5) {
+      animation-delay: 0.22s;
+    }
+
+    .page-section.active .card-link:nth-child(6) {
+      animation-delay: 0.27s;
+    }
+
+    /* ── CARDS ─────────────────────────────────────────────────── */
+    .card-link {
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    .card {
+      background: var(--graphite);
+      border: 1px solid var(--gold-border);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--t);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(-5px);
+      border-color: rgba(201, 160, 32, 0.45);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 14px;
+      height: 14px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+      z-index: 1;
+      opacity: 0.5;
+      transition: var(--t);
+    }
+
+    .card-img-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 14px;
+      height: 14px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+      z-index: 1;
+      opacity: 0.5;
+      transition: var(--t);
+    }
+
+    .card:hover .card-img-wrap::before,
+    .card:hover .card-img-wrap::after {
+      opacity: 1;
+      width: 18px;
+      height: 18px;
+    }
+
+    .card-img-wrap svg {
+      width: 65%;
+      height: 65%;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-img-wrap svg {
+      transform: scale(1.08);
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6, 6, 6, 0.88), transparent 60%);
+      opacity: 0;
+      transition: var(--t);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 18px;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .card-view-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      color: var(--obsidian);
+      padding: 8px 22px;
+      font-size: 9px;
+      font-family: 'DM Mono', monospace;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .card-body {
+      padding: 18px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--platinum);
+      margin-bottom: 4px;
+      transition: var(--t);
+    }
+
+    .card:hover .card-title {
+      color: var(--gold-bright);
+    }
+
+    .card-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--ash);
+      line-height: 1.7;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 44px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: auto;
+    }
+
+    .card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-border);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .card-arrow {
+      color: var(--dim);
+      font-size: 16px;
+      transition: var(--t);
+    }
+
+    .card:hover .card-arrow {
+      color: var(--gold-bright);
+      transform: translateX(4px);
+    }
+
+    /* ── PAGINATION ────────────────────────────────────────────── */
+    .pagination-wrap {
+      background: var(--graphite);
+      border: 1px solid var(--gold-border);
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+      margin-top: 16px;
+      position: relative;
+    }
+
+    .pagination-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .page-btn {
+      padding: 7px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      color: var(--dim);
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      transition: var(--t);
+    }
+
+    .page-btn:hover,
+    .page-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      border-color: var(--gold);
+      color: var(--obsidian);
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────── */
+    .footer {
+      background: rgba(4, 4, 4, 0.97);
+      border-top: 1px solid var(--gold-border);
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.5;
+    }
+
+    .footer-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 60px 40px 0;
+    }
+
+    .footer-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--graphite), var(--gold));
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 700;
+      font-style: italic;
+      color: #fff;
+      border: 1px solid var(--gold-border);
+      letter-spacing: -1px;
+    }
+
+    .footer-brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--platinum);
+    }
+
+    .footer-brand-name em {
+      color: var(--gold-bright);
+      font-style: normal;
+    }
+
+    .footer-brand-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 2.5px;
+      color: var(--gold);
+      opacity: 0.55;
+      margin-top: 3px;
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dim);
+      cursor: pointer;
+      transition: var(--t);
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      background: var(--gold-dim);
+      border-color: var(--gold-border);
+      color: var(--gold-bright);
+    }
+
+    .social-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .footer-cols {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 0.8fr 0.8fr 0.8fr 2fr;
+      gap: 28px;
+      padding: 40px 0;
+    }
+
+    .footer-col-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-col-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-border), transparent);
+    }
+
+    .footer-link {
+      display: block;
+      text-decoration: none;
+      color: var(--dim);
+      font-size: 13px;
+      margin-bottom: 9px;
+      transition: var(--t);
+    }
+
+    .footer-link:hover {
+      color: var(--gold-bright);
+      padding-left: 4px;
+    }
+
+    .footer-contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 6px;
+    }
+
+    .footer-contact-phone {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--platinum);
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+    }
+
+    .footer-contact-addr {
+      font-size: 13px;
+      color: var(--dim);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-bottom-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.15);
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .page-section.active {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-cols {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 70px;
+      }
+
+      .nav-container {
+        padding: 0 16px;
+        height: 70px;
+      }
+
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(6, 6, 6, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--gold-border);
+        flex-direction: column;
+        padding: 12px 0;
+        gap: 0;
+        z-index: 999;
+      }
+
+      .nav-menu.open {
+        display: flex;
+      }
+
+      .nav-link {
+        padding: 14px 24px;
+        font-size: 11px;
+        border-radius: 0;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-search {
+        display: none;
+      }
+
+      .main-layout {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 60px;
+      }
+
+      .page-section.active {
+        grid-template-columns: 1fr;
+      }
+
+      .breadcrumb-inner {
+        padding: 0 16px;
+      }
+
+      .footer-cols {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-inner {
+        padding: 40px 20px 0;
+      }
+
+      .page-hero-title {
+        font-size: 38px;
+      }
+
+      .filter-bar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .filter-tabs {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="ambient amb1"></div>
-<div class="ambient amb2"></div>
+  <div class="ambient amb1"></div>
+  <div class="ambient amb2"></div>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-container">
-    <a href="index.html" class="logo">
-      <div class="logo-icon">CE</div>
-      <div class="logo-text-block">
-        <div class="logo-super">Est. 2004</div>
-        <div class="logo-name"><em>Cal Elite</em> Builders</div>
-        <div class="logo-subtitle">Cal Electrical · Premium Construction</div>
-      </div>
-    </a>
-    <ul class="nav-menu">
-      <li><a href="./Homepage/index.html" class="nav-link">Home</a></li>
-      <li><a href="../Homepage/products.html" class="nav-link active">Products</a></li>
-      <li><a href="../Homepage/about.html" class="nav-link">About Us</a></li>
-      <li><a href="./case.html" class="nav-link">Case</a></li>
-      <li><a href="#" class="nav-link">News</a></li>
-      <li><a href="#" class="nav-link">Contact Us</a></li>
-    </ul>
-    <div class="nav-search">
-      <input type="text" placeholder="Search…">
-      <button class="nav-search-btn">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">CE</div>
+        <div class="logo-text-block">
+          <div class="logo-super">Est. 2004</div>
+          <div class="logo-name"><em>Cal Elite</em> Builders</div>
+          <div class="logo-subtitle">Cal Electrical · Premium Construction</div>
+        </div>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="../Homepage/products.html" class="nav-link active">Products</a></li>
+        <li><a href="../Homepage/about.html" class="nav-link">About Us</a></li>
+        <li><a href="./case.html" class="nav-link">Case</a></li>
+        <li><a href="#" class="nav-link">News</a></li>
+        <li><a href="#" class="nav-link">Contact Us</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
       </button>
+      <div class="nav-search">
+        <input type="text" placeholder="Search…" id="searchInput">
+        <button class="nav-search-btn" id="searchBtn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-glow"></div>
+    <div class="page-hero-content">
+      <div class="page-hero-eyebrow">Our Products</div>
+      <h1 class="page-hero-title">Product <em>Collection</em></h1>
+      <div class="page-hero-sub">Cal Elite Builders · Cal Electrical · Premium Construction Materials</div>
+    </div>
+  </section>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="breadcrumb-inner">
+      <a href="index.html" class="bc-link">Home</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Products</span>
     </div>
   </div>
-</nav>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <div class="page-hero-grid"></div>
-  <div class="page-hero-glow"></div>
-  <div class="page-hero-content">
-    <div class="page-hero-eyebrow">Our Products</div>
-    <h1 class="page-hero-title">Product <em>Collection</em></h1>
-    <div class="page-hero-sub">Cal Elite Builders · Cal Electrical · Premium Construction Materials</div>
+  <!-- MAIN -->
+  <div class="main-layout">
+    <aside>
+      <div class="sidebar-header">
+        <div class="sidebar-header-text">Product Categories</div>
+      </div>
+      <div class="sidebar-menu">
+        <a href="#" class="sidebar-item active" onclick="filterCat(event,'all')">All Products</a>
+        <a href="#" class="sidebar-item" onclick="filterCat(event,'panel')">Wainscoting</a>
+        <a href="#" class="sidebar-item" onclick="filterCat(event,'baseboard')">Stainless Steel Baseboard</a>
+        <a href="#" class="sidebar-item" onclick="filterCat(event,'profile')">Metal Decorative Lines</a>
+        <a href="#" class="sidebar-item" onclick="filterCat(event,'welded')">All-Aluminum Welded Plate</a>
+        <a href="#" class="sidebar-item" onclick="filterCat(event,'skirting')">Metal Skirting</a>
+      </div>
+      <div class="sidebar-contact">
+        <div class="sc-label">Cal Elite Builders</div>
+        <div class="sc-phone">18927795653</div>
+        <div class="sc-sub">Welcome your call</div>
+        <a href="tel:18927795653" class="sc-btn">Contact Now</a>
+      </div>
+    </aside>
+
+    <div id="cards-wrapper">
+      <div class="filter-bar">
+        <span class="filter-count">All Products &nbsp;<span id="count">(10)</span></span>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterTab(event,'all')">All</button>
+          <button class="filter-tab" onclick="filterTab(event,'panel')">Panels</button>
+          <button class="filter-tab" onclick="filterTab(event,'profile')">Profiles</button>
+          <button class="filter-tab" onclick="filterTab(event,'skirting')">Skirting</button>
+        </div>
+      </div>
+
+      <!-- PAGE 1 -->
+      <div id="page1" class="page-section active">
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="180" height="130" rx="4" fill="#e8e4dc" />
+                <rect x="10" y="10" width="180" height="34" rx="4" fill="#f5f2ed" />
+                <rect x="10" y="50" width="180" height="26" fill="#e0dbd2" />
+                <rect x="10" y="82" width="180" height="26" fill="#c8c0b0" />
+                <rect x="10" y="114" width="180" height="20" fill="#a89880" />
+                <g fill="none" stroke="#b0a890" stroke-width="0.9" opacity="0.55">
+                  <polygon points="40,56 55,48 70,56 70,72 55,80 40,72" />
+                  <polygon points="70,56 85,48 100,56 100,72 85,80 70,72" />
+                  <polygon points="100,56 115,48 130,56 130,72 115,80 100,72" />
+                  <polygon points="130,56 145,48 160,56 160,72 145,80 130,72" />
+                  <polygon points="55,72 70,64 85,72 85,88 70,96 55,88" />
+                  <polygon points="85,72 100,64 115,72 115,88 100,96 85,88" />
+                  <polygon points="115,72 130,64 145,72 145,88 130,96 115,88" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">SPC Honeycomb Panel</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Lightweight composite panels with superior strength-to-weight ratio for modern
+                interior wall and ceiling applications.</div>
+              <div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,10)">
+                  <rect x="0" y="0" width="180" height="38" rx="3" fill="#6b5040" />
+                  <rect x="0" y="0" width="180" height="12" rx="3" fill="#8a6a50" />
+                  <rect x="0" y="48" width="180" height="38" rx="3" fill="#6b5040" />
+                  <rect x="0" y="48" width="180" height="12" rx="3" fill="#8a6a50" />
+                  <rect x="0" y="96" width="180" height="38" rx="3" fill="#6b5040" />
+                  <rect x="0" y="96" width="180" height="12" rx="3" fill="#8a6a50" />
+                  <g fill="#2a1a0a" opacity="0.4">
+                    <rect x="8" y="2" width="10" height="34" rx="1" />
+                    <rect x="26" y="2" width="10" height="34" rx="1" />
+                    <rect x="44" y="2" width="10" height="34" rx="1" />
+                    <rect x="62" y="2" width="10" height="34" rx="1" />
+                    <rect x="80" y="2" width="10" height="34" rx="1" />
+                    <rect x="98" y="2" width="10" height="34" rx="1" />
+                    <rect x="116" y="2" width="10" height="34" rx="1" />
+                    <rect x="134" y="2" width="10" height="34" rx="1" />
+                    <rect x="152" y="2" width="10" height="34" rx="1" />
+                  </g>
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Grille Plate</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Wood-grain finish aluminum grille profiles for elegant wall and ceiling decorative
+                applications in residential and commercial spaces.</div>
+              <div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(100,75)">
+                  <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#c8a870" opacity="0.6"
+                    transform="rotate(-18)" />
+                  <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#d4bc90" opacity="0.72"
+                    transform="rotate(-8)" />
+                  <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#ece4d4" opacity="0.88"
+                    transform="rotate(0)" />
+                  <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#a09080" opacity="0.6"
+                    transform="rotate(8)" />
+                  <rect x="-55" y="-65" width="110" height="130" rx="5" fill="#707070" opacity="0.5"
+                    transform="rotate(18)" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Aluminum Honeycomb Panel</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">High-strength aluminum composite panels available in wood-grain, metallic, and
+                solid color finishes for architectural projects.</div>
+              <div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="panel">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,10)">
+                  <rect x="0" y="0" width="180" height="130" rx="3" fill="#e8e0d4" />
+                  <rect x="20" y="15" width="35" height="100" rx="2" fill="#1a1a1a" />
+                  <rect x="65" y="15" width="35" height="100" rx="2" fill="#8b6f47" />
+                  <rect x="110" y="15" width="35" height="100" rx="2" fill="#d4a574" />
+                  <rect x="155" y="15" width="35" height="100" rx="2" fill="#f5f0e8" />
+                  <line x1="20" y1="20" x2="190" y2="20" stroke="#c0b8a8" stroke-width="0.8" />
+                  <line x1="20" y1="115" x2="190" y2="115" stroke="#c0b8a8" stroke-width="0.8" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Carbon Crystal Plate</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Premium carbon crystal composite plates with multiple color finishes for luxury
+                interior applications.</div>
+              <div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,40)">
+                  <rect x="0" y="20" width="180" height="58" rx="2" fill="#a09080" />
+                  <rect x="0" y="0" width="180" height="24" rx="3" fill="#c0b8a8" />
+                  <rect x="0" y="0" width="180" height="8" rx="3" fill="#d4ccc0" />
+                  <rect x="-4" y="18" width="188" height="6" rx="1" fill="#887868" />
+                  <circle cx="20" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                  <circle cx="50" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                  <circle cx="80" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                  <circle cx="110" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                  <circle cx="140" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                  <circle cx="170" cy="15" r="3" fill="#ffeb3b" opacity="0.8" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">LED Skirting</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Modern LED-integrated skirting boards with ambient lighting for contemporary
+                interior spaces and accent detailing.</div>
+              <div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,45)">
+                  <rect x="0" y="0" width="180" height="68" rx="3" fill="#e8e8e8" />
+                  <rect x="0" y="0" width="180" height="20" rx="3" fill="#f5f5f5" />
+                  <rect x="0" y="20" width="180" height="4" fill="#d0d0d0" />
+                  <line x1="0" y1="27" x2="180" y2="27" stroke="#c0c0c0" stroke-width="0.7" />
+                  <line x1="0" y1="34" x2="180" y2="34" stroke="#c0c0c0" stroke-width="0.7" />
+                  <line x1="0" y1="41" x2="180" y2="41" stroke="#c0c0c0" stroke-width="0.7" />
+                  <line x1="0" y1="48" x2="180" y2="48" stroke="#c0c0c0" stroke-width="0.7" />
+                  <line x1="0" y1="55" x2="180" y2="55" stroke="#c0c0c0" stroke-width="0.7" />
+                  <rect x="0" y="62" width="180" height="6" rx="2" fill="#b8b8b8" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Stainless Steel Skirting</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Premium stainless steel skirting boards with brushed or mirror-polished finish for
+                modern luxury interiors.</div>
+              <div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div id="page2" class="page-section">
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="baseboard">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,45)">
+                  <rect x="0" y="0" width="180" height="68" rx="3" fill="#d0ccc8" />
+                  <rect x="0" y="0" width="180" height="20" rx="3" fill="#e8e4e0" />
+                  <rect x="0" y="20" width="180" height="4" fill="#b8b4b0" />
+                  <line x1="0" y1="27" x2="180" y2="27" stroke="#c0bcb8" stroke-width="0.7" />
+                  <line x1="0" y1="34" x2="180" y2="34" stroke="#c0bcb8" stroke-width="0.7" />
+                  <line x1="0" y1="41" x2="180" y2="41" stroke="#c0bcb8" stroke-width="0.7" />
+                  <line x1="0" y1="48" x2="180" y2="48" stroke="#c0bcb8" stroke-width="0.7" />
+                  <line x1="0" y1="55" x2="180" y2="55" stroke="#c0bcb8" stroke-width="0.7" />
+                  <rect x="0" y="62" width="180" height="6" rx="2" fill="#a8a4a0" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Stainless Steel Baseboard</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Precision-engineered stainless baseboards with brushed or mirror-polished finish.
+                Ideal for modern and luxury interior spaces.</div>
+              <div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="profile">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,12)">
+                  <rect x="0" y="0" width="180" height="15" rx="7" fill="#b8a888" />
+                  <rect x="0" y="22" width="180" height="10" rx="5" fill="#c8b898" />
+                  <rect x="0" y="40" width="180" height="20" rx="3" fill="#a89878" />
+                  <rect x="0" y="40" width="180" height="8" rx="3" fill="#c0b090" />
+                  <rect x="0" y="70" width="180" height="7" rx="3" fill="#d4c8a0" />
+                  <rect x="0" y="86" width="180" height="14" rx="6" fill="#b0a070" />
+                  <rect x="0" y="86" width="180" height="5" rx="3" fill="#c8b888" />
+                  <rect x="0" y="110" width="180" height="24" rx="3" fill="#907860" />
+                  <rect x="0" y="110" width="180" height="10" rx="3" fill="#a89070" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Metal Decorative Lines</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Versatile metal trim profiles for accent detailing on walls, ceilings, and
+                furniture edges in a variety of finishes.</div>
+              <div class="card-footer"><span class="card-tag">Profiles</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="welded">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="180" height="130" rx="4" fill="#e0d8cc" />
+                <rect x="20" y="20" width="72" height="50" rx="2" fill="#d0c8bc" />
+                <rect x="102" y="20" width="72" height="50" rx="2" fill="#d0c8bc" />
+                <rect x="20" y="80" width="72" height="50" rx="2" fill="#d0c8bc" />
+                <rect x="102" y="80" width="72" height="50" rx="2" fill="#d0c8bc" />
+                <circle cx="92" cy="70" r="6" fill="#a89870" />
+                <circle cx="102" cy="70" r="6" fill="#a89870" />
+                <circle cx="92" cy="80" r="6" fill="#a89870" />
+                <circle cx="102" cy="80" r="6" fill="#a89870" />
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">All-Aluminum Welded Large Plate</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Full-size seamlessly welded aluminum panels for large-area wall cladding with a
+                clean, modern aesthetic and zero visible joints.</div>
+              <div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+        <a href="product-details.html" class="card-link">
+          <div class="card" data-cat="skirting">
+            <div class="card-img-wrap">
+              <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10,40)">
+                  <rect x="0" y="20" width="180" height="58" rx="2" fill="#b8a888" />
+                  <rect x="0" y="0" width="180" height="24" rx="3" fill="#d4c4a0" />
+                  <rect x="0" y="0" width="180" height="8" rx="3" fill="#e8dcc0" />
+                  <rect x="-4" y="18" width="188" height="6" rx="1" fill="#a89878" />
+                  <line x1="15" y1="30" x2="165" y2="30" stroke="#c0b090" stroke-width="0.8" opacity="0.6" />
+                  <line x1="15" y1="40" x2="165" y2="40" stroke="#c0b090" stroke-width="0.8" opacity="0.6" />
+                  <line x1="15" y1="50" x2="165" y2="50" stroke="#c0b090" stroke-width="0.8" opacity="0.6" />
+                  <line x1="15" y1="60" x2="165" y2="60" stroke="#c0b090" stroke-width="0.8" opacity="0.6" />
+                </g>
+              </svg>
+              <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
+            </div>
+            <div class="card-body">
+              <div class="card-title">Aluminum Alloy Skirting</div>
+              <div class="card-date">2025-06-24</div>
+              <div class="card-desc">Lightweight yet durable aluminum alloy skirting boards with multiple finish options
+                for versatile interior design.</div>
+              <div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="pagination-wrap">
+        <div class="pagination">
+          <button class="page-btn" onclick="changePage(-1)">Prev</button>
+          <button class="page-btn active" id="btn-p1" onclick="goToPage(1)">1</button>
+          <button class="page-btn" id="btn-p2" onclick="goToPage(2)">2</button>
+          <button class="page-btn" onclick="changePage(1)">Next</button>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
 
-<!-- BREADCRUMB -->
-<div class="breadcrumb-bar">
-  <div class="breadcrumb-inner">
-    <a href="index.html" class="bc-link">Home</a>
-    <span class="bc-sep">›</span>
-    <span class="bc-current">Products</span>
-  </div>
-</div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo-row">
+            <div class="footer-logo-icon">CE</div>
+            <div>
+              <div class="footer-brand-name"><em>Cal Elite</em> Builders</div>
+              <div class="footer-brand-sub">Cal Electrical · Est. 2004</div>
+            </div>
+          </div>
+          <p class="footer-tagline">Premium construction materials and electrical solutions — engineered for excellence.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z" />
+              </svg></a>
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z" />
+              </svg></a>
+            <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
+              </svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <div class="footer-col-title">Products</div>
+          <a href="#" class="footer-link">Wainscoting</a>
+          <a href="#" class="footer-link">Stainless Steel Baseboard</a>
+          <a href="#" class="footer-link">Metal Decorative Lines</a>
+          <a href="#" class="footer-link">All-Aluminum Welded Plate</a>
+          <a href="#" class="footer-link">Metal Skirting</a>
+          <a href="#" class="footer-link">SPC Honeycomb Panel</a>
+          <a href="#" class="footer-link">Grille Plate</a>
+          <a href="#" class="footer-link">Aluminum Honeycomb Panel</a>
+        </div>
+        <div>
+          <div class="footer-col-title">About Us</div>
+          <a href="#" class="footer-link">Company Profile</a>
+          <a href="#" class="footer-link">Product Advantages</a>
+          <a href="#" class="footer-link">Honor</a>
+          <a href="#" class="footer-link">Team Style</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Case</div>
+          <a href="case.html" class="footer-link">Applications</a>
+        </div>
+        <div>
+          <div class="footer-col-title">News</div>
+          <a href="#" class="footer-link">Company News</a>
+          <a href="#" class="footer-link">Industry News</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <a href="#" class="footer-link">Online Message</a>
+        </div>
+        <div>
+          <div class="footer-contact-label">Contact Number</div>
+          <div class="footer-contact-phone">18927795653</div>
+          <div class="footer-contact-label" style="margin-top:14px;">Company Address</div>
+          <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District,
+            Foshan City</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-text">© 2025 Cal Elite Builders · Cal Electrical · All Rights Reserved</div>
+      </div>
+    </div>
+  </footer>
 
-<!-- MAIN -->
-<div class="main-layout">
-  <aside>
-    <div class="sidebar-header"><div class="sidebar-header-text">Product Categories</div></div>
-    <div class="sidebar-menu">
-      <a href="#" class="sidebar-item active" onclick="filterCat(event,'all')">All Products</a>
-      <a href="#" class="sidebar-item" onclick="filterCat(event,'panel')">Wainscoting</a>
-      <a href="#" class="sidebar-item" onclick="filterCat(event,'baseboard')">Stainless Steel Baseboard</a>
-      <a href="#" class="sidebar-item" onclick="filterCat(event,'profile')">Metal Decorative Lines</a>
-      <a href="#" class="sidebar-item" onclick="filterCat(event,'welded')">All-Aluminum Welded Plate</a>
-      <a href="#" class="sidebar-item" onclick="filterCat(event,'skirting')">Metal Skirting</a>
-    </div>
-    <div class="sidebar-contact">
-      <div class="sc-label">Cal Elite Builders</div>
-      <div class="sc-phone">18927795653</div>
-      <div class="sc-sub">Welcome your call</div>
-      <a href="tel:18927795653" class="sc-btn">Contact Now</a>
-    </div>
-  </aside>
+  <script>
+    // ── Pagination ──────────────────────────────────────────────
+    let currentPage = 1;
+    const totalPages = 2;
 
-  <div id="cards-wrapper">
-    <div class="filter-bar">
-      <span class="filter-count">All Products &nbsp;<span id="count">(10)</span></span>
-      <div class="filter-tabs">
-        <button class="filter-tab active" onclick="filterTab(event,'all')">All</button>
-        <button class="filter-tab" onclick="filterTab(event,'panel')">Panels</button>
-        <button class="filter-tab" onclick="filterTab(event,'profile')">Profiles</button>
-        <button class="filter-tab" onclick="filterTab(event,'skirting')">Skirting</button>
-      </div>
-    </div>
+    function animateSection(el) {
+      el.classList.remove('active');
+      void el.offsetWidth; // force reflow to restart animation
+      el.classList.add('active');
+    }
 
-    <!-- PAGE 1 -->
-    <div id="page1" class="page-section active">
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="panel">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="180" height="130" rx="4" fill="#e8e4dc"/><rect x="10" y="10" width="180" height="34" rx="4" fill="#f5f2ed"/><rect x="10" y="50" width="180" height="26" fill="#e0dbd2"/><rect x="10" y="82" width="180" height="26" fill="#c8c0b0"/><rect x="10" y="114" width="180" height="20" fill="#a89880"/><g fill="none" stroke="#b0a890" stroke-width="0.9" opacity="0.55"><polygon points="40,56 55,48 70,56 70,72 55,80 40,72"/><polygon points="70,56 85,48 100,56 100,72 85,80 70,72"/><polygon points="100,56 115,48 130,56 130,72 115,80 100,72"/><polygon points="130,56 145,48 160,56 160,72 145,80 130,72"/><polygon points="55,72 70,64 85,72 85,88 70,96 55,88"/><polygon points="85,72 100,64 115,72 115,88 100,96 85,88"/><polygon points="115,72 130,64 145,72 145,88 130,96 115,88"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">SPC Honeycomb Panel</div><div class="card-date">2025-06-24</div><div class="card-desc">Lightweight composite panels with superior strength-to-weight ratio for modern interior wall and ceiling applications.</div><div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="panel">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,10)"><rect x="0" y="0" width="180" height="38" rx="3" fill="#6b5040"/><rect x="0" y="0" width="180" height="12" rx="3" fill="#8a6a50"/><rect x="0" y="48" width="180" height="38" rx="3" fill="#6b5040"/><rect x="0" y="48" width="180" height="12" rx="3" fill="#8a6a50"/><rect x="0" y="96" width="180" height="38" rx="3" fill="#6b5040"/><rect x="0" y="96" width="180" height="12" rx="3" fill="#8a6a50"/><g fill="#2a1a0a" opacity="0.4"><rect x="8" y="2" width="10" height="34" rx="1"/><rect x="26" y="2" width="10" height="34" rx="1"/><rect x="44" y="2" width="10" height="34" rx="1"/><rect x="62" y="2" width="10" height="34" rx="1"/><rect x="80" y="2" width="10" height="34" rx="1"/><rect x="98" y="2" width="10" height="34" rx="1"/><rect x="116" y="2" width="10" height="34" rx="1"/><rect x="134" y="2" width="10" height="34" rx="1"/><rect x="152" y="2" width="10" height="34" rx="1"/></g></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Grille Plate</div><div class="card-date">2025-06-24</div><div class="card-desc">Wood-grain finish aluminum grille profiles for elegant wall and ceiling decorative applications in residential and commercial spaces.</div><div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="panel">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,75)"><rect x="-55" y="-65" width="110" height="130" rx="5" fill="#c8a870" opacity="0.6" transform="rotate(-18)"/><rect x="-55" y="-65" width="110" height="130" rx="5" fill="#d4bc90" opacity="0.72" transform="rotate(-8)"/><rect x="-55" y="-65" width="110" height="130" rx="5" fill="#ece4d4" opacity="0.88" transform="rotate(0)"/><rect x="-55" y="-65" width="110" height="130" rx="5" fill="#a09080" opacity="0.6" transform="rotate(8)"/><rect x="-55" y="-65" width="110" height="130" rx="5" fill="#707070" opacity="0.5" transform="rotate(18)"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Aluminum Honeycomb Panel</div><div class="card-date">2025-06-24</div><div class="card-desc">High-strength aluminum composite panels available in wood-grain, metallic, and solid color finishes for architectural projects.</div><div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="panel">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,10)"><rect x="0" y="0" width="180" height="130" rx="3" fill="#e8e0d4"/><rect x="20" y="15" width="35" height="100" rx="2" fill="#1a1a1a"/><rect x="65" y="15" width="35" height="100" rx="2" fill="#8b6f47"/><rect x="110" y="15" width="35" height="100" rx="2" fill="#d4a574"/><rect x="155" y="15" width="35" height="100" rx="2" fill="#f5f0e8"/><line x1="20" y1="20" x2="190" y2="20" stroke="#c0b8a8" stroke-width="0.8"/><line x1="20" y1="115" x2="190" y2="115" stroke="#c0b8a8" stroke-width="0.8"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Carbon Crystal Plate</div><div class="card-date">2025-06-24</div><div class="card-desc">Premium carbon crystal composite plates with multiple color finishes for luxury interior applications.</div><div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="skirting">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,40)"><rect x="0" y="20" width="180" height="58" rx="2" fill="#a09080"/><rect x="0" y="0" width="180" height="24" rx="3" fill="#c0b8a8"/><rect x="0" y="0" width="180" height="8" rx="3" fill="#d4ccc0"/><rect x="-4" y="18" width="188" height="6" rx="1" fill="#887868"/><circle cx="20" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/><circle cx="50" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/><circle cx="80" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/><circle cx="110" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/><circle cx="140" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/><circle cx="170" cy="15" r="3" fill="#ffeb3b" opacity="0.8"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">LED Skirting</div><div class="card-date">2025-06-24</div><div class="card-desc">Modern LED-integrated skirting boards with ambient lighting for contemporary interior spaces and accent detailing.</div><div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="skirting">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,45)"><rect x="0" y="0" width="180" height="68" rx="3" fill="#e8e8e8"/><rect x="0" y="0" width="180" height="20" rx="3" fill="#f5f5f5"/><rect x="0" y="20" width="180" height="4" fill="#d0d0d0"/><line x1="0" y1="27" x2="180" y2="27" stroke="#c0c0c0" stroke-width="0.7"/><line x1="0" y1="34" x2="180" y2="34" stroke="#c0c0c0" stroke-width="0.7"/><line x1="0" y1="41" x2="180" y2="41" stroke="#c0c0c0" stroke-width="0.7"/><line x1="0" y1="48" x2="180" y2="48" stroke="#c0c0c0" stroke-width="0.7"/><line x1="0" y1="55" x2="180" y2="55" stroke="#c0c0c0" stroke-width="0.7"/><rect x="0" y="62" width="180" height="6" rx="2" fill="#b8b8b8"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Stainless Steel Skirting</div><div class="card-date">2025-06-24</div><div class="card-desc">Premium stainless steel skirting boards with brushed or mirror-polished finish for modern luxury interiors.</div><div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-    </div>
+    function goToPage(page) {
+      if (page < 1 || page > totalPages) return;
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      animateSection(document.getElementById('page' + page));
+      document.getElementById('btn-p1').classList.toggle('active', page === 1);
+      document.getElementById('btn-p2').classList.toggle('active', page === 2);
+      currentPage = page;
+      document.querySelector('.main-layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-    <!-- PAGE 2 -->
-    <div id="page2" class="page-section">
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="baseboard">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,45)"><rect x="0" y="0" width="180" height="68" rx="3" fill="#d0ccc8"/><rect x="0" y="0" width="180" height="20" rx="3" fill="#e8e4e0"/><rect x="0" y="20" width="180" height="4" fill="#b8b4b0"/><line x1="0" y1="27" x2="180" y2="27" stroke="#c0bcb8" stroke-width="0.7"/><line x1="0" y1="34" x2="180" y2="34" stroke="#c0bcb8" stroke-width="0.7"/><line x1="0" y1="41" x2="180" y2="41" stroke="#c0bcb8" stroke-width="0.7"/><line x1="0" y1="48" x2="180" y2="48" stroke="#c0bcb8" stroke-width="0.7"/><line x1="0" y1="55" x2="180" y2="55" stroke="#c0bcb8" stroke-width="0.7"/><rect x="0" y="62" width="180" height="6" rx="2" fill="#a8a4a0"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Stainless Steel Baseboard</div><div class="card-date">2025-06-24</div><div class="card-desc">Precision-engineered stainless baseboards with brushed or mirror-polished finish. Ideal for modern and luxury interior spaces.</div><div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="profile">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,12)"><rect x="0" y="0" width="180" height="15" rx="7" fill="#b8a888"/><rect x="0" y="22" width="180" height="10" rx="5" fill="#c8b898"/><rect x="0" y="40" width="180" height="20" rx="3" fill="#a89878"/><rect x="0" y="40" width="180" height="8" rx="3" fill="#c0b090"/><rect x="0" y="70" width="180" height="7" rx="3" fill="#d4c8a0"/><rect x="0" y="86" width="180" height="14" rx="6" fill="#b0a070"/><rect x="0" y="86" width="180" height="5" rx="3" fill="#c8b888"/><rect x="0" y="110" width="180" height="24" rx="3" fill="#907860"/><rect x="0" y="110" width="180" height="10" rx="3" fill="#a89070"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Metal Decorative Lines</div><div class="card-date">2025-06-24</div><div class="card-desc">Versatile metal trim profiles for accent detailing on walls, ceilings, and furniture edges in a variety of finishes.</div><div class="card-footer"><span class="card-tag">Profiles</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="welded">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="180" height="130" rx="4" fill="#e0d8cc"/><rect x="20" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/><rect x="102" y="20" width="72" height="50" rx="2" fill="#d0c8bc"/><rect x="20" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/><rect x="102" y="80" width="72" height="50" rx="2" fill="#d0c8bc"/><circle cx="92" cy="70" r="6" fill="#a89870"/><circle cx="102" cy="70" r="6" fill="#a89870"/><circle cx="92" cy="80" r="6" fill="#a89870"/><circle cx="102" cy="80" r="6" fill="#a89870"/></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">All-Aluminum Welded Large Plate</div><div class="card-date">2025-06-24</div><div class="card-desc">Full-size seamlessly welded aluminum panels for large-area wall cladding with a clean, modern aesthetic and zero visible joints.</div><div class="card-footer"><span class="card-tag">Panels</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-      <a href="product-details.html" class="card-link">
-        <div class="card" data-cat="skirting">
-          <div class="card-img-wrap">
-            <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg"><g transform="translate(10,40)"><rect x="0" y="20" width="180" height="58" rx="2" fill="#b8a888"/><rect x="0" y="0" width="180" height="24" rx="3" fill="#d4c4a0"/><rect x="0" y="0" width="180" height="8" rx="3" fill="#e8dcc0"/><rect x="-4" y="18" width="188" height="6" rx="1" fill="#a89878"/><line x1="15" y1="30" x2="165" y2="30" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/><line x1="15" y1="40" x2="165" y2="40" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/><line x1="15" y1="50" x2="165" y2="50" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/><line x1="15" y1="60" x2="165" y2="60" stroke="#c0b090" stroke-width="0.8" opacity="0.6"/></g></svg>
-            <div class="card-overlay"><button class="card-view-btn">View Details</button></div>
-          </div>
-          <div class="card-body"><div class="card-title">Aluminum Alloy Skirting</div><div class="card-date">2025-06-24</div><div class="card-desc">Lightweight yet durable aluminum alloy skirting boards with multiple finish options for versatile interior design.</div><div class="card-footer"><span class="card-tag">Skirting</span><span class="card-arrow">→</span></div></div>
-        </div>
-      </a>
-    </div>
+    function changePage(delta) {
+      goToPage(currentPage + delta);
+    }
 
-    <div class="pagination-wrap">
-      <div class="pagination">
-        <button class="page-btn" onclick="changePage(-1)">Prev</button>
-        <button class="page-btn active" id="btn-p1" onclick="goToPage(1)">1</button>
-        <button class="page-btn" id="btn-p2" onclick="goToPage(2)">2</button>
-        <button class="page-btn" onclick="changePage(1)">Next</button>
-      </div>
-    </div>
-  </div>
-</div>
+    // ── Filtering ───────────────────────────────────────────────
+    // Sync both sidebar and tab buttons when any filter is applied
+    function syncSidebar(cat) {
+      document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+      const sidebarMap = { all: 0, panel: 1, baseboard: 2, profile: 3, welded: 4, skirting: 5 };
+      const items = document.querySelectorAll('.sidebar-item');
+      if (sidebarMap[cat] !== undefined) items[sidebarMap[cat]].classList.add('active');
+    }
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo-row">
-          <div class="footer-logo-icon">CE</div>
-          <div>
-            <div class="footer-brand-name"><em>Cal Elite</em> Builders</div>
-            <div class="footer-brand-sub">Cal Electrical · Est. 2004</div>
-          </div>
-        </div>
-        <p class="footer-tagline">Premium construction materials and electrical solutions — engineered for excellence.</p>
-        <div class="footer-socials">
-          <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.098 20c-4.612 0-8.098-2.3-8.098-5.5 0-1.7.98-3.6 2.7-5.1C6.5 7.9 8.3 7.2 9.9 7.4c.3-1 1.2-1.4 2-1.4.9 0 1.6.6 1.7 1.5 2.7.8 4.4 2.9 4.4 5.5 0 3.9-3.6 7-7.9 7zm-.808-4.8c2.4 0 4.4-1.4 4.4-3.2s-2-3.2-4.4-3.2-4.4 1.4-4.4 3.2 2 3.2 4.4 3.2zm-.8-1.8c-.7 0-1.2-.5-1.2-1.2s.5-1.2 1.2-1.2 1.2.5 1.2 1.2-.5 1.2-1.2 1.2z"/></svg></a>
-          <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.89 1.08 3.57 2.78 4.7l-.78 2.3 2.68-1.34c.85.22 1.82.34 2.82.34.24 0 .48-.01.71-.03A5.8 5.8 0 0 1 10 14.5c0-3.04 2.69-5.5 6-5.5.21 0 .42.01.63.03C16.04 6.37 13.08 4 9.5 4zM7 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2zM16 11c-2.76 0-5 1.79-5 4s2.24 4 5 4c.73 0 1.42-.14 2.05-.38l2.45 1.22-.81-2.42C20.53 16.62 21 15.36 21 14c0-1.66-1.01-3.11-2.51-3.73A5.6 5.6 0 0 0 16 11zm-1.5 3a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm3 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg></a>
-          <a href="#" class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5S10.5 3.17 10.5 4v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-cols">
-      <div>
-        <div class="footer-col-title">Products</div>
-        <a href="#" class="footer-link">Wainscoting</a>
-        <a href="#" class="footer-link">Stainless Steel Baseboard</a>
-        <a href="#" class="footer-link">Metal Decorative Lines</a>
-        <a href="#" class="footer-link">All-Aluminum Welded Plate</a>
-        <a href="#" class="footer-link">Metal Skirting</a>
-        <a href="#" class="footer-link">SPC Honeycomb Panel</a>
-        <a href="#" class="footer-link">Grille Plate</a>
-        <a href="#" class="footer-link">Aluminum Honeycomb Panel</a>
-      </div>
-      <div>
-        <div class="footer-col-title">About Us</div>
-        <a href="#" class="footer-link">Company Profile</a>
-        <a href="#" class="footer-link">Product Advantages</a>
-        <a href="#" class="footer-link">Honor</a>
-        <a href="#" class="footer-link">Team Style</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Case</div>
-        <a href="case.html" class="footer-link">Applications</a>
-      </div>
-      <div>
-        <div class="footer-col-title">News</div>
-        <a href="#" class="footer-link">Company News</a>
-        <a href="#" class="footer-link">Industry News</a>
-      </div>
-      <div>
-        <div class="footer-col-title">Contact</div>
-        <a href="#" class="footer-link">Online Message</a>
-      </div>
-      <div>
-        <div class="footer-contact-label">Contact Number</div>
-        <div class="footer-contact-phone">18927795653</div>
-        <div class="footer-contact-label" style="margin-top:14px;">Company Address</div>
-        <div class="footer-contact-addr">No. 5-3, Nanshezheng 2nd Road, Desheng Village, Lishui Town, Nanhai District, Foshan City</div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-text">© 2025 Cal Elite Builders · Cal Electrical · All Rights Reserved</div>
-    </div>
-  </div>
-</footer>
+    function syncTabs(cat) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      const tabMap = { all: 0, panel: 1, profile: 2, skirting: 3 };
+      const tabs = document.querySelectorAll('.filter-tab');
+      if (tabMap[cat] !== undefined) tabs[tabMap[cat]].classList.add('active');
+    }
 
-<script>
-let currentPage=1;const totalPages=2;
-function animateSection(el){el.classList.remove('active');void el.offsetWidth;el.classList.add('active');}
-function goToPage(page){if(page<1||page>totalPages)return;document.querySelectorAll('.page-section').forEach(el=>el.classList.remove('active'));animateSection(document.getElementById('page'+page));document.getElementById('btn-p1').classList.toggle('active',page===1);document.getElementById('btn-p2').classList.toggle('active',page===2);currentPage=page;document.querySelector('.main-layout').scrollIntoView({behavior:'smooth',block:'start'});}
-function changePage(delta){goToPage(currentPage+delta);}
-function filterCat(e,cat){e.preventDefault();document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));e.currentTarget.classList.add('active');applyFilter(cat);}
-function filterTab(e,cat){document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));e.currentTarget.classList.add('active');applyFilter(cat);}
-const allCardLinks=Array.from(document.querySelectorAll('.card-link'));
-const originalPage=new Map();
-allCardLinks.forEach(cl=>{originalPage.set(cl,cl.parentElement);});
-function applyFilter(cat){const page1=document.getElementById('page1');if(cat==='all'){allCardLinks.forEach(cl=>{originalPage.get(cl).appendChild(cl);cl.style.display='block';});}else{allCardLinks.forEach(cl=>{const match=cl.querySelector('.card').dataset.cat===cat;if(match){page1.appendChild(cl);cl.style.display='block';}else cl.style.display='none';});}const visible=allCardLinks.filter(cl=>cl.style.display!=='none').length;document.getElementById('count').textContent='('+visible+')';document.querySelectorAll('.page-section').forEach(el=>el.classList.remove('active'));animateSection(page1);currentPage=1;document.getElementById('btn-p1').classList.add('active');document.getElementById('btn-p2').classList.remove('active');}
-const si=document.querySelector('.nav-search input');const sb=document.querySelector('.nav-search-btn');sb.addEventListener('click',()=>{if(si.value.trim())alert('Searching: '+si.value.trim());});si.addEventListener('keypress',e=>{if(e.key==='Enter')sb.click();});
-</script>
+    function filterCat(e, cat) {
+      e.preventDefault();
+      syncSidebar(cat);
+      syncTabs(cat);
+      applyFilter(cat);
+    }
+
+    function filterTab(e, cat) {
+      syncTabs(cat);
+      syncSidebar(cat);
+      applyFilter(cat);
+    }
+
+    const allCardLinks = Array.from(document.querySelectorAll('.card-link'));
+    const originalPage = new Map();
+    allCardLinks.forEach(cl => { originalPage.set(cl, cl.parentElement); });
+
+    function applyFilter(cat) {
+      const page1 = document.getElementById('page1');
+      if (cat === 'all') {
+        allCardLinks.forEach(cl => {
+          originalPage.get(cl).appendChild(cl);
+          cl.style.display = 'block';
+        });
+      } else {
+        allCardLinks.forEach(cl => {
+          const match = cl.querySelector('.card').dataset.cat === cat;
+          if (match) {
+            page1.appendChild(cl);
+            cl.style.display = 'block';
+          } else {
+            cl.style.display = 'none';
+          }
+        });
+      }
+      const visible = allCardLinks.filter(cl => cl.style.display !== 'none').length;
+      document.getElementById('count').textContent = '(' + visible + ')';
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      animateSection(page1);
+      currentPage = 1;
+      document.getElementById('btn-p1').classList.add('active');
+      document.getElementById('btn-p2').classList.remove('active');
+    }
+
+    // ── Search ──────────────────────────────────────────────────
+    const si = document.getElementById('searchInput');
+    const sb = document.getElementById('searchBtn');
+
+    function doSearch() {
+      const query = si.value.trim().toLowerCase();
+      if (!query) return;
+      // Filter cards whose title or description matches the query
+      allCardLinks.forEach(cl => {
+        const title = cl.querySelector('.card-title').textContent.toLowerCase();
+        const desc = cl.querySelector('.card-desc').textContent.toLowerCase();
+        cl.style.display = (title.includes(query) || desc.includes(query)) ? 'block' : 'none';
+      });
+      const page1 = document.getElementById('page1');
+      allCardLinks.filter(cl => cl.style.display !== 'none').forEach(cl => page1.appendChild(cl));
+      const visible = allCardLinks.filter(cl => cl.style.display !== 'none').length;
+      document.getElementById('count').textContent = '(' + visible + ')';
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      animateSection(page1);
+    }
+
+    sb.addEventListener('click', doSearch);
+    si.addEventListener('keypress', e => { if (e.key === 'Enter') doSearch(); });
+
+    // Clear search and reset on empty input
+    si.addEventListener('input', () => {
+      if (si.value === '') applyFilter('all');
+    });
+
+    // ── Mobile hamburger ────────────────────────────────────────
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('navMenu').classList.remove('open');
+      });
+    });
+  </script>
 </body>
+
 </html>
