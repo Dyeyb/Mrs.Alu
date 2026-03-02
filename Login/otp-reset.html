@@ -755,7 +755,7 @@
                 const res = await fetch('verify-otp.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: userEmail, otp: code, flow: 'forgot-password' })
+                    body: JSON.stringify({ user_id: userId, email: userEmail, otp: code, flow: 'forgot-password' })
                 });
                 const json = await res.json();
 
@@ -789,7 +789,7 @@
                     flow: 'forgot-password'
                 }));
 
-                setTimeout(() => { window.location.href = 'reset-password.html'; }, 1200);
+                setTimeout(() => { window.location.href = 'new-password.html'; }, 1200);
 
             } catch (e) {
                 btn.classList.remove('loading');
