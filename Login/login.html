@@ -305,6 +305,7 @@
             flex: 1;
             background: var(--ink-1);
             animation: fadeSlide 0.8s 0.2s ease both;
+            position: relative;
         }
 
         @keyframes fadeSlide {
@@ -856,6 +857,56 @@
         }
 
         /* ══════════════════════════════════════════
+           SUPPORT BUTTON (BOTTOM RIGHT)
+        ══════════════════════════════════════════ */
+        .support-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 400;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 20px rgba(232, 150, 10, 0.35), 0 0 40px rgba(232, 150, 10, 0.12);
+            animation: floatIn 0.6s 0.8s ease both;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .support-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 8px 32px rgba(232, 150, 10, 0.5), 0 0 60px rgba(232, 150, 10, 0.2);
+        }
+
+        .support-btn:active {
+            transform: scale(1.08);
+        }
+
+        .support-icon {
+            width: 28px;
+            height: 28px;
+            color: var(--ink);
+            stroke-width: 2;
+        }
+
+        /* ══════════════════════════════════════════
            MODAL
         ══════════════════════════════════════════ */
         .modal-bg {
@@ -959,6 +1010,11 @@
             box-shadow: 0 4px 22px rgba(232, 150, 10, 0.45);
         }
 
+        .btn-mp:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-ms {
             width: 100%;
             padding: .88rem;
@@ -977,6 +1033,68 @@
         .btn-ms:hover {
             border-color: rgba(232, 150, 10, 0.28);
             color: var(--cream);
+        }
+
+        /* Step indicators */
+        .reactivation-steps {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(232, 150, 10, 0.2);
+            transition: all 0.3s;
+        }
+
+        .step-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+        }
+
+        .reactivation-form {
+            display: none;
+        }
+
+        .reactivation-form.show {
+            display: block;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .otp-input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            background: var(--ink-3);
+            border: 1px solid rgba(232, 150, 10, 0.2);
+            border-radius: 4px;
+            color: var(--cream);
+            font-family: 'Jost', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .otp-input:focus {
+            border-color: var(--gold);
+            background: var(--ink-2);
+            box-shadow: 0 0 0 3px var(--gold-pale);
+        }
+
+        .otp-input.err {
+            border-color: var(--err);
+            box-shadow: 0 0 0 3px var(--err-glow);
         }
 
         /* ── TOAST ── */
@@ -1017,6 +1135,18 @@
             .right {
                 flex: 1;
             }
+
+            .support-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 50px;
+                height: 50px;
+            }
+
+            .support-icon {
+                width: 24px;
+                height: 24px;
+            }
         }
     </style>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -1024,7 +1154,7 @@
 
 <body>
 
-    <!-- No-account modal -->
+    <!-- No Account Modal -->
     <div class="modal-bg" id="noAccountModal">
         <div class="modal-box">
             <div class="modal-icon-ring">
@@ -1042,6 +1172,69 @@
                 <button class="btn-mp" id="modalCreateBtn">Create an Account</button>
                 <button class="btn-ms" id="modalCancelBtn">Cancel</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Account Reactivation Modal -->
+    <div class="modal-bg" id="reactivationModal">
+        <div class="modal-box">
+            <div class="modal-icon-ring" id="reactivationIcon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 010-18h.5" />
+                    <path d="M12 2v7m5-5a8.998 8.998 0 01.5 17.969" />
+                </svg>
+            </div>
+            <h3 id="reactivationTitle">Reactivate Account</h3>
+            <p id="reactivationMsg">Enter your email address to reactivate your archived account.</p>
+
+            <!-- Step 1: Email input -->
+            <form id="reactivationForm1" class="reactivation-form show">
+                <div style="margin-bottom: 1.3rem;">
+                    <input type="email" id="reactivationEmail" placeholder="your@email.com" class="field-inp"
+                        style="width: 100%; margin-bottom: 0.5rem;" />
+                    <small style="font-size: 0.62rem; color: var(--cream-ghost);">We'll send an OTP to verify your
+                        email</small>
+                </div>
+                <div class="modal-btns">
+                    <button type="button" class="btn-mp" id="sendOtpBtn">Send OTP</button>
+                    <button type="button" class="btn-ms" id="closeReactivationBtn">Cancel</button>
+                </div>
+            </form>
+
+            <!-- Step 2: OTP verification -->
+            <form id="reactivationForm2" class="reactivation-form">
+                <p style="margin-bottom: 1rem; font-size: 0.74rem;">Enter the 6-digit code sent to your email</p>
+                <div class="otp-inputs" id="otpInputsContainer">
+                    <input type="text" maxlength="1" class="otp-input" data-index="0" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="1" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="2" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="3" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="4" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="5" />
+                </div>
+                <small style="font-size: 0.62rem; color: var(--cream-ghost); margin-bottom: 1rem; display: block;">OTP
+                    expires in <span id="otpTimer">5:00</span></small>
+                <div class="modal-btns">
+                    <button type="button" class="btn-mp" id="verifyOtpBtn">Verify & Reactivate</button>
+                    <button type="button" class="btn-ms" id="backToEmailBtn">Back</button>
+                </div>
+            </form>
+
+            <!-- Step 3: Success -->
+            <form id="reactivationForm3" class="reactivation-form">
+                <div class="modal-icon-ring" style="margin-bottom: 1rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3 style="margin-bottom: 0.5rem;">Account Reactivated!</h3>
+                <p>Your account is now active and ready to use. A confirmation email has been sent to your inbox.</p>
+                <div class="modal-btns">
+                    <button type="button" class="btn-mp" id="doneBtn">Return to Login</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1171,6 +1364,16 @@
 
     </div>
 
+    <!-- Support Button -->
+    <button class="support-btn" id="supportBtn" title="Need help? Reactivate your account">
+        <svg class="support-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <circle cx="12" cy="8" r="0.5" fill="currentColor" />
+        </svg>
+    </button>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -1231,6 +1434,194 @@
         document.getElementById('modalCancelBtn').addEventListener('click', hideModal);
         document.getElementById('noAccountModal').addEventListener('click', e => { if (e.target === e.currentTarget) hideModal(); });
 
+        // ══════════════════════════════════════════
+        // ACCOUNT REACTIVATION
+        // ══════════════════════════════════════════
+
+        const supportBtn = document.getElementById('supportBtn');
+        const reactivationModal = document.getElementById('reactivationModal');
+        let otpTimerInterval = null;
+        let userEmailForReactivation = '';
+
+        // Open reactivation modal
+        supportBtn.addEventListener('click', () => {
+            reactivationModal.classList.add('show');
+            document.getElementById('reactivationEmail').focus();
+        });
+
+        // Close reactivation modal
+        document.getElementById('closeReactivationBtn').addEventListener('click', () => {
+            reactivationModal.classList.remove('show');
+            resetReactivationForm();
+        });
+
+        reactivationModal.addEventListener('click', e => {
+            if (e.target === e.currentTarget) {
+                reactivationModal.classList.remove('show');
+                resetReactivationForm();
+            }
+        });
+
+        // Send OTP
+        document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+            const email = document.getElementById('reactivationEmail').value.trim();
+            if (!email) {
+                toast('Please enter your email address', true);
+                return;
+            }
+
+            const btn = document.getElementById('sendOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                const res = await fetch('./send-reactivation-otp.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const json = await res.json();
+
+                if (!json.success) {
+                    toast(json.message || 'Failed to send OTP', true);
+                    btn.disabled = false;
+                    btn.textContent = 'Send OTP';
+                    return;
+                }
+
+                userEmailForReactivation = email;
+                toast('OTP sent to your email');
+                goToStep(2);
+                startOtpTimer();
+            } catch (err) {
+                toast('Network error. Please try again.', true);
+                btn.disabled = false;
+                btn.textContent = 'Send OTP';
+            }
+        });
+
+        // Handle OTP input
+        const otpInputs = document.querySelectorAll('.otp-input');
+        otpInputs.forEach((input, i) => {
+            input.addEventListener('input', (e) => {
+                if (!/^[0-9]$/.test(e.target.value)) {
+                    e.target.value = '';
+                    return;
+                }
+                if (i < otpInputs.length - 1) {
+                    otpInputs[i + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && i > 0) {
+                    otpInputs[i - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text').slice(0, 6);
+                paste.split('').forEach((char, idx) => {
+                    if (i + idx < otpInputs.length && /^[0-9]$/.test(char)) {
+                        otpInputs[i + idx].value = char;
+                    }
+                });
+            });
+        });
+
+        // Verify OTP
+        document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+            const otp = Array.from(otpInputs).map(i => i.value).join('');
+            if (otp.length !== 6) {
+                toast('Please enter all 6 digits', true);
+                otpInputs.forEach(i => i.classList.add('err'));
+                setTimeout(() => otpInputs.forEach(i => i.classList.remove('err')), 600);
+                return;
+            }
+
+            const btn = document.getElementById('verifyOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
+
+            try {
+                const res = await fetch('./verify-reactivation-otp.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: userEmailForReactivation, otp, type: 'Account Activation' })
+                });
+                const json = await res.json();
+
+                if (!json.success) {
+                    toast(json.message || 'OTP verification failed', true);
+                    btn.disabled = false;
+                    btn.textContent = 'Verify & Reactivate';
+                    return;
+                }
+
+                clearInterval(otpTimerInterval);
+                toast('Account reactivated successfully!');
+                goToStep(3);
+            } catch (err) {
+                toast('Network error. Please try again.', true);
+                btn.disabled = false;
+                btn.textContent = 'Verify & Reactivate';
+            }
+        });
+
+        // Back to email
+        document.getElementById('backToEmailBtn').addEventListener('click', () => {
+            clearInterval(otpTimerInterval);
+            goToStep(1);
+        });
+
+        // Done button
+        document.getElementById('doneBtn').addEventListener('click', () => {
+            reactivationModal.classList.remove('show');
+            resetReactivationForm();
+        });
+
+        // Helper functions
+        function goToStep(step) {
+            document.querySelectorAll('.reactivation-form').forEach(f => f.classList.remove('show'));
+            document.getElementById(`reactivationForm${step}`).classList.add('show');
+        }
+
+        function startOtpTimer() {
+            let seconds = 300; // 5 minutes
+            const timerEl = document.getElementById('otpTimer');
+
+            const tick = () => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+                if (seconds <= 0) {
+                    clearInterval(otpTimerInterval);
+                    document.getElementById('verifyOtpBtn').disabled = true;
+                    toast('OTP expired. Please request a new one.', true);
+                    goToStep(1);
+                    return;
+                }
+                seconds--;
+            };
+
+            tick();
+            otpTimerInterval = setInterval(tick, 1000);
+        }
+
+        function resetReactivationForm() {
+            document.getElementById('reactivationEmail').value = '';
+            otpInputs.forEach(i => i.value = '');
+            document.getElementById('sendOtpBtn').disabled = false;
+            document.getElementById('sendOtpBtn').textContent = 'Send OTP';
+            document.getElementById('verifyOtpBtn').disabled = false;
+            document.getElementById('verifyOtpBtn').textContent = 'Verify & Reactivate';
+            clearInterval(otpTimerInterval);
+            goToStep(1);
+            userEmailForReactivation = '';
+        }
+
         // Login form
         document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -1280,7 +1671,7 @@
             } catch { toast('Network error. Please try again.', true); }
         }
 
-        // Init Google — overlay invisible real button on luxury face
+        // Init Google
         function initGoogle() {
             if (typeof google === 'undefined' || !google.accounts) { setTimeout(initGoogle, 150); return; }
             google.accounts.id.initialize({
