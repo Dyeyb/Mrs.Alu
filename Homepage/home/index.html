@@ -2797,7 +2797,7 @@
     <div class="nav-progress" id="navProgress"></div>
     <div class="nav-inner">
       <a href="index.html" class="logo">
-        <div class="logo-mark"><img src="../LOGO/CalElite.png" alt="Cal Elite Logo"></div>
+        <div class="logo-mark"><img src="/LOGO/CalElite.png" alt="Cal Elite Logo"></div>
         <div class="logo-words">
           <span class="logo-est">Est. 2004</span>
           <span class="logo-name"><em>Cal Elite</em></span>
@@ -3513,7 +3513,7 @@
 
     // If no session exists, redirect to login
     if (!sessionUser) {
-      window.location.replace('../Login/login.html');
+      window.location.replace('/Login/login.html');
     }
 
     // Merge with any locally-saved display preferences (name edits, phone, etc.)
@@ -3582,7 +3582,7 @@
       // Show brief toast then redirect
       toast('Logged out successfully. Redirecting…', 'ok');
       setTimeout(() => {
-        window.location.replace('../Login/login.html');
+        window.location.replace('/Login/login.html');
       }, 1200);
     });
 

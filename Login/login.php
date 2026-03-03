@@ -85,7 +85,7 @@ if (empty($r['body']) || !is_array($r['body'])) {
 $user = $r['body'][0];
 
 // ── Account status checks ─────────────────────────────────────────────────────
-if ((bool)($user['is_archived'] ?? false)) {
+if ((bool) ($user['is_archived'] ?? false)) {
     out(false, 'Your account has been archived. Please reactivate it to log in.', ['can_reactivate' => true, 'email' => $email], 403);
 }
 if (($user['status'] ?? '') === 'inactive') {
@@ -104,9 +104,10 @@ if (!password_verify($password, $user['password_hash'] ?? '')) {
 $userType = $user['user_type'] ?? ''; // ← was missing; caused the fatal/network error
 
 $redirect = match ($userType) {
-        'admin' => '../admin-folders/admin_index.html',
-        'service' => '../Service Panel/service-index.html',
-        default => '../Homepage/index.html',    };
+    'admin' => '../admin-folders/FINALADMIN/ADMIN-dashboard.HTML',
+    'service' => '../Service Panel/service-index.html',
+    default => '../Homepage/home/index.html',
+};
 
 // ── Return safe user data (never expose password_hash) ───────────────────────
 out(true, 'Login successful.', [

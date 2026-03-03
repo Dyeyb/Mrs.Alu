@@ -2318,7 +2318,7 @@
     <div class="nav-progress" id="navProgress"></div>
     <div class="nav-inner">
       <a href="index.html" class="logo">
-        <div class="logo-mark"><img src="../LOGO/CalElite.png" alt="Cal Elite Logo"></div>
+        <div class="logo-mark"><img src="/LOGO/CalElite.png" alt="Cal Elite Logo"></div>
         <div class="logo-words">
           <span class="logo-est">Est. 2004</span>
           <span class="logo-name"><em>Cal Elite</em></span>
@@ -2913,7 +2913,7 @@
 
     // ── Session user ──
     const sessionUser = JSON.parse(sessionStorage.getItem('user') || 'null');
-    if (!sessionUser) window.location.replace('../Login/login.html');
+    if (!sessionUser) window.location.replace('/Login/login.html');
     let user = Object.assign(
       { name: (sessionUser ? (sessionUser.first_name || '') + ' ' + (sessionUser.last_name || '') : 'User'), email: sessionUser ? (sessionUser.email || '') : '', phone: '', company: '' },
       JSON.parse(localStorage.getItem('ceUser') || '{}')

@@ -2262,7 +2262,7 @@
         <div class="nav-progress" id="navProgress"></div>
         <div class="nav-inner">
             <a href="index.html" class="logo">
-                <div class="logo-mark"><img src="../LOGO/CalElite.png" alt="Cal Elite Logo"></div>
+                <div class="logo-mark"><img src="/LOGO/CalElite.png" alt="Cal Elite Logo"></div>
                 <div class="logo-words">
                     <span class="logo-est">Est. 2004</span>
                     <span class="logo-name"><em>Cal Elite</em></span>
@@ -2580,7 +2580,7 @@
 
         // ── Session ──
         const sessionUser = JSON.parse(sessionStorage.getItem('user') || 'null');
-        if (!sessionUser) window.location.replace('../Login/login.html');
+        if (!sessionUser) window.location.replace('/Login/login.html');
         let ceUser = Object.assign({ name: sessionUser ? ((sessionUser.first_name || '') + ' ' + (sessionUser.last_name || '')).trim() : 'User', email: sessionUser ? (sessionUser.email || '') : '', phone: '', company: '' }, JSON.parse(localStorage.getItem('ceUser') || '{}'));
         if (sessionUser) ceUser.email = sessionUser.email || ceUser.email;
         function loadUser() { const i = (ceUser.name || 'U').charAt(0).toUpperCase();['navAvatar', 'ddAvatar'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = i; }); const un = document.getElementById('navUname'); if (un) un.textContent = (ceUser.name || 'User').split(' ')[0]; const dn = document.getElementById('ddName'); if (dn) dn.textContent = ceUser.name || 'User'; const de = document.getElementById('ddEmail'); if (de) de.textContent = ceUser.email || ''; }
