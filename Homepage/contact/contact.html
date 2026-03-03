@@ -2271,11 +2271,11 @@
             </a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html" class="nl">Home</a></li>
-                    <li><a href="products.html" class="nl">Products</a></li>
-                    <li><a href="about.html" class="nl">About</a></li>
-                    <li><a href="services.html" class="nl">Services</a></li>
-                    <li><a href="contact.html" class="nl active">Contact</a></li>
+                    <li><a href="../home/index.html" class="nl">Home</a></li>
+                    <li><a href="../product/products.html" class="nl">Products</a></li>
+                    <li><a href="../about/about.html" class="nl">About</a></li>
+                    <li><a href="../services/services.html" class="nl">Services</a></li>
+                    <li><a href="../contact/contact.html" class="nl active">Contact</a></li>
                 </ul>
             </nav>
             <div class="nav-right">
@@ -2654,7 +2654,7 @@
                 if (!valid) { cfToast('Please fill in all required fields.', 'err'); return; }
                 setLoading(freshBtn, true);
                 try {
-                    const res = await fetch('send-contact.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first_name: firstName, last_name: lastName, email, phone, subject, message }) });
+                    const res = await fetch('../contact/send-contact.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first_name: firstName, last_name: lastName, email, phone, subject, message }) });
                     const data = await res.json();
                     if (data.success) { cfToast('✓ Message sent! We will get back to you within 24 hours.', 'ok'); const form = document.getElementById('contactForm'); if (form) form.reset(); }
                     else { cfToast(data.message || 'Failed to send. Please try again.', 'err'); }
