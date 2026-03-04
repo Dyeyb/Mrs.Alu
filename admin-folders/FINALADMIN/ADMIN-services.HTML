@@ -331,23 +331,27 @@
       overflow: hidden;
     }
 
+    /* ── LOGO ICON ── */
     .logo-icon {
       width: 40px;
       height: 40px;
-      border: 1.5px solid var(--gold);
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: var(--t);
+      overflow: hidden;
+      background: transparent;
+      padding: 0;
     }
 
-    .logo-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: var(--gold);
+    .left-logo-img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      display: block;
+      margin-top: 5px;
     }
-
     .logo-text {
       overflow: hidden;
       transition: var(--t);
@@ -3013,9 +3017,9 @@
     <div class="circle-deco"></div>
     <div class="gold-line"></div>
     <div class="sidebar-logo">
-      <div class="logo-icon"><svg viewBox="0 0 24 24">
-          <path d="M3 21h18v-2H3v2zm0-4h18v-2H3v2zm0-4h18v-2H3v2zm0-4h18V7H3v2zm0-6v2h18V3H3z" />
-        </svg></div>
+      <div class="logo-icon">
+        <img src="/LOGO/CalElite.png" alt="CAL ELITE" class="left-logo-img" />
+      </div>
       <div class="logo-text">
         <div class="logo-name">CAL ELITE</div>
         <div class="logo-sub">BUILDERS AND ELECTRICAL</div>
