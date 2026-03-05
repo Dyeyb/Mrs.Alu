@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Account – CAL ELITE</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet" />
   <style>
     *,
@@ -20,11 +20,13 @@
     :root {
       --gold: #de8908;
       --gold-light: #c27006;
+      --gold-bright: #FFD166;
       --dark: #1a1a18;
       --surface: #222220;
       --text: #e8e4dc;
       --muted: #888880;
       --border: rgba(248, 153, 12, 0.25);
+      --scan: rgba(222, 137, 8, 0.018);
     }
 
     html,
@@ -92,7 +94,9 @@
       transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease;
     }
 
-    /* ── LEFT: FORM PANEL ── */
+    /* ══════════════════════════════════════════
+       LEFT PANEL — completely unchanged
+    ══════════════════════════════════════════ */
     .left-panel {
       flex: 1;
       background: #111110;
@@ -127,7 +131,6 @@
       padding: 0 3rem;
     }
 
-    /* ── FORM ── */
     .form-card {
       width: 100%;
       max-width: 400px;
@@ -254,7 +257,6 @@
       box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
     }
 
-    /* ── Google prefill locked email style ── */
     .field input[readonly] {
       opacity: 0.65;
       cursor: not-allowed;
@@ -470,7 +472,9 @@
       z-index: 3;
     }
 
-    /* ── RIGHT: IMAGE PANEL ── */
+    /* ══════════════════════════════════════════
+       RIGHT PANEL — BLACK GOLD TECH (replaced)
+    ══════════════════════════════════════════ */
     .right-panel {
       flex: 1;
       position: relative;
@@ -490,13 +494,14 @@
       }
     }
 
+    /* Photo — darkened for tech look */
     .right-bg {
       position: absolute;
       inset: 0;
       background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=85&fit=crop&crop=center');
       background-size: cover;
       background-position: center 60%;
-      filter: brightness(0.6) saturate(0.65) sepia(0.3);
+      filter: brightness(0.32) sepia(0.28) hue-rotate(8deg);
       transition: transform 14s ease;
     }
 
@@ -504,17 +509,157 @@
       transform: scale(1.05);
     }
 
+    /* Heavy tech veil */
     .right-overlay {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, rgba(36, 18, 6, 0.88) 0%, rgba(74, 46, 24, 0.52) 35%, rgba(107, 66, 38, 0.22) 55%, rgba(74, 46, 24, 0.52) 80%, rgba(28, 14, 4, 0.95) 100%),
-        linear-gradient(90deg, rgba(201, 165, 97, 0.06) 0%, transparent 70%);
+        linear-gradient(165deg, rgba(3, 3, 1, 0.97) 0%, rgba(15, 10, 2, 0.72) 32%, rgba(8, 6, 1, 0.48) 52%, rgba(5, 4, 1, 0.88) 76%, rgba(2, 2, 0, 0.99) 100%),
+        linear-gradient(270deg, rgba(222, 137, 8, 0.06) 0%, transparent 58%);
     }
 
+    /* Scanlines */
+    .right-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+          transparent,
+          transparent 2px,
+          var(--scan) 2px,
+          var(--scan) 4px);
+    }
+
+    /* Grid */
+    .right-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(222, 137, 8, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(222, 137, 8, 0.025) 1px, transparent 1px);
+      background-size: 55px 55px;
+    }
+
+    /* Circuit SVG */
+    .right-circuit {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .right-circuit svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.13;
+    }
+
+    /* Animated scan line */
+    .right-scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(222, 137, 8, 0.55) 28%, rgba(255, 209, 102, 0.9) 50%, rgba(222, 137, 8, 0.55) 72%, transparent 100%);
+      animation: scanDown 7s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    @keyframes scanDown {
+      0% {
+        top: -2px;
+        opacity: 0;
+      }
+
+      5% {
+        opacity: 1;
+      }
+
+      95% {
+        opacity: 1;
+      }
+
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    /* Left-edge seam */
+    .right-seam {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(222, 137, 8, 0.1) 14%, rgba(222, 137, 8, 0.52) 50%, rgba(222, 137, 8, 0.1) 86%, transparent);
+      z-index: 6;
+    }
+
+    /* Corner brackets */
+    .rcorner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      z-index: 7;
+    }
+
+    .rcorner::before,
+    .rcorner::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+    }
+
+    .rcorner::before {
+      width: 100%;
+      height: 2px;
+      top: 0;
+      left: 0;
+    }
+
+    .rcorner::after {
+      width: 2px;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .rcorner.tl {
+      top: 20px;
+      left: 20px;
+    }
+
+    .rcorner.tr {
+      top: 20px;
+      right: 20px;
+      transform: scaleX(-1);
+    }
+
+    .rcorner.bl {
+      bottom: 20px;
+      left: 20px;
+      transform: scaleY(-1);
+    }
+
+    .rcorner.br {
+      bottom: 20px;
+      right: 20px;
+      transform: scale(-1);
+    }
+
+    /* Content */
     .right-content {
       position: relative;
-      z-index: 2;
+      z-index: 8;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -522,6 +667,7 @@
       padding: 3rem 3.5rem;
     }
 
+    /* Logo row */
     .right-logo {
       display: flex;
       align-items: center;
@@ -530,75 +676,150 @@
     }
 
     .right-logo-img {
-      width: 100x;
-      height: 110px;
-
-      display: block;
-      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.55));
+      width: 100px;
+      height: 150px;
+      filter: drop-shadow(0 0 28px rgba(222, 137, 8, 0.8)) drop-shadow(0 0 55px rgba(222, 137, 8, 0.38));
       flex-shrink: 0;
-      transform: translate(0%, 10%);
-
-
+      transform: translate(0%, 5%);
     }
 
-
-
     .logo-text .logo-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--gold);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--gold-bright);
       line-height: 1;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 22px rgba(222, 137, 8, 0.5), 0 0 44px rgba(222, 137, 8, 0.22);
     }
 
     .logo-text .logo-sub {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.65);
-      letter-spacing: 0.18em;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.52rem;
+      font-weight: 400;
+      color: rgba(222, 137, 8, 0.5);
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      margin-top: 4px;
+      margin-top: 8px;
     }
 
-    .right-divider {
-      width: 52px;
+    /* HUD readout */
+    .right-hud {
+      margin-bottom: 1.6rem;
+    }
+
+    .hud-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.32rem;
+    }
+
+    .hud-label {
+      color: rgba(222, 137, 8, 0.25);
+    }
+
+    .hud-value {
+      color: rgba(222, 137, 8, 0.7);
+      animation: hudBlink 3.2s ease-in-out infinite;
+    }
+
+    @keyframes hudBlink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      48%,
+      52% {
+        opacity: 0.35;
+      }
+    }
+
+    .hud-bar {
+      width: 100px;
+      height: 2px;
+      background: rgba(222, 137, 8, 0.08);
+      border-radius: 1px;
+    }
+
+    .hud-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7A4B02, var(--gold));
+      border-radius: 1px;
+      box-shadow: 0 0 5px rgba(222, 137, 8, 0.55);
+    }
+
+    /* Ornament */
+    .right-divider-orn {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .right-divider-orn::before {
+      content: '';
+      width: 32px;
       height: 1px;
       background: linear-gradient(90deg, var(--gold), transparent);
-      margin-bottom: 1.4rem;
-      opacity: 0.55;
+      opacity: 0.45;
     }
 
+    .right-divider-orn::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(222, 137, 8, 0.22), transparent);
+    }
+
+    .right-divider-orn span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(222, 137, 8, 0.4);
+    }
+
+    /* Quote */
     .right-quote {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.5rem, 2.6vw, 2.2rem);
       font-weight: 300;
       font-style: italic;
       line-height: 1.4;
-      color: rgba(232, 228, 220, 0.9);
+      color: rgba(232, 228, 220, 0.88);
       margin-bottom: 1.5rem;
       max-width: 400px;
+      padding-left: 1.3rem;
+      position: relative;
     }
 
     .right-quote::before {
-      content: '\201C';
-      color: var(--gold);
-      font-size: 3.5rem;
-      line-height: 0;
-      vertical-align: -1.1rem;
-      margin-right: 0.15rem;
-      opacity: 0.65;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 3px;
+      height: calc(100% - 8px);
+      background: linear-gradient(to bottom, #FFD166, #7A4B02);
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(222, 137, 8, 0.5);
     }
 
     .right-meta {
-      font-size: 0.67rem;
-      letter-spacing: 0.2em;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(201, 165, 97, 0.6);
+      color: rgba(222, 137, 8, 0.3);
     }
 
-    /* Toast */
+    /* ── Toast (unchanged) ── */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -622,7 +843,7 @@
       opacity: 1;
     }
 
-    /* ── SUCCESS MODAL ── */
+    /* ── SUCCESS MODAL (unchanged) ── */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -881,6 +1102,7 @@
 
   <div class="split">
 
+    <!-- ══ LEFT PANEL — completely unchanged ══ -->
     <div class="left-panel">
       <div class="left-scroll">
         <div class="form-card">
@@ -910,7 +1132,6 @@
             <div class="field" id="emailField">
               <label for="email">Email Address</label>
               <input type="email" id="email" placeholder="you@example.com" required />
-              <!-- Google prefill badge injected here by JS if applicable -->
             </div>
 
             <div class="field">
@@ -967,19 +1188,92 @@
 
     <div class="split-divider"></div>
 
+    <!-- ══ RIGHT PANEL — BLACK GOLD TECH ══ -->
     <div class="right-panel">
       <div class="right-bg"></div>
       <div class="right-overlay"></div>
+
+      <!-- Circuit SVG -->
+      <div class="right-circuit">
+        <svg viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#DE8908" stroke-width="0.8" fill="none">
+            <line x1="0" y1="150" x2="150" y2="150" />
+            <line x1="150" y1="150" x2="150" y2="250" />
+            <circle cx="150" cy="150" r="3" fill="#DE8908" />
+            <line x1="150" y1="250" x2="300" y2="250" />
+            <line x1="300" y1="250" x2="300" y2="400" />
+            <circle cx="300" cy="250" r="3" fill="#DE8908" />
+            <line x1="0" y1="400" x2="200" y2="400" />
+            <line x1="200" y1="400" x2="200" y2="500" />
+            <circle cx="200" cy="400" r="3" fill="#DE8908" />
+            <line x1="200" y1="500" x2="450" y2="500" />
+            <line x1="450" y1="500" x2="450" y2="650" />
+            <circle cx="450" cy="500" r="3" fill="#DE8908" />
+            <line x1="0" y1="700" x2="350" y2="700" />
+            <line x1="350" y1="700" x2="350" y2="800" />
+            <circle cx="350" cy="700" r="3" fill="#DE8908" />
+            <line x1="100" y1="0" x2="100" y2="100" />
+            <line x1="100" y1="100" x2="250" y2="100" />
+            <circle cx="100" cy="100" r="3" fill="#DE8908" />
+            <line x1="400" y1="0" x2="400" y2="200" />
+            <line x1="400" y1="200" x2="550" y2="200" />
+            <circle cx="400" cy="200" r="3" fill="#DE8908" />
+            <line x1="500" y1="300" x2="500" y2="550" />
+            <line x1="500" y1="550" x2="600" y2="550" />
+            <circle cx="500" cy="550" r="3" fill="#DE8908" />
+            <line x1="0" y1="600" x2="80" y2="600" />
+            <line x1="80" y1="600" x2="80" y2="750" />
+            <circle cx="80" cy="600" r="3" fill="#DE8908" />
+            <rect x="140" y="130" width="20" height="40" rx="2" fill="rgba(222,137,8,0.07)" stroke="#DE8908" />
+            <rect x="290" y="380" width="20" height="40" rx="2" fill="rgba(222,137,8,0.07)" stroke="#DE8908" />
+            <rect x="440" y="480" width="20" height="40" rx="2" fill="rgba(222,137,8,0.07)" stroke="#DE8908" />
+            <rect x="340" y="680" width="20" height="40" rx="2" fill="rgba(222,137,8,0.07)" stroke="#DE8908" />
+            <circle cx="100" cy="100" r="8" fill="none" stroke="#DE8908" stroke-width="0.5" />
+            <circle cx="300" cy="250" r="8" fill="none" stroke="#DE8908" stroke-width="0.5" />
+            <circle cx="450" cy="500" r="8" fill="none" stroke="#DE8908" stroke-width="0.5" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="right-scan"></div>
+      <div class="right-seam"></div>
+      <div class="rcorner tl"></div>
+      <div class="rcorner tr"></div>
+      <div class="rcorner bl"></div>
+      <div class="rcorner br"></div>
+
       <div class="right-content">
+        <!-- Logo -->
         <div class="right-logo">
-          <div class="Logo"> <img src="../LOGO/CalElite.png" alt="CAL ELITE" class="right-logo-img" /></div>
+          <img src="../LOGO/CalElite.png" alt="CAL ELITE" class="right-logo-img" />
           <div class="logo-text">
             <div class="logo-name">CAL ELITE</div>
             <div class="logo-sub">Builders &amp; CAL Electrical</div>
           </div>
         </div>
+
+        <!-- Bottom block -->
         <div class="right-bottom">
-          <div class="right-divider"></div>
+          <!-- HUD -->
+          <div class="right-hud">
+            <div class="hud-line">
+              <span class="hud-label">SYS_STATUS</span>
+              <span class="hud-value">● ONLINE</span>
+            </div>
+            <div class="hud-line">
+              <span class="hud-label">UPTIME</span>
+              <span class="hud-value">99.97%</span>
+              <div class="hud-bar">
+                <div class="hud-bar-fill" style="width:99%"></div>
+              </div>
+            </div>
+            <div class="hud-line">
+              <span class="hud-label">NODE</span>
+              <span class="hud-value">PHL-01</span>
+            </div>
+          </div>
+
+          <div class="right-divider-orn"><span>Est. 2024</span></div>
           <p class="right-quote">Build with confidence. Design with purpose.</p>
           <div class="right-meta">Est. 2024 &nbsp;&middot;&nbsp; Premium Building Materials</div>
         </div>
@@ -988,6 +1282,7 @@
 
   </div>
 
+  <!-- SUCCESS MODAL — completely unchanged -->
   <div class="modal-backdrop" id="successModal">
     <div class="modal">
       <div class="modal-icon-wrap">
@@ -1013,53 +1308,36 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // ── Transition ────────────────────────────────────────────────────────────
+    // ── Transition ──
     function transitionTo(url) {
       const overlay = document.getElementById('transitionOverlay');
       overlay.classList.add('active');
       setTimeout(() => { window.location.href = url; }, 800);
     }
 
-    // ── Pre-fill from Google Sign-In (if redirected from login) ──────────────
+    // ── Pre-fill from Google Sign-In ──
     (function prefillFromGoogle() {
       const raw = sessionStorage.getItem('google_prefill');
       if (!raw) return;
-
       try {
         const data = JSON.parse(raw);
         const emailInput = document.getElementById('email');
         const emailField = document.getElementById('emailField');
-
         if (data.first_name) document.getElementById('fname').value = data.first_name;
         if (data.last_name) document.getElementById('lname').value = data.last_name;
-
         if (data.email) {
           emailInput.value = data.email;
           emailInput.readOnly = true;
-
-          // Show a small "verified by Google" badge below the email field
           const badge = document.createElement('div');
           badge.className = 'google-prefill-badge';
-          badge.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
-            Verified via Google — cannot be changed
-          `;
+          badge.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Verified via Google — cannot be changed`;
           emailField.appendChild(badge);
         }
-
-        // Clean up so it doesn't persist on page refresh
         sessionStorage.removeItem('google_prefill');
-
-      } catch (e) {
-        sessionStorage.removeItem('google_prefill');
-      }
+      } catch (e) { sessionStorage.removeItem('google_prefill'); }
     })();
 
-    // ── Eye toggles ───────────────────────────────────────────────────────────
+    // ── Eye toggles ──
     const pwInput = document.getElementById('password');
     const cpwInput = document.getElementById('confirmPassword');
     const eyePath = document.getElementById('eyePath');
@@ -1069,17 +1347,15 @@
     let v1 = false, v2 = false;
 
     document.getElementById('togglePw').addEventListener('click', () => {
-      v1 = !v1;
-      pwInput.type = v1 ? 'text' : 'password';
+      v1 = !v1; pwInput.type = v1 ? 'text' : 'password';
       eyePath.setAttribute('d', v1 ? eyeClosed : eyeOpen);
     });
     document.getElementById('toggleConfirmPw').addEventListener('click', () => {
-      v2 = !v2;
-      cpwInput.type = v2 ? 'text' : 'password';
+      v2 = !v2; cpwInput.type = v2 ? 'text' : 'password';
       eyePath2.setAttribute('d', v2 ? eyeClosed : eyeOpen);
     });
 
-    // ── Password match ────────────────────────────────────────────────────────
+    // ── Password match ──
     const matchLabel = document.getElementById('matchLabel');
     cpwInput.addEventListener('input', checkMatch);
     pwInput.addEventListener('input', () => { if (cpwInput.value) checkMatch(); });
@@ -1098,7 +1374,7 @@
       }
     }
 
-    // ── Strength bar ──────────────────────────────────────────────────────────
+    // ── Strength bar ──
     const segments = document.querySelectorAll('#strengthBar span');
     const strengthLabel = document.getElementById('strengthLabel');
     pwInput.addEventListener('input', () => {
@@ -1114,7 +1390,7 @@
       strengthLabel.textContent = v.length ? labels[score] : '';
     });
 
-    // ── Toast ─────────────────────────────────────────────────────────────────
+    // ── Toast ──
     function showToast(msg, error = false) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -1123,10 +1399,9 @@
       setTimeout(() => t.classList.remove('show'), 3500);
     }
 
-    // ── Form submit → calls register.php ─────────────────────────────────────
+    // ── Form submit ──
     document.getElementById('signupForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
       const fname = document.getElementById('fname').value.trim();
       const lname = document.getElementById('lname').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -1136,93 +1411,43 @@
       const terms = document.getElementById('terms').checked;
       const btn = document.getElementById('submitBtn');
 
-      // ── Front-end validation ──
-      if (!fname || !lname || !email || !password || !confirm) {
-        showToast('⚠ Please fill all required fields.', true); return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showToast('⚠ Please enter a valid email address.', true); return;
-      }
-      if (password.length < 8) {
-        showToast('⚠ Password must be at least 8 characters.', true); return;
-      }
-      if (password !== confirm) {
-        showToast('⚠ Passwords do not match.', true); cpwInput.focus(); return;
-      }
-      if (!terms) {
-        showToast('⚠ Please agree to the Terms of Service.', true); return;
-      }
+      if (!fname || !lname || !email || !password || !confirm) { showToast('⚠ Please fill all required fields.', true); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('⚠ Please enter a valid email address.', true); return; }
+      if (password.length < 8) { showToast('⚠ Password must be at least 8 characters.', true); return; }
+      if (password !== confirm) { showToast('⚠ Passwords do not match.', true); cpwInput.focus(); return; }
+      if (!terms) { showToast('⚠ Please agree to the Terms of Service.', true); return; }
 
-      // ── Send to register.php ──
-      btn.disabled = true;
-      btn.textContent = 'Creating account…';
+      btn.disabled = true; btn.textContent = 'Creating account…';
       showToast('Creating your account…');
 
       try {
-        const res = await fetch('register.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ first_name: fname, last_name: lname, email, phone, password, confirm }),
-        });
-
+        const res = await fetch('register.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first_name: fname, last_name: lname, email, phone, password, confirm }) });
         const json = await res.json();
-
-        if (!json.success) {
-          showToast('⚠ ' + (json.message || 'Registration failed.'), true);
-          btn.disabled = false;
-          btn.textContent = 'Create My Account';
-          return;
-        }
-
-        // ── Success ───────────────────────────────────────────────────────────
-        // Store user in sessionStorage for the dashboard
+        if (!json.success) { showToast('⚠ ' + (json.message || 'Registration failed.'), true); btn.disabled = false; btn.textContent = 'Create My Account'; return; }
         sessionStorage.setItem('user', JSON.stringify(json.data));
-
         document.getElementById('modalName').textContent = fname;
         openModal();
-        btn.disabled = false;
-        btn.textContent = 'Create My Account';
-
-      } catch (err) {
-        showToast('⚠ Network error. Please try again.', true);
-        btn.disabled = false;
-        btn.textContent = 'Create My Account';
-      }
+        btn.disabled = false; btn.textContent = 'Create My Account';
+      } catch (err) { showToast('⚠ Network error. Please try again.', true); btn.disabled = false; btn.textContent = 'Create My Account'; }
     });
 
-    // ── Modal ─────────────────────────────────────────────────────────────────
-    function openModal() {
-      document.getElementById('successModal').classList.add('show');
-      document.body.style.overflow = 'hidden';
-      launchConfetti();
-      // Pre-send OTP immediately so it's ready when the user lands on the verify page
-      sendOtpNow();
-    }
-    function closeModal() {
-      document.getElementById('successModal').classList.remove('show');
-      document.body.style.overflow = '';
-    }
+    // ── Modal ──
+    function openModal() { document.getElementById('successModal').classList.add('show'); document.body.style.overflow = 'hidden'; launchConfetti(); sendOtpNow(); }
+    function closeModal() { document.getElementById('successModal').classList.remove('show'); document.body.style.overflow = ''; }
     function goToVerify() { transitionTo('verify-otp.html'); }
     function goToDashboard() { transitionTo('../Homepage/index.html'); }
 
-    // ── Pre-send OTP (fire-and-forget) ────────────────────────────────────────
     async function sendOtpNow() {
       try {
         const user = JSON.parse(sessionStorage.getItem('user') || '{}');
         if (!user.user_id || !user.email) return;
-        await fetch('send-otp.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: user.user_id, email: user.email }),
-        });
-      } catch (_) { /* verify-otp.html will retry on load if this fails */ }
+        await fetch('send-otp.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_id: user.user_id, email: user.email }) });
+      } catch (_) { }
     }
 
-    document.getElementById('successModal').addEventListener('click', function (e) {
-      if (e.target === this) closeModal();
-    });
+    document.getElementById('successModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
 
-    // ── Confetti ──────────────────────────────────────────────────────────────
+    // ── Confetti ──
     const colors = ['#b8935a', '#d4aa72', '#e8e4dc', '#ffffff', '#54b066', '#f0d090'];
     function launchConfetti() {
       const wrap = document.getElementById('confWrap');
@@ -1234,8 +1459,7 @@
           el.style.background = colors[Math.floor(Math.random() * colors.length)];
           el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
           const w = 5 + Math.random() * 7, h = 8 + Math.random() * 8;
-          el.style.width = w + 'px';
-          el.style.height = h + 'px';
+          el.style.width = w + 'px'; el.style.height = h + 'px';
           const dur = 1.8 + Math.random() * 2.2, delay = Math.random() * 0.5;
           el.style.animation = `confFall ${dur}s ${delay}s linear forwards`;
           wrap.appendChild(el);

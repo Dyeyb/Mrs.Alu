@@ -107,7 +107,7 @@ if ($user['status'] === 'suspended') out(false, 'Your account has been suspended
 // ── Redirect target by role ───────────────────────────────────────────────────
 $redirect = ($user['user_type'] === 'admin')
     ? '../admin-folders/admin_index.html'
-    : '../Homepage/index.html';
+    : '../Homepage/home/index.html';
 
 // ── Success ───────────────────────────────────────────────────────────────────
 out(true, 'Login successful.', [

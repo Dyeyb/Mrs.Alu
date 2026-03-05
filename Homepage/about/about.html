@@ -409,6 +409,74 @@
             background: var(--ink);
         }
 
+        /* Unified dropdown palette (matches design reference) */
+        .user-dropdown {
+            background: linear-gradient(145deg, #111318, #161a22);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+        }
+
+        .dd-header {
+            background: rgba(212, 168, 67, 0.08);
+        }
+
+        .dd-name {
+            color: #e7e8ea;
+        }
+
+        .dd-email {
+            color: rgba(199, 202, 208, 0.62);
+        }
+
+        .dd-sep {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .dd-item {
+            color: #b8bdc7;
+        }
+
+        .dd-item:hover {
+            background: rgba(212, 168, 67, 0.1);
+            color: #e0b44f;
+        }
+
+        .dd-item.dd-danger {
+            color: rgba(232, 91, 104, 0.95);
+        }
+
+        .dd-item.dd-danger:hover {
+            background: rgba(232, 91, 104, 0.12);
+            color: #ff6d7a;
+        }
+
+        .dd-theme-label {
+            color: #c7ccd3;
+        }
+
+        .dd-mini-toggle {
+            background: #0f1218;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .dd-mini-toggle::after {
+            background: #bfc5cf;
+        }
+
+        .dd-mini-toggle.active {
+            background: linear-gradient(135deg, #d4a843, #b8932a);
+            border-color: #d4a843;
+        }
+
+        .dd-mini-toggle.active::after {
+            background: #0d0f14;
+        }
+
+        body.light-mode .user-dropdown {
+            background: linear-gradient(145deg, #111318, #161a22);
+            border-color: rgba(212, 168, 67, 0.3);
+        }
+
         /* ══ MODALS ══ */
         .modal-bg {
             display: none;
@@ -739,6 +807,113 @@
             background: linear-gradient(135deg, #5c1414, #7f1d1d);
             border: 1px solid rgba(220, 60, 60, 0.25);
             color: #fcc;
+        }
+
+        .nav-orders-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 3px;
+            border: 1px solid rgba(168, 131, 44, 0.52);
+            background: #05070d;
+            color: #626b84;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--t);
+            flex-shrink: 0;
+            text-decoration: none;
+            box-shadow: inset 0 0 0 1px rgba(255, 214, 112, 0.04);
+        }
+
+        .nav-orders-btn:hover {
+            border-color: rgba(191, 152, 57, 0.72);
+            background: #080b12;
+            color: #747f9a;
+        }
+
+        .orders-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #b8932a, #d4a843);
+            color: #05050a;
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--t);
+        }
+
+        .orders-badge.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .nav-cart-btn {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: var(--panel);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: var(--t);
+            color: var(--fog);
+            text-decoration: none;
+        }
+
+        .nav-cart-btn:hover {
+            border-color: var(--gold-rim);
+            background: rgba(184, 147, 42, 0.1);
+            color: var(--gold-bright);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 17px;
+            height: 17px;
+            padding: 0 4px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+            border-radius: 9px;
+            border: 1.5px solid var(--obsidian);
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--ink);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            animation: badgePop .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cart-badge.visible {
+            display: flex;
+        }
+
+        @keyframes badgePop {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
         }
 
         /* ══ BTN-P / BTN-S ══ */
@@ -2845,19 +3020,19 @@
         }
 
         .foot-logo {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(145deg, var(--slate), var(--panel));
-            border: 1px solid var(--gold-rim);
-            border-radius: 4px;
+            width: 72px;
+            height: 72px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 700;
-            font-style: italic;
-            color: var(--gold-bright);
+            overflow: hidden;
+        }
+
+        .foot-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
         }
 
         .foot-bname {
@@ -3106,6 +3281,36 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
+        /* Navbar control size alignment across pages */
+        .nav-orders-btn,
+        .nav-cart-btn,
+        .nav-theme-btn {
+            width: 34px;
+            height: 34px;
+        }
+
+        .nav-user-btn {
+            height: 34px;
+            padding: 3px 9px 3px 3px;
+        }
+
+        .nav-avatar {
+            width: 24px;
+            height: 24px;
+        }
+        /* Static navbar behavior (match products page) */
+        .nl,
+        .nl::after {
+            transition: none !important;
+        }
+
+        .navbar,
+        .logo,
+        .nav-right,
+        .main-nav ul li,
+        nav ul li {
+            animation: none !important;
+        }
     </style>
 </head>
 
@@ -3118,8 +3323,8 @@
     <nav class="navbar" id="navbar">
         <div class="nav-progress" id="navProgress"></div>
         <div class="nav-inner">
-            <a href="index.html" class="logo">
-                <div class="logo-mark"><img src="/LOGO/CalElite.png" alt="Cal Elite Logo"
+            <a href="../home/index.html" class="logo">
+                <div class="logo-mark"><img src="../../LOGO/CalElite.png" alt="Cal Elite Logo"
                         onerror="this.parentNode.innerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:28px;font-weight:700;font-style:italic;color:var(--gold-bright)\'>C</span>'">
                 </div>
                 <div class="logo-words">
@@ -3147,6 +3352,20 @@
                         </svg>
                     </button>
                 </div>
+                <button class="nav-orders-btn" id="navOrdersBtn" title="My Orders" aria-label="My Orders" type="button">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12h6M9 16h4" />
+                    </svg>
+                    <span class="orders-badge" id="ordersBadge">0</span>
+                </button>
+                <button class="nav-cart-btn" id="navCartBtn" title="View Cart" aria-label="Shopping Cart" type="button">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
                 <button class="nav-theme-btn" id="navThemeBtn" title="Toggle theme" aria-label="Toggle dark/light mode">
                     <span class="theme-icon icon-moon">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -3701,7 +3920,7 @@
             <div class="foot-top">
                 <div>
                     <div class="foot-brand">
-                        <div class="foot-logo">C</div>
+                        <div class="foot-logo"><img src="../../LOGO/CalElite.png" alt="Cal Elite Logo"></div>
                         <div>
                             <div class="foot-bname"><em>Cal Elite</em></div>
                             <div class="foot-bsub">Builders · Cal Electrical</div>
@@ -4035,6 +4254,7 @@
         const numBand = document.querySelector('.s-numbers');
         if (numBand) numObs.observe(numBand);
     </script>
+  <script src="../shared-cart.js"></script>
 </body>
 
 </html>

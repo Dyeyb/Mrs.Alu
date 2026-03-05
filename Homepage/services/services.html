@@ -605,6 +605,113 @@
       box-shadow: 0 8px 28px rgba(184, 147, 42, 0.4)
     }
 
+    .nav-orders-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 3px;
+      border: 1px solid rgba(168, 131, 44, 0.52);
+      background: #05070d;
+      color: #626b84;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: var(--t);
+      flex-shrink: 0;
+      text-decoration: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 214, 112, 0.04);
+    }
+
+    .nav-orders-btn:hover {
+      border-color: rgba(191, 152, 57, 0.72);
+      background: #080b12;
+      color: #747f9a;
+    }
+
+    .orders-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: linear-gradient(135deg, #b8932a, #d4a843);
+      color: #05050a;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0);
+      transition: var(--t);
+    }
+
+    .orders-badge.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .nav-cart-btn {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: var(--t);
+      color: var(--fog);
+      text-decoration: none;
+    }
+
+    .nav-cart-btn:hover {
+      border-color: var(--gold-rim);
+      background: rgba(184, 147, 42, 0.1);
+      color: var(--gold-bright);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+      border-radius: 9px;
+      border: 1.5px solid var(--obsidian);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--ink);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      animation: badgePop .25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cart-badge.visible {
+      display: flex;
+    }
+
+    @keyframes badgePop {
+      from {
+        transform: scale(0)
+      }
+
+      to {
+        transform: scale(1)
+      }
+    }
+
     .user-dropdown {
       display: none;
       position: absolute;
@@ -779,6 +886,74 @@
     .dd-mini-toggle.active::after {
       left: calc(100% - 16px);
       background: var(--ink)
+    }
+
+    /* Unified dropdown palette (matches design reference) */
+    .user-dropdown {
+      background: linear-gradient(145deg, #111318, #161a22);
+      border: 1px solid rgba(212, 168, 67, 0.3);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+    }
+
+    .dd-header {
+      background: rgba(212, 168, 67, 0.08);
+    }
+
+    .dd-name {
+      color: #e7e8ea;
+    }
+
+    .dd-email {
+      color: rgba(199, 202, 208, 0.62);
+    }
+
+    .dd-sep {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .dd-item {
+      color: #b8bdc7;
+    }
+
+    .dd-item:hover {
+      background: rgba(212, 168, 67, 0.1);
+      color: #e0b44f;
+    }
+
+    .dd-item.dd-danger {
+      color: rgba(232, 91, 104, 0.95);
+    }
+
+    .dd-item.dd-danger:hover {
+      background: rgba(232, 91, 104, 0.12);
+      color: #ff6d7a;
+    }
+
+    .dd-theme-label {
+      color: #c7ccd3;
+    }
+
+    .dd-mini-toggle {
+      background: #0f1218;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .dd-mini-toggle::after {
+      background: #bfc5cf;
+    }
+
+    .dd-mini-toggle.active {
+      background: linear-gradient(135deg, #d4a843, #b8932a);
+      border-color: #d4a843;
+    }
+
+    .dd-mini-toggle.active::after {
+      background: #0d0f14;
+    }
+
+    body.light-mode .user-dropdown {
+      background: linear-gradient(145deg, #111318, #161a22);
+      border-color: rgba(212, 168, 67, 0.3);
     }
 
     /* ══ HERO — About-page style ══ */
@@ -1640,6 +1815,27 @@
       stroke: var(--gold-bright)
     }
 
+    /* Picture-style card icons */
+    .scn-icon.scn-icon-photo {
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(184, 147, 42, 0.2), rgba(9, 10, 14, 0.95));
+      border: 1px solid rgba(184, 147, 42, 0.35);
+      box-shadow: inset 0 0 16px rgba(184, 147, 42, 0.08);
+    }
+
+    .scn-icon .scn-emoji {
+      font-size: 22px;
+      line-height: 1;
+      filter: saturate(1.15);
+      user-select: none;
+    }
+
+    .svc-card-new:hover .scn-icon.scn-icon-photo {
+      background: radial-gradient(circle at 30% 30%, rgba(212, 168, 67, 0.24), rgba(12, 14, 20, 0.95));
+      border-color: rgba(212, 168, 67, 0.55);
+      box-shadow: 0 0 22px rgba(184, 147, 42, 0.22), inset 0 0 16px rgba(184, 147, 42, 0.15);
+    }
+
     .scn-info {
       flex: 1;
       min-width: 0
@@ -1817,19 +2013,20 @@
     }
 
     .foot-logo {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, var(--slate), var(--panel));
-      border: 1px solid var(--gold-rim);
-      border-radius: 3px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 700;
-      font-style: italic;
-      color: var(--gold-bright)
+      flex-shrink: 0
+    }
+
+    .foot-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: brightness(1.1) contrast(1.05)
     }
 
     .foot-bname {
@@ -2306,6 +2503,36 @@
         min-width: 160px
       }
     }
+    /* Navbar control size alignment across pages */
+    .nav-orders-btn,
+    .nav-cart-btn,
+    .nav-theme-btn {
+      width: 34px;
+      height: 34px;
+    }
+
+    .nav-user-btn {
+      height: 34px;
+      padding: 3px 9px 3px 3px;
+    }
+
+    .nav-avatar {
+      width: 24px;
+      height: 24px;
+    }
+    /* Static navbar behavior (match products page) */
+    .nl,
+    .nl::after {
+      transition: none !important;
+    }
+
+    .navbar,
+    .logo,
+    .nav-right,
+    .main-nav ul li,
+    nav ul li {
+      animation: none !important;
+    }
   </style>
 </head>
 
@@ -2317,8 +2544,10 @@
   <nav class="navbar" id="navbar">
     <div class="nav-progress" id="navProgress"></div>
     <div class="nav-inner">
-      <a href="index.html" class="logo">
-        <div class="logo-mark"><img src="/LOGO/CalElite.png" alt="Cal Elite Logo"></div>
+      <a href="../home/index.html" class="logo">
+        <div class="logo-mark"><img src="../../LOGO/CalElite.png" alt="Cal Elite Logo"
+            onerror="this.parentNode.innerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:28px;font-weight:700;font-style:italic;color:var(--gold-bright)\'>C</span>'">
+        </div>
         <div class="logo-words">
           <span class="logo-est">Est. 2004</span>
           <span class="logo-name"><em>Cal Elite</em></span>
@@ -2344,12 +2573,19 @@
             </svg>
           </button>
         </div>
-        <button class="nav-notif-btn" id="notifBtn" title="Notifications">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        <button class="nav-orders-btn" id="navOrdersBtn" title="My Orders" aria-label="My Orders" type="button">
+          <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12h6M9 16h4" />
           </svg>
-          <div class="notif-badge" id="notifBadge"></div>
+          <span class="orders-badge" id="ordersBadge">0</span>
+        </button>
+        <button class="nav-cart-btn" id="navCartBtn" title="View Cart" aria-label="Shopping Cart" type="button">
+          <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
         </button>
         <button class="nav-theme-btn" id="navThemeBtn" title="Toggle theme">
           <span class="theme-icon icon-moon"><svg width="16" height="16" fill="none" stroke="currentColor"
@@ -2687,7 +2923,7 @@
       <div class="foot-top">
         <div>
           <div class="foot-brand">
-            <div class="foot-logo">C</div>
+            <div class="foot-logo"><img src="../../LOGO/CalElite.png" alt="Cal Elite Logo"></div>
             <div>
               <div class="foot-bname"><em>Cal Elite</em></div>
               <div class="foot-bsub">Builders · Cal Electrical</div>
@@ -3019,6 +3255,34 @@
         electrical: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 2L6 14h5l-1 8 8-12h-5l0-8z"/></svg>',
       };
 
+      // Replace line icons on cards with picture-style emoji icons.
+      function applyPictureIcons() {
+        const iconByTitle = {
+          'House Detailing': '🏛️',
+          'Panel Installation': '📐',
+          'Material Removal': '➖',
+          'Surface Prep': '🔩',
+          'Custom Fabrication': '🧰',
+          'On-Site Install': '📦',
+          'Electrical Setup': '⚡',
+          'Final Inspection': '✅',
+          'Quality Assurance': '🛡️',
+          'Metal Welding': '🔧',
+          'LED Lighting Setup': '💡',
+          'Wall Cladding': '🧱'
+        };
+
+        allCards.forEach(card => {
+          const title = card.querySelector('.scn-title')?.textContent?.trim();
+          const icon = iconByTitle[title] || '🧩';
+          const iconBox = card.querySelector('.scn-icon');
+          if (!iconBox) return;
+          iconBox.classList.add('scn-icon-photo');
+          iconBox.innerHTML = `<span class="scn-emoji" aria-hidden="true">${icon}</span>`;
+        });
+      }
+      applyPictureIcons();
+
       let currentCat = 'all', currentPage = 1, filteredCards = [];
 
       trigger.addEventListener('click', () => {
@@ -3097,7 +3361,6 @@
     const bm = document.getElementById('bookingModal');
     const mbm = document.getElementById('myBookingsModal');
     const bookingsList = document.getElementById('bookingsList');
-    const notifBadge = document.getElementById('notifBadge');
     let bookings = JSON.parse(localStorage.getItem('ceBookings') || '[]');
     let currentService = '';
 
@@ -3114,7 +3377,7 @@
       updateBookingPrice(document.getElementById('bScale')?.value || 1);
     };
 
-    window.openMyBookings = function () { renderBookings(); mbm.classList.add('open'); uw.classList.remove('open'); if (notifBadge) notifBadge.style.display = 'none'; };
+    window.openMyBookings = function () { renderBookings(); mbm.classList.add('open'); uw.classList.remove('open'); };
 
     ['closeBooking', 'cancelBooking'].forEach(id => { const b = document.getElementById(id); if (b) b.onclick = () => bm.classList.remove('open'); });
     ['closeMyBookings', 'closeMyBookingsBtn'].forEach(id => { const b = document.getElementById(id); if (b) b.onclick = () => mbm.classList.remove('open'); });
@@ -3145,7 +3408,6 @@
       const newB = { id: 'BK-' + Date.now().toString(36).toUpperCase(), service: currentService, date, address: addr, time: document.getElementById('bTime')?.value || 'morning', origin: document.getElementById('bOrigin')?.value || 'Foshan Central Hub', price: 150 + (scale * 85), status: 'pending', timestamp: new Date().toISOString() };
       bookings.unshift(newB);
       localStorage.setItem('ceBookings', JSON.stringify(bookings));
-      if (notifBadge) notifBadge.style.display = 'block';
       document.getElementById('bAddress').value = '';
       document.getElementById('bNotes').value = '';
       toast('Booking confirmed for ' + currentService + '!', 'ok');
@@ -3153,8 +3415,8 @@
     };
 
     document.getElementById('ddBookings').onclick = e => { e.preventDefault(); openMyBookings(); };
-    document.getElementById('notifBtn').onclick = () => openMyBookings();
   </script>
+  <script src="../shared-cart.js"></script>
 </body>
 
 </html>
